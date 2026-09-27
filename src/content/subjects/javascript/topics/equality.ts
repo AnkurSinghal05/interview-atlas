@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'equality',
   title: '== vs ===',
   level: 'beginner',
+  masteryMinutes: 45,
   tags: ['loose equality', 'strict equality', 'Object.is'],
   summary: '`===` compares type and value with no conversion. `==` converts types first, following a short list of rules.',
   keyPoints: [

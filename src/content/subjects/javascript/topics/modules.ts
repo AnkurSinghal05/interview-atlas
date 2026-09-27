@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'modules',
   title: 'ES modules vs CommonJS',
   level: 'intermediate',
+  masteryMinutes: 60,
   tags: ['import', 'export', 'require', 'tree shaking', 'dynamic import'],
   summary: 'ES modules (`import`/`export`) are static and asynchronous; CommonJS (`require`/`module.exports`) is dynamic and synchronous.',
   keyPoints: [

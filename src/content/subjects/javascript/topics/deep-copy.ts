@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'deep-copy',
   title: 'Shallow vs deep copy',
   level: 'intermediate',
+  masteryMinutes: 90,
   tags: ['structuredClone', 'spread', 'Object.assign', 'references'],
   summary: 'A **shallow** copy duplicates the top level only; nested objects are shared. A **deep** copy duplicates everything.',
   keyPoints: [

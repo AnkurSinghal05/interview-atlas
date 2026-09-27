@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'kadane',
   title: "Kadane's algorithm",
   level: 'intermediate',
+  masteryMinutes: 120,
   tags: ['kadane', 'maximum subarray', 'max product', 'circular'],
   summary:
     'The best subarray ending here either extends the best one ending at the previous index, or starts fresh. That one decision finds the maximum subarray sum in O(n).',

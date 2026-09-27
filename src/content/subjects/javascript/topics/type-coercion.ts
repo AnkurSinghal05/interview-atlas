@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'type-coercion',
   title: 'Type coercion',
   level: 'intermediate',
+  masteryMinutes: 90,
   tags: ['implicit conversion', 'ToPrimitive', '+ operator'],
   summary: 'JavaScript silently converts values to **string**, **number** or **boolean** when an operator needs a different type.',
   keyPoints: [

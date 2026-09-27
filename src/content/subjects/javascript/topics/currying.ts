@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'currying',
   title: 'Currying',
   level: 'intermediate',
+  masteryMinutes: 90,
   tags: ['partial application', 'function arity', 'infinite currying'],
   summary: 'Currying turns `f(a, b, c)` into `f(a)(b)(c)`: a chain of functions that each take one argument.',
   keyPoints: [

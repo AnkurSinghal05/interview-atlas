@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'this-keyword',
   title: 'The this keyword',
   level: 'intermediate',
+  masteryMinutes: 120,
   tags: ['this', 'call', 'apply', 'bind', 'arrow functions'],
   summary:
     '`this` is set by **how a function is called**, not where it is written. Arrow functions are the exception: they borrow it from outside.',

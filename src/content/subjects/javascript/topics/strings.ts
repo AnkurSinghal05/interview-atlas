@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'strings',
   title: 'Strings and template literals',
   level: 'beginner',
+  masteryMinutes: 60,
   tags: ['immutability', 'template literals', 'slice', 'split', 'tagged templates'],
   summary: 'Strings are **immutable** sequences of UTF-16 code units. Every method returns a new string.',
   keyPoints: [

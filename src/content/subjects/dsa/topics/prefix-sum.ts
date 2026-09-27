@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'prefix-sum',
   title: 'Prefix sum',
   level: 'beginner',
+  masteryMinutes: 150,
   tags: ['prefix sum', 'presum', 'range sum', 'difference array', '2D prefix', 'subarray sum'],
   summary:
     'Precompute running totals once, then answer any range sum in O(1). The same idea works for counts, XOR, products and 2D grids.',

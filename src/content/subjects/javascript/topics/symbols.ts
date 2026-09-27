@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'symbols',
   title: 'Symbols',
   level: 'advanced',
+  masteryMinutes: 45,
   tags: ['unique keys', 'Symbol.for', 'well-known symbols', 'Symbol.iterator'],
   summary: 'A `Symbol` is a unique primitive, mostly used as a property key that cannot clash with any other key.',
   keyPoints: [

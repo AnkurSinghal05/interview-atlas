@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'default-rest-params',
   title: 'Default and rest parameters',
   level: 'beginner',
+  masteryMinutes: 30,
   tags: ['defaults', '...rest', 'arguments', 'function.length'],
   summary: 'Defaults fill in parameters that are `undefined`. Rest parameters collect the remaining arguments into a real array.',
   keyPoints: [

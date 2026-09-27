@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'web-workers',
   title: 'Web Workers',
   level: 'advanced',
+  masteryMinutes: 60,
   tags: ['threads', 'postMessage', 'service workers', 'off main thread'],
   summary: 'A Web Worker runs a script on a **separate thread** so heavy work does not freeze the page. It talks to the page only through messages.',
   keyPoints: [

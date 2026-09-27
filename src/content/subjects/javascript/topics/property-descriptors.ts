@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'property-descriptors',
   title: 'Property descriptors',
   level: 'advanced',
+  masteryMinutes: 60,
   tags: ['defineProperty', 'writable', 'enumerable', 'configurable', 'freeze', 'seal'],
   summary: 'Every property has hidden flags: **writable**, **enumerable**, **configurable**. `defineProperty` sets them; `freeze` and `seal` flip them in bulk.',
   keyPoints: [

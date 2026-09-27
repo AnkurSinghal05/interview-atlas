@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'classes',
   title: 'Classes',
   level: 'intermediate',
+  masteryMinutes: 90,
   tags: ['extends', 'super', 'static', 'private fields', 'getters'],
   summary: '`class` is cleaner syntax over prototypes, plus real extras: private `#fields`, `static` members and strict mode.',
   keyPoints: [

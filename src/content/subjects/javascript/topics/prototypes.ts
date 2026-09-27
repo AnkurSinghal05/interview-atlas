@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'prototypes',
   title: 'Prototypes and inheritance',
   level: 'intermediate',
+  masteryMinutes: 120,
   tags: ['prototype chain', '__proto__', 'Object.create', 'constructor functions'],
   summary: 'Objects inherit by **linking** to another object, their prototype. Missing properties are looked up along that chain.',
   keyPoints: [

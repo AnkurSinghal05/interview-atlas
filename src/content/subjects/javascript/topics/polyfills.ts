@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'polyfills',
   title: 'Writing polyfills',
   level: 'intermediate',
+  masteryMinutes: 180,
   tags: ['map', 'filter', 'bind', 'Promise.all', 'flat', 'machine coding'],
   summary: 'A polyfill re-implements a built-in for environments that lack it. Interviewers use them to test how well you know the real behaviour.',
   keyPoints: [

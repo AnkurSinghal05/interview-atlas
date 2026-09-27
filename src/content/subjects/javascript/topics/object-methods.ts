@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'object-methods',
   title: 'Working with objects',
   level: 'beginner',
+  masteryMinutes: 60,
   tags: ['Object.keys', 'entries', 'assign', 'for...in', 'computed keys'],
   summary: 'The everyday toolkit: create, loop over, merge and transform objects with `Object.*` helpers.',
   keyPoints: [

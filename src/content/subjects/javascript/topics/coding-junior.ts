@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'coding-junior',
   title: 'Junior: implement it',
   level: 'beginner',
+  masteryMinutes: 180,
   tags: ['debounce', 'throttle', 'map', 'filter', 'reduce', 'flatten', 'machine coding'],
   summary: 'The six "write it from scratch" questions most often asked at junior level, each with a reference solution and the edge cases interviewers check.',
   keyPoints: [

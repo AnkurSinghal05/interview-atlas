@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import type { Subject } from '@/content/types';
 import { allTopics, type TopicWithCategory } from '@/content/registry';
-import { isReady } from '@/content/helpers';
+import { Clock } from 'lucide-react';
+import { formatMinutes, isReady } from '@/content/helpers';
 import { subjectHref, topicHref } from '@/lib/useHashRoute';
 import { RichText } from '@/lib/RichText';
 import { scoreKey } from '@/lib/scores';
@@ -50,6 +51,9 @@ export function TopicPage({ subject, topic }: { subject: Subject; topic: TopicWi
           <h1 className="text-[32px] font-extrabold tracking-[-0.025em] md:text-5xl">{topic.title}</h1>
           <Badge variant="outline" className={cn('bg-transparent', LEVEL_STYLE[topic.level])}>
             {topic.level[0].toUpperCase() + topic.level.slice(1)}
+          </Badge>
+          <Badge variant="outline" className="text-muted-foreground gap-1 bg-transparent" title="Rough time to master this topic">
+            <Clock className="size-3.5" aria-hidden="true" />~{formatMinutes(topic.masteryMinutes)} to master
           </Badge>
         </div>
         {topic.summary && (

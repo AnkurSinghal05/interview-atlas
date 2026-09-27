@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'event-delegation',
   title: 'Event delegation',
   level: 'intermediate',
+  masteryMinutes: 45,
   tags: ['bubbling', 'closest', 'dynamic elements', 'performance'],
   summary: 'Put **one** listener on a parent and use `event.target` to work out which child was clicked. It relies on bubbling.',
   keyPoints: [

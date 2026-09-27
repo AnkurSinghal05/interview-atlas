@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'numbers',
   title: 'Numbers, NaN and floating point',
   level: 'beginner',
+  masteryMinutes: 45,
   tags: ['IEEE 754', 'NaN', 'precision', 'MAX_SAFE_INTEGER'],
   summary: 'Every `number` is a 64-bit float, which explains `0.1 + 0.2 !== 0.3`, `NaN` and the safe-integer limit.',
   keyPoints: [

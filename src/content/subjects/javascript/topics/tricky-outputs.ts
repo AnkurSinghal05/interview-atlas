@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'tricky-outputs',
   title: 'Mixed tricky outputs',
   level: 'advanced',
+  masteryMinutes: 150,
   tags: ['output prediction', 'revision', 'mixed topics'],
   summary: 'A revision round of classic "what does this print?" questions that combine hoisting, closures, `this`, coercion and the event loop.',
   keyPoints: [

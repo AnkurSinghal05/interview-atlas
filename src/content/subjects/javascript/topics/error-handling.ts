@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'error-handling',
   title: 'Error handling',
   level: 'intermediate',
+  masteryMinutes: 60,
   tags: ['try/catch/finally', 'custom errors', 'Error types', 'async errors'],
   summary: '`try/catch` handles errors thrown **synchronously** in its block. Async errors need `await` inside the `try`, or `.catch`.',
   keyPoints: [

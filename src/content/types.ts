@@ -2,7 +2,7 @@
  * Content format shared by every subject.
  *
  * Subject > Category > Topic > (keyPoints, visuals, qa, problems, quiz)
- * A topic with only { id, title, level } is shown on the map as "coming soon".
+ * A topic with only { id, title, level, masteryMinutes } is shown on the map as "coming soon".
  * Inline text in any string field supports `code` and **bold**.
  */
 
@@ -152,6 +152,11 @@ export interface Topic {
   id: string;
   title: string;
   level: Level;
+  /**
+   * Rough time to master the topic for interviews, in minutes: read it, work through the Q&A,
+   * practise until the quiz/problems come easily. Shown on the map and summed per category and subject.
+   */
+  masteryMinutes: number;
   summary?: string;
   tags?: string[];
   keyPoints?: KeyPoint[];

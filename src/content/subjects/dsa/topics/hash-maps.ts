@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'hash-maps',
   title: 'Hashing on arrays',
   level: 'beginner',
+  masteryMinutes: 150,
   tags: ['hash map', 'set', 'frequency', 'two sum', 'majority element', 'consecutive sequence'],
   summary:
     'A `Map` or `Set` answers "have I seen this?" in O(1). Trading O(n) memory for that lookup is the most common way to beat an O(n²) array scan.',

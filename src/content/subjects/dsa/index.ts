@@ -18,7 +18,7 @@ const subject: Subject = {
       id: 'foundations',
       name: 'Foundations',
       blurb: 'How to measure an algorithm before you write one.',
-      topics: [bigO, stub('recursion', 'Recursion', 'beginner')],
+      topics: [bigO, stub('recursion', 'Recursion', 'beginner', 240)],
     },
     {
       id: 'arrays',
@@ -30,9 +30,9 @@ const subject: Subject = {
       id: 'trees-graphs',
       name: 'Trees & graphs',
       topics: [
-        stub('binary-trees', 'Binary trees', 'intermediate'),
-        stub('bfs-dfs', 'BFS and DFS', 'intermediate'),
-        stub('dynamic-programming', 'Dynamic programming', 'advanced'),
+        stub('binary-trees', 'Binary trees', 'intermediate', 480),
+        stub('bfs-dfs', 'BFS and DFS', 'intermediate', 360),
+        stub('dynamic-programming', 'Dynamic programming', 'advanced', 900),
       ],
     },
   ],

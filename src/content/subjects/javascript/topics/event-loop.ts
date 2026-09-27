@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'event-loop',
   title: 'The event loop',
   level: 'advanced',
+  masteryMinutes: 150,
   tags: ['microtask', 'macrotask', 'setTimeout', 'promises', 'async'],
   summary:
     'JS runs one thing at a time. After the current script, the event loop runs **every microtask**, then **one macrotask**, and repeats.',

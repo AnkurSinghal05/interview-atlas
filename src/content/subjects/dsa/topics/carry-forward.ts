@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'carry-forward',
   title: 'Carry forward',
   level: 'beginner',
+  masteryMinutes: 120,
   tags: ['carry forward', 'running count', 'running max', 'leaders', 'stock', 'trapping rain water'],
   summary:
     'Instead of looking back over everything you have seen, carry one value (a count, a max, a min, a last index) as you scan. It turns an inner loop into a variable.',

@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'strict-mode',
   title: 'Strict mode',
   level: 'intermediate',
+  masteryMinutes: 45,
   tags: ['"use strict"', 'silent errors', 'modules'],
   summary: '`"use strict"` turns silent mistakes into errors and removes a few confusing features. Modules and classes are strict automatically.',
   keyPoints: [

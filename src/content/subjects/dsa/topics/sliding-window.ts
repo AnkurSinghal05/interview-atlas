@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'sliding-window',
   title: 'Sliding window',
   level: 'intermediate',
+  masteryMinutes: 180,
   tags: ['sliding window', 'fixed window', 'variable window', 'substring', 'subarray'],
   summary:
     'Keep a contiguous window and update its answer as it moves: add what enters, remove what leaves. Each element enters and leaves once, so the scan is O(n).',

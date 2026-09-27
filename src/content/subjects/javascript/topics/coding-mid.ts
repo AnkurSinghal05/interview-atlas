@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'coding-mid',
   title: 'Mid-level: implement it',
   level: 'intermediate',
+  masteryMinutes: 300,
   tags: ['deep equal', 'deep clone', 'merge', 'classnames', 'once', 'memoize', 'get'],
   summary: 'Seven mid-level utilities that test recursion, type checks and closures: deep equal, deep clone, merging, classnames, once, memoize and get.',
   keyPoints: [

@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'event-propagation',
   title: 'Bubbling and capturing',
   level: 'beginner',
+  masteryMinutes: 60,
   tags: ['capture phase', 'bubble phase', 'stopPropagation', 'preventDefault', 'target vs currentTarget'],
   summary: 'A DOM event travels **down** from `window` to the target (capture), then back **up** (bubble). Listeners run on the way.',
   keyPoints: [
