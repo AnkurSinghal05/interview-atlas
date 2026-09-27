@@ -59,6 +59,8 @@ import trickyOutputs from './topics/tricky-outputs';
 import eventPropagation from './topics/event-propagation';
 import eventDelegation from './topics/event-delegation';
 import webStorage from './topics/web-storage';
+import cookies from './topics/cookies';
+import indexeddb from './topics/indexeddb';
 import fetchTopic from './topics/fetch';
 import scriptLoading from './topics/script-loading';
 import webWorkers from './topics/web-workers';
@@ -111,7 +113,7 @@ const subject: Subject = {
       id: 'browser',
       name: 'Browser & DOM',
       blurb: 'JavaScript where it meets the page.',
-      topics: [eventPropagation, eventDelegation, webStorage, fetchTopic, scriptLoading, webWorkers],
+      topics: [eventPropagation, eventDelegation, webStorage, cookies, indexeddb, fetchTopic, scriptLoading, webWorkers],
     },
     {
       id: 'coding',
