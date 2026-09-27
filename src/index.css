@@ -113,7 +113,22 @@
   --color-code-muted: var(--code-muted);
   --color-code-border: var(--code-border);
 
+  --color-tint: var(--tint-bg);
+  --color-tint-hover: var(--tint-hover);
+  --color-tint-border: var(--tint-border);
+  --color-tint-strong: var(--tint-strong);
+  --color-tint-ink: var(--tint-ink);
+
   --animate-pop: pop 0.35s ease-out;
+  --animate-card-expand: card-expand 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.05);
+  --animate-card-collapse: card-expand 0.2s ease-in reverse;
+  @keyframes card-expand {
+    from {
+      transform: translate(var(--from-x, 0), var(--from-y, 24px)) scale(var(--from-s, 0.9));
+      opacity: 0.2;
+    }
+    to { transform: none; opacity: 1; }
+  }
   @keyframes pop {
     from { transform: scale(0.94); opacity: 0.4; }
     to { transform: none; opacity: 1; }
@@ -134,6 +149,22 @@
     text-wrap: balance;
     line-height: 1.15;
   }
+}
+
+/* Coloured cards: set --hue (see src/lib/tint.ts) and use bg-tint, border-tint-border, text-tint-ink… */
+.tint {
+  --tint-bg: oklch(0.975 0.022 var(--hue));
+  --tint-hover: oklch(0.95 0.045 var(--hue));
+  --tint-border: oklch(0.86 0.07 var(--hue));
+  --tint-strong: oklch(0.64 0.15 var(--hue));
+  --tint-ink: oklch(0.46 0.13 var(--hue));
+}
+.dark .tint {
+  --tint-bg: oklch(0.235 0.03 var(--hue));
+  --tint-hover: oklch(0.28 0.05 var(--hue));
+  --tint-border: oklch(0.4 0.07 var(--hue));
+  --tint-strong: oklch(0.72 0.14 var(--hue));
+  --tint-ink: oklch(0.84 0.1 var(--hue));
 }
 
 /* Syntax colours (code panels are dark in both themes) */
