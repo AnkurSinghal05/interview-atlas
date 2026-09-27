@@ -107,10 +107,39 @@ for (const ch of s) {
       ],
     },
     {
-      q: 'Carry forward vs prefix sum: what is the difference?',
+      q: 'Prefix sum vs carry forward for "sum of every subarray": what changes?',
+      tag: 'Asked often',
       a: [
-        'Same idea. A prefix array keeps every running value so you can query any range later.',
-        'Carry forward keeps only the current running value, because each step only needs "so far".',
+        '**Loops**: both use 2 nested loops (start, end). **Time**: both O(n²).',
+        '**Space**: prefix sum needs an O(n) prefix array; carry forward needs O(1), just `currSum`.',
+        '**Preprocessing**: prefix sum builds the array first in O(n); carry forward needs none.',
+        '**How sum(i..j) is found**: prefix sum does `prefix[j] - prefix[i-1]`; carry forward does `currSum += arr[j]`.',
+        'The takeaway: same skeleton, and only the way the inner sum is kept changes, stored values vs an incremental update.',
+      ],
+      code: c(`
+// Prefix sum: O(n²) time, O(n) space
+const P = [0];
+arr.forEach((x, i) => P.push(P[i] + x));
+for (let i = 0; i < n; i++)
+  for (let j = i; j < n; j++) {
+    const sum = P[j + 1] - P[i]; // stored values
+  }
+
+// Carry forward: O(n²) time, O(1) space
+for (let i = 0; i < n; i++) {
+  let currSum = 0;
+  for (let j = i; j < n; j++) {
+    currSum += arr[j]; // incremental update
+  }
+}`),
+    },
+    {
+      q: 'When do you use prefix sum and when carry forward?',
+      tag: 'Pattern spotting',
+      a: [
+        '**Prefix sum**: when you need many queries on different, arbitrary ranges. Build once, answer each in O(1).',
+        '**Carry forward**: when you walk subarrays (or indices) in order and never jump to a random range. It saves the O(n) array.',
+        'A prefix array is just carry forward with every running value saved.',
       ],
     },
     {

@@ -108,6 +108,7 @@ const sum = pf[r] - pf[l - 1];`),
         'Many range-sum queries on an array that does not change.',
         '"Count subarrays with sum k" or "longest subarray with sum k", especially when values can be negative (sliding window breaks there).',
         'Comparing left side vs right side of every index (equilibrium, product except self).',
+        'Not needed if you only walk subarrays in order (like summing every subarray): carry forward gives the same O(n²) with O(1) space. See the side-by-side on the Carry forward topic.',
       ],
     },
     {

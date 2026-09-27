@@ -134,8 +134,29 @@ function sumOfSubarraySums(nums) {
           space: 'O(1)',
         },
         {
-          name: 'Running sum',
-          idea: ['For a fixed start, each new end just adds one element to the previous sum.'],
+          name: 'Prefix sum',
+          idea: [
+            'Build the prefix array once in O(n). Then each subarray sum is one subtraction: `P[e + 1] - P[s]`.',
+            'Two loops instead of three, but it needs O(n) extra space.',
+          ],
+          code: c(`
+function sumOfSubarraySums(nums) {
+  const P = [0];
+  nums.forEach((x, i) => P.push(P[i] + x));
+  let total = 0;
+  for (let s = 0; s < nums.length; s++)
+    for (let e = s; e < nums.length; e++) total += P[e + 1] - P[s];
+  return total;
+}`),
+          time: 'O(n²)',
+          space: 'O(n)',
+        },
+        {
+          name: 'Carry forward',
+          idea: [
+            'Same two loops. For a fixed start, each new end just adds one element to the previous sum (`sum += nums[e]`).',
+            'No prefix array, so O(1) space.',
+          ],
           code: c(`
 function sumOfSubarraySums(nums) {
   let total = 0;
@@ -164,6 +185,10 @@ function sumOfSubarraySums(nums) {
           time: 'O(n)',
           space: 'O(1)',
         },
+      ],
+      notes: [
+        'Prefix sum and carry forward share the same two-loop skeleton and are both O(n²). Only the way the inner sum is kept changes: stored values (`P[e + 1] - P[s]`) vs an incremental update (`sum += nums[e]`).',
+        'Carry forward wins here because subarrays are visited in order. Prefix sum wins when you need many sums over arbitrary ranges.',
       ],
     },
     {
