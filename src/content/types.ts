@@ -1,7 +1,7 @@
 /*
  * Content format shared by every subject.
  *
- * Subject > Category > Topic > (keyPoints, visuals, qa, quiz)
+ * Subject > Category > Topic > (keyPoints, visuals, qa, problems, quiz)
  * A topic with only { id, title, level } is shown on the map as "coming soon".
  * Inline text in any string field supports `code` and **bold**.
  */
@@ -80,8 +80,71 @@ export interface StepperVisual {
   steps: StepperStep[];
 }
 
-export type Visual = StepperVisual;
+export interface ArrayTraceStep {
+  note: string;
+  /** 1-based line(s) of `code` to highlight. */
+  line?: number | number[] | null;
+  /** Replace a row's cells from this step on (rows keep their last values otherwise). */
+  rows?: Record<string, (number | string | null)[]>;
+  /** Named pointers under cells, e.g. { i: 2, j: 5 } or { i: { row: 'prefix', index: 2 } }. */
+  pointers?: Record<string, number | { row: string; index: number }>;
+  /** Shade a window of cells (inclusive), in the first row unless `row` is given. */
+  window?: { from: number; to: number; row?: string };
+  /** Variables shown beside the array, e.g. { sum: 7, best: 9 }. */
+  vars?: Record<string, string | number>;
+}
+
+/** Array cells with moving pointers and windows: two pointers, sliding window, prefix sums… */
+export interface ArrayTraceVisual {
+  type: 'arrayTrace';
+  title?: string;
+  code?: string;
+  /** Row name → starting cells. `null` renders an empty cell. */
+  rows: Record<string, (number | string | null)[]>;
+  steps: ArrayTraceStep[];
+}
+
+export type Visual = StepperVisual | ArrayTraceVisual;
 export type VisualType = Visual['type'];
+
+// ---------- Coding problems ----------
+// A problem shows its approaches side by side, from brute force to optimal.
+// Each approach's code defines the function named `fn`, so the app (and scripts/verify-problems)
+// can run it against the examples.
+
+export interface Approach {
+  /** e.g. "Brute force", "Better", "Optimal". */
+  name: string;
+  /** How it works, one short point per line. */
+  idea: string[];
+  code: string;
+  /** Big-O strings, e.g. "O(n²)". */
+  time: string;
+  space: string;
+}
+
+export interface ProblemExample {
+  /** Arguments, in the order of `params`. */
+  args: unknown[];
+  output: unknown;
+  note?: string;
+}
+
+export interface Problem {
+  id: string;
+  title: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  statement: string;
+  /** Name of the function every approach defines. */
+  fn: string;
+  params: string[];
+  examples: ProblemExample[];
+  /** Compare array outputs ignoring order (e.g. "return all pairs"). */
+  anyOrder?: boolean;
+  approaches: Approach[];
+  /** Extra interview talking points. */
+  notes?: string[];
+}
 
 // ---------- Structure ----------
 
@@ -94,6 +157,7 @@ export interface Topic {
   keyPoints?: KeyPoint[];
   visuals?: Visual[];
   qa?: QAItem[];
+  problems?: Problem[];
   quiz?: QuizQuestion[];
 }
 
