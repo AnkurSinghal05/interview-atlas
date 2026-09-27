@@ -3,30 +3,31 @@ import type { Topic } from '@/content/types';
 
 const topic: Topic = {
   id: 'web-storage',
-  title: 'localStorage, sessionStorage, cookies',
+  title: 'Browser storage compared',
   level: 'beginner',
-  masteryMinutes: 30,
-  tags: ['persistence', 'cookies', 'HttpOnly', 'IndexedDB'],
-  summary: 'Three ways to keep data in the browser. They differ in **lifetime**, **size**, and whether they are **sent to the server**.',
+  masteryMinutes: 45,
+  reviseMinutes: 15,
+  tags: ['localStorage', 'sessionStorage', 'cookies', 'IndexedDB', 'Cache API', 'quota'],
+  summary: 'Four main places to keep data in the browser: **cookies**, **localStorage**, **sessionStorage** and **IndexedDB**. Pick by size, lifetime, and whether the server needs to see it.',
   keyPoints: [
     {
-      title: 'localStorage',
-      text: 'About 5 MB per origin, persists until cleared, shared across tabs of the same origin. Never sent to the server.',
+      title: 'Cookies: small and sent to the server',
+      text: 'About 4 KB each, attached to every matching HTTP request. Made for sessions and server-side state. Can be hidden from JS with `HttpOnly`. See the Cookies topic.',
     },
     {
-      title: 'sessionStorage',
-      text: 'Same API, but scoped to one tab and cleared when the tab closes.',
-    },
-    {
-      title: 'Cookies',
-      text: 'About 4 KB each, sent with every request to the matching domain. Can have an expiry and flags like `HttpOnly`, `Secure`, `SameSite`.',
-    },
-    {
-      title: 'Strings only',
-      text: 'Web Storage stores strings. Use `JSON.stringify`/`JSON.parse` for objects. The API is synchronous, so avoid large data; use IndexedDB for that.',
+      title: 'localStorage and sessionStorage: simple strings',
+      text: 'About 5 MB per origin, synchronous `getItem`/`setItem`, strings only. localStorage lasts until cleared and is shared by all tabs; sessionStorage is per tab and ends when the tab closes.',
       code: c(`
 localStorage.setItem('prefs', JSON.stringify({ dark: true }));
 const prefs = JSON.parse(localStorage.getItem('prefs') ?? '{}');`),
+    },
+    {
+      title: 'IndexedDB: a real database',
+      text: 'Asynchronous, transactional, stores objects, Blobs and files, supports indexes, and can hold hundreds of MB or more. Works in Web Workers. See the IndexedDB topic.',
+    },
+    {
+      title: 'All are per origin',
+      text: 'Storage is isolated by scheme + host + port. `http://site.com` and `https://site.com` do not share localStorage or IndexedDB. Cookies are the exception: they are scoped by domain and path.',
     },
   ],
   comparisons: [
@@ -56,34 +57,53 @@ const prefs = JSON.parse(localStorage.getItem('prefs') ?? '{}');`),
   ],
   qa: [
     {
-      q: 'Compare localStorage, sessionStorage and cookies.',
+      q: 'Compare cookies, localStorage, sessionStorage and IndexedDB.',
       tag: 'Asked often',
       a: [
-        '**Lifetime:** local = until cleared; session = until the tab closes; cookie = until its expiry (or session).',
-        '**Size:** ~5 MB, ~5 MB, ~4 KB.',
-        '**Sent to server:** only cookies.',
-        '**Access:** Web Storage from JS only; cookies from JS (unless `HttpOnly`) and the server.',
+        '**Size:** cookie ~4 KB each; local/session ~5 MB; IndexedDB large (a share of free disk).',
+        '**Lifetime:** cookie until `Expires`/`Max-Age` (or end of session); local until cleared; session until the tab closes; IndexedDB until cleared or evicted.',
+        '**Sent to server:** only cookies, automatically.',
+        '**API:** cookie via a string (`document.cookie`); local/session synchronous key-value strings; IndexedDB asynchronous, transactional, stores objects.',
+        '**Available in workers:** IndexedDB yes; localStorage/sessionStorage no.',
       ],
     },
     {
       q: 'Where should you store an auth token?',
+      tag: 'Asked often',
       a: [
-        'An `HttpOnly`, `Secure`, `SameSite` cookie is safest against XSS, because JS cannot read it.',
-        'localStorage is readable by any script on the page, so an XSS bug can steal it.',
-        'Cookies need CSRF protection (`SameSite`, CSRF tokens).',
+        'Safest default: an `HttpOnly; Secure; SameSite=Lax` (or `Strict`) cookie set by the server. JavaScript cannot read it, so XSS cannot steal it.',
+        'localStorage and sessionStorage are readable by any script on the page, so one XSS bug leaks the token.',
+        'Cookies are sent automatically, so pair them with CSRF protection (`SameSite` and/or a CSRF token).',
       ],
     },
     {
-      q: 'How do tabs find out that localStorage changed?',
-      a: ['Other tabs of the same origin receive a `storage` event on `window`. The tab that made the change does not.'],
+      q: 'How do other tabs find out that localStorage changed?',
+      a: [
+        'Every **other** tab of the same origin gets a `storage` event on `window` with `key`, `oldValue` and `newValue`. The tab that made the change does not.',
+        'For richer tab-to-tab messaging, use `BroadcastChannel`.',
+      ],
     },
     {
-      q: 'What does `HttpOnly` do?',
-      a: ['It hides the cookie from `document.cookie`, so JavaScript (including injected scripts) cannot read it. The browser still sends it with requests.'],
+      q: 'Why is localStorage a poor choice for large data?',
+      a: [
+        'It is synchronous, so big reads and writes block the main thread.',
+        'It only stores strings, so objects must be serialised with `JSON.stringify` every time.',
+        'It has a small quota (~5 MB) and throws a `QuotaExceededError` when full. Use IndexedDB instead.',
+      ],
     },
     {
-      q: 'When would you use IndexedDB?',
-      a: ['For larger or structured data, binary blobs, or offline apps. It is asynchronous and transactional, unlike Web Storage.'],
+      q: 'What is the Cache API?',
+      a: [
+        'Storage for HTTP `Request`/`Response` pairs, used mainly by service workers to serve files offline.',
+        'It is for network responses, not general app data (that is IndexedDB).',
+      ],
+    },
+    {
+      q: 'Can storage be cleared without your code doing it?',
+      a: [
+        'Yes. Users can clear it, private windows discard it, and browsers may evict "best-effort" storage under disk pressure (Safari also clears script-written storage after 7 days without interaction).',
+        '`navigator.storage.persist()` asks the browser to keep it; `navigator.storage.estimate()` shows usage and quota.',
+      ],
     },
   ],
   quiz: [
@@ -102,11 +122,24 @@ console.log(localStorage.getItem('obj'));`),
     {
       type: 'output',
       code: c(`
-console.log(localStorage.getItem('never-set'));`),
+console.log(localStorage.getItem('never-set'));
+localStorage.flag = false;
+console.log(localStorage.getItem('flag') ? 'truthy' : 'falsy');`),
       note: 'In a browser.',
-      options: ['null', 'undefined', '""', 'Error'],
+      options: ['null\ntruthy', 'undefined\nfalsy', 'null\nfalsy', 'undefined\ntruthy'],
       answer: 0,
-      explain: '`getItem` returns `null` for a missing key.',
+      explain: 'A missing key gives `null`. `false` is stored as the string `"false"`, which is truthy.',
+    },
+    {
+      type: 'output',
+      code: c(`
+sessionStorage.setItem('a', '1');
+localStorage.setItem('a', '2');
+console.log(sessionStorage.getItem('a'), localStorage.getItem('a'), localStorage.length > 0);`),
+      note: 'In a browser.',
+      options: ['1 2 true', '2 2 true', '1 1 true', '1 2 false'],
+      answer: 0,
+      explain: 'The two stores are separate, even for the same key in the same tab.',
     },
     {
       type: 'mcq',
@@ -117,6 +150,13 @@ console.log(localStorage.getItem('never-set'));`),
     },
     {
       type: 'mcq',
+      question: 'An offline notes app must store 200 MB of notes and images, and sync them from a Web Worker. Which storage fits?',
+      options: ['localStorage', 'Cookies', 'IndexedDB', 'sessionStorage'],
+      answer: 2,
+      explain: 'Only IndexedDB handles that size, stores binary data, and is available inside workers.',
+    },
+    {
+      type: 'mcq',
       question: 'A user opens your site in two tabs and saves a draft in tab A with sessionStorage. What does tab B see?',
       options: ['The same draft', 'Nothing: sessionStorage is per tab', 'The draft after a refresh', 'An error'],
       answer: 1,
@@ -124,9 +164,9 @@ console.log(localStorage.getItem('never-set'));`),
     },
     {
       type: 'truefalse',
-      statement: 'JavaScript can read a cookie that has the `HttpOnly` flag.',
+      statement: '`https://app.com` and `http://app.com` share the same localStorage.',
       answer: false,
-      explain: '`HttpOnly` cookies are hidden from `document.cookie`, which protects them from XSS.',
+      explain: 'Storage is per origin, and the scheme is part of the origin.',
     },
   ],
 };
