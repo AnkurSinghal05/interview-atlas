@@ -153,10 +153,12 @@ export interface Topic {
   title: string;
   level: Level;
   /**
-   * Rough time to master the topic for interviews, in minutes: read it, work through the Q&A,
-   * practise until the quiz/problems come easily. Shown on the map and summed per category and subject.
+   * Rough time to learn the topic from scratch to interview-ready, in minutes: read it, work through
+   * the Q&A, practise until the quiz/problems come easily. Shown on the map and summed per category and subject.
    */
   masteryMinutes: number;
+  /** Time to revise it when you already know it. Defaults to about half of `masteryMinutes` (see reviseMinutes()). */
+  reviseMinutes?: number;
   summary?: string;
   tags?: string[];
   keyPoints?: KeyPoint[];
