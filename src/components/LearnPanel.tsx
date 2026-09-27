@@ -11,7 +11,9 @@ export function LearnPanel({ topic }: { topic: Topic }) {
         <div className="flex flex-wrap gap-3">
           {topic.keyPoints.map((kp) => (
             <Card key={kp.title} className="flex-[1_1_220px] gap-2 p-4">
-              <h3 className="text-base font-bold">{kp.title}</h3>
+              <h3 className="text-base font-bold">
+                <RichText text={kp.title} />
+              </h3>
               <p className="text-muted-foreground text-sm">
                 <RichText text={kp.text} />
               </p>
