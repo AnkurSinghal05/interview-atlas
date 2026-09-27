@@ -1,4 +1,4 @@
-import type { Subject } from '@/content/types';
+import type { Subject, Topic } from '@/content/types';
 import { allTopics } from '@/content/registry';
 import { isReady } from '@/content/helpers';
 import { topicHref } from '@/lib/useHashRoute';
@@ -8,11 +8,19 @@ import { cn } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 import { StatusDot } from './StatusDot';
 
+function topicCounts(t: Topic) {
+  const parts: string[] = [];
+  if (t.qa?.length) parts.push(`${t.qa.length} Q&A`);
+  if (t.problems?.length) parts.push(`${t.problems.length} problems`);
+  if (t.quiz?.length) parts.push(`${t.quiz.length} quiz`);
+  return parts.join(' · ');
+}
+
 export function SubjectOverview({ subject }: { subject: Subject }) {
   const { scores } = useScores();
   const topics = allTopics(subject);
   const ready = topics.filter(isReady);
-  const questions = ready.reduce((n, t) => n + (t.qa?.length ?? 0) + (t.quiz?.length ?? 0), 0);
+  const questions = ready.reduce((n, t) => n + (t.qa?.length ?? 0) + (t.problems?.length ?? 0) + (t.quiz?.length ?? 0), 0);
   const stats: [number, string][] = [
     [subject.categories.length, 'areas'],
     [topics.length, 'topics'],
@@ -80,7 +88,7 @@ export function SubjectOverview({ subject }: { subject: Subject }) {
                       <StatusDot state={sc && sc.answered === sc.total ? 'done' : r ? 'ready' : 'stub'} />
                       <span className="min-w-0 flex-1">{t.title}</span>
                       <span className="text-muted-foreground text-xs font-medium whitespace-nowrap tabular-nums">
-                        {sc ? `${sc.correct}/${sc.total}` : r ? `${t.qa?.length ?? 0} Q&A · ${t.quiz?.length ?? 0} quiz` : 'soon'}
+                        {sc ? `${sc.correct}/${sc.total}` : r ? topicCounts(t) : 'soon'}
                       </span>
                     </a>
                   </li>

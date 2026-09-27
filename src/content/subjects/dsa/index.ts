@@ -2,6 +2,14 @@ import { stub } from '@/content/helpers';
 import type { Subject } from '@/content/types';
 import meta from './meta';
 import bigO from './topics/big-o';
+import arrayBasics from './topics/array-basics';
+import prefixSum from './topics/prefix-sum';
+import carryForward from './topics/carry-forward';
+import contribution from './topics/contribution';
+import kadane from './topics/kadane';
+import twoPointers from './topics/two-pointers';
+import slidingWindow from './topics/sliding-window';
+import hashMaps from './topics/hash-maps';
 
 const subject: Subject = {
   ...meta,
@@ -13,13 +21,10 @@ const subject: Subject = {
       topics: [bigO, stub('recursion', 'Recursion', 'beginner')],
     },
     {
-      id: 'linear',
-      name: 'Arrays & hashing',
-      topics: [
-        stub('two-pointers', 'Two pointers', 'beginner'),
-        stub('sliding-window', 'Sliding window', 'intermediate'),
-        stub('hash-maps', 'Hash maps', 'beginner'),
-      ],
+      id: 'arrays',
+      name: 'Arrays',
+      blurb: 'Formulas and the patterns that turn O(n²) scans into O(n): prefix sums, carry forward, two pointers, windows.',
+      topics: [arrayBasics, prefixSum, carryForward, contribution, kadane, twoPointers, slidingWindow, hashMaps],
     },
     {
       id: 'trees-graphs',

@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LearnPanel } from './LearnPanel';
 import { QAPanel } from './QAPanel';
 import { PracticePanel } from './PracticePanel';
+import { ProblemsPanel } from './ProblemsPanel';
 
 const LEVEL_STYLE = {
   beginner: 'text-good border-good',
@@ -19,7 +20,7 @@ const LEVEL_STYLE = {
   advanced: 'text-bad border-bad',
 } as const;
 
-type Tab = 'learn' | 'qa' | 'practice';
+type Tab = 'learn' | 'qa' | 'problems' | 'practice';
 
 export function TopicPage({ subject, topic }: { subject: Subject; topic: TopicWithCategory }) {
   const flat = allTopics(subject);
@@ -30,6 +31,7 @@ export function TopicPage({ subject, topic }: { subject: Subject; topic: TopicWi
   const tabs = [
     { id: 'learn' as Tab, label: 'Learn', show: !!(topic.keyPoints?.length || topic.visuals?.length) },
     { id: 'qa' as Tab, label: 'Q&A', count: topic.qa?.length, show: !!topic.qa?.length },
+    { id: 'problems' as Tab, label: 'Problems', count: topic.problems?.length, show: !!topic.problems?.length },
     { id: 'practice' as Tab, label: 'Practice', count: topic.quiz?.length, show: !!topic.quiz?.length },
   ].filter((t) => t.show);
   const [tab, setTab] = useState<Tab>(tabs[0]?.id ?? 'learn');
@@ -77,6 +79,11 @@ export function TopicPage({ subject, topic }: { subject: Subject; topic: TopicWi
           {topic.qa && (
             <TabsContent value="qa">
               <QAPanel items={topic.qa} />
+            </TabsContent>
+          )}
+          {topic.problems && (
+            <TabsContent value="problems">
+              <ProblemsPanel problems={topic.problems} />
             </TabsContent>
           )}
           {topic.quiz && (

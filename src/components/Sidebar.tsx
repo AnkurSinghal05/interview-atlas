@@ -25,7 +25,8 @@ export function Sidebar({ subject, topicId, query, onQueryChange, onNavigate }: 
     !q ||
     t.title.toLowerCase().includes(q) ||
     (t.tags ?? []).some((tag) => tag.toLowerCase().includes(q)) ||
-    (t.qa ?? []).some((x) => x.q.toLowerCase().includes(q));
+    (t.qa ?? []).some((x) => x.q.toLowerCase().includes(q)) ||
+    (t.problems ?? []).some((p) => p.title.toLowerCase().includes(q));
   const groups = subject.categories.map((c) => ({ ...c, topics: c.topics.filter(matches) })).filter((c) => c.topics.length);
 
   return (
