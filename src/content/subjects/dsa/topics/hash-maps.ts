@@ -37,6 +37,20 @@ for (let i = 0; i < nums.length; i++) {
       text: 'Store the first index (for longest) or the count (for number of) of each prefix sum. Then "subarray sum = k" becomes a lookup of `prefix - k`.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Hash map / set', 'Sorting'],
+      rows: [
+        { aspect: 'Time', values: ['O(n) on average', 'O(n log n)'], key: true },
+        { aspect: 'Extra space', values: ['O(n)', 'O(1) to O(n), depending on the sort'], key: true },
+        { aspect: 'Keeps original order', values: ['Yes', 'No'] },
+        { aspect: 'Worst case', values: ['O(n²) with heavy collisions (rare)', 'Guaranteed'] },
+        { aspect: 'Good for', values: ['Counts, "seen before?", grouping, complements', 'Neighbours, ranges, merging intervals, two pointers'] },
+      ],
+      reveal: 'Both group equal or related values together. A hash map does it by key in memory; sorting does it by position. Pick based on whether order and memory matter.',
+      whenToUse: ['Frequency counts, duplicates, anagrams, Two Sum with indexes.', 'Memory is tight, or you need neighbours in order (closest pair, intervals).'],
+    },
+  ],
   visuals: [
     {
       type: 'arrayTrace',

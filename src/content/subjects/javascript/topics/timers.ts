@@ -31,6 +31,24 @@ function poll() {
       text: 'Runs right before the next repaint (usually 60 times a second) and pauses in background tabs. Use it for animations instead of timers.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`setTimeout`', '`setInterval`', '`requestAnimationFrame`'],
+      rows: [
+        { aspect: 'Runs', values: ['Once, after at least the delay', 'Every delay ms until cleared', 'Once, just before the next repaint'], key: true },
+        { aspect: 'Timing', values: ['A minimum, not exact; deeply nested timers clamp to 4 ms', 'Can bunch up or drift if the page is busy', 'Synced to the display, about 60 times a second'] },
+        { aspect: 'Background tab', values: ['Throttled (about once a second)', 'Throttled', 'Paused'] },
+        { aspect: 'Cancel with', values: ['`clearTimeout(id)`', '`clearInterval(id)`', '`cancelAnimationFrame(id)`'] },
+      ],
+      reveal:
+        'Timers are about time, `requestAnimationFrame` is about frames. For animation, time-based timers drift out of step with the screen; rAF runs exactly once per frame.',
+      whenToUse: [
+        'Delay something once, debounce, or poll with a recursive `setTimeout` (the next call waits for the previous one).',
+        'Simple repeating work where overlap does not matter, like a clock.',
+        'Animations and anything visual that should update each frame.',
+      ],
+    },
+  ],
   qa: [
     {
       q: 'Why doesn\'t `setTimeout(fn, 0)` run immediately?',

@@ -30,6 +30,19 @@ const { name: userName, age = 18 } = { name: 'Ada' };
       text: '`[...arr]` and `{ ...obj }` are shallow copies. Nested objects are still shared.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Rest `...`', 'Spread `...`'],
+      rows: [
+        { aspect: 'What it does', values: ['Collects many values into one array/object', 'Expands one array/object into many values'], key: true },
+        { aspect: 'Where', values: ['Destructuring patterns and parameter lists (receiving side)', 'Function calls, array and object literals (giving side)'], key: true },
+        { aspect: 'Position', values: ['Must be last, only once', 'Anywhere, as many times as you like'] },
+        { aspect: 'Example', values: ['`const [first, ...others] = arr`', '`Math.max(...arr)`'] },
+      ],
+      reveal: 'Same three dots, opposite directions. If it is on the left of `=` or in a parameter list, it is rest; otherwise it is spread.',
+      whenToUse: ['Variadic functions and pulling out "everything else" (`const { password, ...safe } = user`).', 'Copying and merging arrays/objects and passing an array as arguments.'],
+    },
+  ],
   qa: [
     {
       q: 'How do you swap two variables without a temp?',

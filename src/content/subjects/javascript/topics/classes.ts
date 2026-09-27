@@ -39,6 +39,23 @@ class Counter {
       text: 'Classes are not hoisted for use (TDZ), always run in strict mode, and throw if called without `new`.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`class`', 'Constructor function'],
+      rows: [
+        { aspect: 'Under the hood', values: ['Prototypes', 'Prototypes'], key: true },
+        { aspect: 'Call without `new`', values: ['`TypeError`', 'Runs; `this` is `undefined` (strict) or global'] },
+        { aspect: 'Hoisting', values: ['In the TDZ until declared', 'Declaration hoisted whole'] },
+        { aspect: 'Strict mode', values: ['Always', 'Only with `"use strict"`'] },
+        { aspect: 'Methods enumerable', values: ['No', 'Yes, if assigned to `prototype`'] },
+        { aspect: 'Inheritance', values: ['`extends` and `super`', '`Parent.call(this)` + `Object.create(Parent.prototype)`'] },
+        { aspect: 'Private state', values: ['`#field`', 'Closures or a `WeakMap`'] },
+        { aspect: 'Static members', values: ['`static`', '`Fn.helper = ...`'] },
+      ],
+      reveal: '`class` is mostly syntax over the same prototype system, plus real safety rails: it must be called with `new`, is always strict, and has true private fields.',
+      whenToUse: ['All new object-oriented code.', 'Reading older code and libraries, and answering "how does `class` work under the hood?"'],
+    },
+  ],
   qa: [
     {
       q: 'How do ES2015 classes differ from ES5 constructor functions?',

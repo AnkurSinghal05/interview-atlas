@@ -35,6 +35,21 @@ for (let i = 0; i < n; i++) total += a[i] * (i + 1) * (n - i);`),
       text: 'Two loops (start, end) give every subarray. Keep a running value as `end` grows so you do not re-add from scratch: O(n²) instead of O(n³).',
     },
   ],
+  comparisons: [
+    {
+      title: 'Enumerate subarrays vs contribution technique',
+      items: ['Enumerate every subarray', 'Contribution technique'],
+      rows: [
+        { aspect: 'Idea', values: ['Visit each subarray and add its sum', 'Each element is added `(i + 1) × (n − i)` times, so add `arr[i] × (i + 1) × (n − i)`'], key: true },
+        { aspect: 'Loops', values: ['3 (2 with carry forward)', '1'] },
+        { aspect: 'Time', values: ['O(n³), or O(n²) with carry forward', 'O(n)'], key: true },
+        { aspect: 'Space', values: ['O(1)', 'O(1)'] },
+        { aspect: 'Needs', values: ['Nothing', 'A formula for how many subarrays contain index i'] },
+      ],
+      reveal: 'Flip the question: instead of "what is the sum of each subarray?", ask "how many subarrays does each element appear in?". The answer is `(i + 1)` choices of start × `(n − i)` choices of end.',
+      whenToUse: ['You need the subarrays themselves, or each one has a condition you must check.', 'You only need a total over all subarrays (sum, sum of odd-length ones, and similar).'],
+    },
+  ],
   visuals: [
     {
       type: 'arrayTrace',

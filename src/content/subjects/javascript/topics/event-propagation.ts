@@ -26,6 +26,33 @@ const topic: Topic = {
       text: '`stopPropagation()` stops the event travelling further. `preventDefault()` cancels the browser action (following a link, submitting a form). They are independent.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Capturing phase', 'Bubbling phase'],
+      rows: [
+        { aspect: 'Direction', values: ['`window` down to the target', 'Target up to `window`'], key: true },
+        { aspect: 'Listen with', values: ["`addEventListener('click', fn, true)` or `{ capture: true }`", "`addEventListener('click', fn)` (default)"] },
+        { aspect: 'Runs', values: ['First', 'Last'] },
+        { aspect: 'Non-bubbling events (`focus`, `blur`, `mouseenter`)', values: ['Still captured', 'Do not bubble; use `focusin` / `focusout`'] },
+      ],
+      reveal: 'Every event travels down (capture), hits the target, then travels back up (bubble). You only choose which half your listener hears.',
+      whenToUse: ['Intercept an event before children see it: closing menus, analytics, blocking clicks.', 'Almost everything else, including event delegation.'],
+    },
+    {
+      items: ['`preventDefault()`', '`stopPropagation()`', '`stopImmediatePropagation()`'],
+      rows: [
+        { aspect: "Stops the browser's default action", values: ['Yes', 'No', 'No'], key: true },
+        { aspect: 'Stops the event reaching other elements', values: ['No', 'Yes', 'Yes'], key: true },
+        { aspect: 'Stops other listeners on the same element', values: ['No', 'No', 'Yes'] },
+      ],
+      reveal: 'These do different jobs. `preventDefault` is about the browser (following a link, submitting a form); the other two are about other listeners.',
+      whenToUse: [
+        'Handle a form submit or link click in JS instead of letting the browser navigate.',
+        'A child handles the event and parents should not (use sparingly, it breaks delegation).',
+        'Also stop later listeners on the same element, e.g. a guard added first.',
+      ],
+    },
+  ],
   qa: [
     {
       q: 'How do `mouseenter` and `mouseover` differ?',

@@ -38,6 +38,21 @@ onmessage = (e) => {
       text: '**Dedicated** workers (one page), **shared** workers (several tabs), and **service workers** (network proxy for offline and push).',
     },
   ],
+  comparisons: [
+    {
+      items: ['Web Worker', 'Service Worker', 'Shared Worker'],
+      rows: [
+        { aspect: 'Purpose', values: ['Heavy CPU work off the main thread', 'Proxy for network requests: offline cache, push, background sync', 'One worker shared by several tabs'], key: true },
+        { aspect: 'Lifetime', values: ['Lives with the page that made it', 'Managed by the browser; starts on events, stops when idle', 'Lives while any connected page is open'], key: true },
+        { aspect: 'DOM access', values: ['No', 'No', 'No'] },
+        { aspect: 'Serves', values: ['One page', 'Every page in its scope', 'Same-origin pages that connect'] },
+        { aspect: 'Needs HTTPS', values: ['No', 'Yes (localhost excepted)', 'No'] },
+        { aspect: 'Talk to it with', values: ['`postMessage`', '`postMessage`, plus it intercepts `fetch` events', '`port.postMessage`'] },
+      ],
+      reveal: 'All three run off the main thread with no DOM. A Web Worker is about **computation**, a Service Worker is about the **network**, a Shared Worker is about **sharing** one instance.',
+      whenToUse: ['Parsing big files, image processing, heavy maths, anything that freezes the UI.', 'PWAs, offline support, caching assets, push notifications.', 'One WebSocket or shared state across tabs.'],
+    },
+  ],
   qa: [
     {
       q: 'What is a Web Worker and when would you use one?',

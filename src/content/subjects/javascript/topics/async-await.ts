@@ -38,6 +38,26 @@ for (const id of ids) await load(id);
 await Promise.all(ids.map(load));`),
     },
   ],
+  comparisons: [
+    {
+      title: 'Callbacks vs promises vs async/await',
+      items: ['Callbacks', 'Promises', '`async`/`await`'],
+      rows: [
+        { aspect: 'Looks like', values: ['Nested functions', '`.then()` chains', 'Ordinary top-to-bottom code'] },
+        { aspect: 'Errors', values: ['Error-first argument in every callback', 'One `.catch()` for the chain', '`try/catch`'], key: true },
+        { aspect: 'Run in parallel', values: ['Manual counters', '`Promise.all`', '`await Promise.all([...])`'] },
+        { aspect: 'Called more than once by mistake?', values: ['Possible: you trust the callee (inversion of control)', 'No, a promise settles once', 'No, built on promises'] },
+        { aspect: 'Deep sequences', values: ['Pyramid of doom', 'Flat chain', 'Flat, reads like sync code'] },
+      ],
+      reveal:
+        '`async/await` is promises with nicer syntax, and promises are a standard wrapper around callbacks. Each step keeps the same non-blocking behaviour and fixes readability and error handling.',
+      whenToUse: [
+        'Event listeners and simple APIs that call you many times (`addEventListener`, `array.map`).',
+        'Composing work: `Promise.all`, `race`, or passing a pending value around.',
+        'Most sequential async code. Remember that awaiting in a loop runs things one by one.',
+      ],
+    },
+  ],
   qa: [
     {
       q: 'What is the difference between async/await and raw promises?',

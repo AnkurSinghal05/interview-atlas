@@ -32,6 +32,20 @@ loud.b; // "missing"`),
       text: 'Validation, default values, logging, negative array indexes, and reactivity systems like Vue 3.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`Proxy`', '`Object.defineProperty`'],
+      rows: [
+        { aspect: 'Intercepts', values: ['13 operations: get, set, has, delete, keys, `new`, calls...', 'Get and set of one existing property'], key: true },
+        { aspect: 'New properties', values: ['Caught', 'Not caught (why Vue 2 needed `Vue.set`)'], key: true },
+        { aspect: 'Array index and `length` changes', values: ['Caught', 'Not reliably'] },
+        { aspect: 'Works on', values: ['A wrapper; the original is untouched', 'The object itself, property by property'] },
+        { aspect: 'Support', values: ['ES2015, cannot be polyfilled', 'ES5'] },
+      ],
+      reveal: 'Getters and setters watch **properties**; a Proxy watches the **object**. That is why Vue 3 switched to Proxy for reactivity.',
+      whenToUse: ['Reactivity, validation, logging, default values, API wrappers.', 'A handful of known properties, or when ES5 support matters.'],
+    },
+  ],
   qa: [
     {
       q: 'What is a Proxy?',

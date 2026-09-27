@@ -28,6 +28,29 @@ const topic: Topic = {
 const next = { ...state, user: { ...state.user, name: 'Ada' } };`),
     },
   ],
+  comparisons: [
+    {
+      title: 'Spread vs JSON round trip vs structuredClone',
+      items: ['Spread / `Object.assign`', '`JSON.parse(JSON.stringify(x))`', '`structuredClone(x)`'],
+      rows: [
+        { aspect: 'Depth', values: ['Shallow: one level', 'Deep', 'Deep'], key: true },
+        { aspect: 'Nested objects', values: ['Shared with the original', 'Copied', 'Copied'], key: true },
+        { aspect: '`Date`', values: ['Same `Date` object', 'Becomes a string', 'Copied as a `Date`'] },
+        { aspect: '`Map` / `Set`', values: ['Same instance', 'Becomes `{}`', 'Copied'] },
+        { aspect: '`undefined` values', values: ['Kept', 'Key dropped', 'Kept'] },
+        { aspect: 'Functions', values: ['Kept (same function)', 'Key dropped', '`DataCloneError`'] },
+        { aspect: 'Circular references', values: ['Fine (only one level)', '`TypeError`', 'Handled'] },
+        { aspect: 'Class instances', values: ['Become plain objects', 'Become plain objects', 'Become plain objects'] },
+      ],
+      reveal:
+        'Spread only copies the top level, so nested objects are still shared. The JSON trick is deep but lossy: anything JSON cannot represent is changed or dropped. `structuredClone` is the built-in deep copy that keeps Dates, Maps, Sets and cycles, but it refuses functions and drops prototypes.',
+      whenToUse: [
+        'Flat objects, or immutable updates where you copy only the path you change (React state).',
+        'Plain JSON-safe data, or when you are about to send it over the network anyway.',
+        'The default deep copy in modern browsers and Node 17+.',
+      ],
+    },
+  ],
   qa: [
     {
       q: 'What is the difference between a shallow and a deep copy?',

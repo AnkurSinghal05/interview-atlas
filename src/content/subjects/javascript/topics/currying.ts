@@ -29,6 +29,19 @@ add(1)(2)(3); // 6`),
       text: 'Build specialised functions from general ones (`const log = logger("error")`) and compose small functions.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Currying', 'Partial application'],
+      rows: [
+        { aspect: 'Shape', values: ['A chain of one-argument functions', 'Fix some arguments now, pass the rest later'], key: true },
+        { aspect: 'Example', values: ['`add(1)(2)(3)`', '`add.bind(null, 1)(2, 3)`'] },
+        { aspect: 'Returns', values: ['A new function after every argument, until all are given', 'One function that takes all remaining arguments'] },
+        { aspect: 'Built in', values: ['No, you write `curry(fn)`', 'Yes, `fn.bind(null, ...args)`'] },
+      ],
+      reveal: 'A curried function lets you partially apply one argument at a time. Partial application is the goal; currying is one way to get there.',
+      whenToUse: ['Building reusable pipelines of small functions (`map(multiply(2))`).', 'Presetting a few arguments once, like a base URL or a logger prefix.'],
+    },
+  ],
   qa: [
     {
       q: 'Write a generic `curry` function.',

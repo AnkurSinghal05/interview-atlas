@@ -30,6 +30,45 @@ const broken = () => { ok: true }; // returns undefined`),
       text: 'Object methods that need `this`, constructors, and DOM handlers that rely on `this` being the element.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Arrow function', 'Regular function'],
+      rows: [
+        { aspect: '`this`', values: ['Taken from the surrounding scope when it is created', 'Decided by how it is called'], key: true },
+        { aspect: '`call` / `apply` / `bind` change `this`', values: ['No (arguments still pass through)', 'Yes'] },
+        { aspect: '`arguments` object', values: ['None (it sees the outer one); use `...args`', 'Yes'] },
+        { aspect: 'Use with `new`', values: ['`TypeError`', 'Works'] },
+        { aspect: '`prototype` property', values: ['None', 'Yes'] },
+        { aspect: 'As an object method', values: ['`this` is not the object', '`this` is the object before the dot'] },
+        { aspect: 'Implicit return', values: ['Yes, with an expression body: `x => x * 2`', 'No, needs `return`'] },
+        { aspect: 'Hoisting', values: ['Like the `const`/`let` holding it (TDZ)', 'Declarations are hoisted whole'] },
+      ],
+      reveal:
+        'An arrow function is not a shorter regular function. It has no `this`, `arguments`, `super` or `new.target` of its own, so it borrows them from where it was written.',
+      whenToUse: [
+        'Callbacks inside methods (`map`, `setTimeout`, `.then`) where you want the outer `this`, and short one-line helpers.',
+        'Object and prototype methods, constructors, DOM handlers that use `this` as the element, and anything that needs `arguments`.',
+      ],
+      code: [
+        c(`
+const timer = {
+  s: 0,
+  start() {
+    setInterval(() => this.s++, 1000); // this = timer
+  },
+};`),
+        c(`
+const timer = {
+  s: 0,
+  start() {
+    setInterval(function () {
+      this.s++; // this is not timer
+    }, 1000);
+  },
+};`),
+      ],
+    },
+  ],
   qa: [
     {
       q: 'Why use arrow functions inside constructors (or as class fields)?',

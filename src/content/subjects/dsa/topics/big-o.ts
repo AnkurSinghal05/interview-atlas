@@ -17,6 +17,30 @@ const topic: Topic = {
     },
     { title: 'Halving means log', text: 'Each step cutting the input in half, like binary search, gives `O(log n)`.' },
   ],
+  comparisons: [
+    {
+      items: ['Big-O', 'Big-Θ (Theta)', 'Big-Ω (Omega)'],
+      rows: [
+        { aspect: 'Kind of bound', values: ['Upper: grows no faster than', 'Tight: grows exactly like', 'Lower: grows at least as fast as'], key: true },
+        { aspect: 'Linear search, worst case', values: ['O(n) (O(n²) is also true, just loose)', 'Θ(n)', 'Ω(n)'] },
+        { aspect: 'Comparison sorting', values: ['Merge sort is O(n log n)', 'Merge sort is Θ(n log n)', 'Any comparison sort is Ω(n log n)'] },
+        { aspect: 'In interviews', values: ['What everyone says', 'What they usually mean', 'Rarely asked, except for lower bounds'] },
+      ],
+      reveal: 'These are bounds, not cases. "Best, average, worst case" picks which input you analyse; O, Θ and Ω describe how tightly you bound it.',
+      whenToUse: ['Stating the complexity of your solution.', 'Being precise that the bound is tight.', 'Proving nothing can do better, like sorting by comparisons.'],
+    },
+    {
+      items: ['Best case', 'Average case', 'Worst case'],
+      rows: [
+        { aspect: 'Quick sort', values: ['O(n log n)', 'O(n log n)', 'O(n²) with bad pivots'] },
+        { aspect: 'Hash map lookup', values: ['O(1)', 'O(1)', 'O(n) if everything collides'] },
+        { aspect: 'Linear search', values: ['O(1): first element', 'O(n)', 'O(n)'] },
+        { aspect: 'Insertion sort', values: ['O(n): already sorted', 'O(n²)', 'O(n²)'] },
+      ],
+      reveal: 'Interviewers want the worst case unless they say otherwise, but mention the average when it is what makes the structure useful (hash maps, quick sort).',
+      whenToUse: ['Pointing out a fast path, like insertion sort on nearly sorted data.', 'Randomised or hashing structures.', 'The default answer.'],
+    },
+  ],
   qa: [
     {
       q: 'What does Big-O measure?',

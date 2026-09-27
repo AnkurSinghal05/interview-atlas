@@ -31,6 +31,39 @@ intro.apply(ada, ['Hi', '!']); // "Hi Ada!"`),
       text: 'Arrow functions take `this` lexically, so the `this` argument is ignored.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`call`', '`apply`', '`bind`'],
+      rows: [
+        { aspect: 'Runs the function', values: ['Now', 'Now', 'No, returns a new function'], key: true },
+        { aspect: 'Arguments', values: ['One by one: `fn.call(obj, a, b)`', 'One array: `fn.apply(obj, [a, b])`', 'One by one, and they are preset: `fn.bind(obj, a)`'], key: true },
+        { aspect: 'Returns', values: ["The function's result", "The function's result", 'A bound function'] },
+        { aspect: 'Can `this` change later?', values: ['Only for this call', 'Only for this call', 'No: a second `bind` is ignored; only `new` overrides it'] },
+        { aspect: 'Typical use', values: ['Borrow a method: `Array.prototype.slice.call(arguments)`', 'Pass an array as arguments: `Math.max.apply(null, nums)`', 'Callbacks and handlers that lose `this`, partial application'] },
+      ],
+      reveal:
+        'All three set `this`. `call` and `apply` run the function immediately and only differ in how arguments go in (**C**omma vs **A**rray). `bind` does not run anything: it gives you a new function with `this` (and maybe some arguments) fixed.',
+      whenToUse: [
+        'You know the arguments individually and want to run it now.',
+        'Your arguments are already in an array (though spread `fn.call(obj, ...args)` now covers this).',
+        'You pass the function somewhere else to be called later: `setTimeout`, event listeners, React class handlers.',
+      ],
+      code: [
+        c(`
+function greet(g, p) {
+  return g + ', ' + this.name + p;
+}
+greet.call({ name: 'Ann' }, 'Hi', '!');
+// 'Hi, Ann!'`),
+        c(`
+greet.apply({ name: 'Ann' }, ['Hi', '!']);
+// 'Hi, Ann!'`),
+        c(`
+const hi = greet.bind({ name: 'Ann' }, 'Hi');
+hi('?'); // 'Hi, Ann?'`),
+      ],
+    },
+  ],
   qa: [
     {
       q: 'What is the difference between `call`, `apply` and `bind`?',

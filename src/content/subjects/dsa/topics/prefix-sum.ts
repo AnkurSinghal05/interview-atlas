@@ -48,6 +48,21 @@ const rangeSum = (l, r) => (l === 0 ? pf[r] : pf[r] - pf[l - 1]);`),
       text: 'Build: `S[r+1][c+1] = a[r][c] + S[r][c+1] + S[r+1][c] - S[r][c]`. Rectangle `(r1,c1)..(r2,c2)`: `S[r2+1][c2+1] - S[r1][c2+1] - S[r2+1][c1] + S[r1][c1]`.',
     },
   ],
+  comparisons: [
+    {
+      title: 'Brute force vs prefix sum for Q range-sum queries',
+      items: ['Loop over the range', 'Prefix sum'],
+      rows: [
+        { aspect: 'Setup', values: ['None', 'O(n) to build `pf`'] },
+        { aspect: 'Each query', values: ['O(n)', 'O(1): `pf[r] - pf[l - 1]`'], key: true },
+        { aspect: 'Q queries in total', values: ['O(n·Q)', 'O(n + Q)'], key: true },
+        { aspect: 'Extra space', values: ['O(1)', 'O(n) (or O(1) if you overwrite the input)'] },
+        { aspect: 'Array changes between queries', values: ['Fine', 'Rebuild in O(n); use a Fenwick or segment tree instead'] },
+      ],
+      reveal: 'Prefix sum moves the work from every query to one pass up front. It only pays off when there is more than a handful of queries and the array does not change.',
+      whenToUse: ['One or two queries, or an array that keeps changing.', 'Many queries on a fixed array; also the base for "count subarrays with sum k" (with a hash map).'],
+    },
+  ],
   visuals: [
     {
       type: 'arrayTrace',

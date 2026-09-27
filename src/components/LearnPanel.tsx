@@ -8,6 +8,7 @@ import { useExpandOrigin } from '@/lib/useExpandOrigin';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { CodeBlock } from './CodeBlock';
 import { PopupNav } from './PopupNav';
+import { ComparisonView } from './ComparisonView';
 
 export function LearnPanel({ topic }: { topic: Topic }) {
   const points = topic.keyPoints ?? [];
@@ -51,6 +52,9 @@ export function LearnPanel({ topic }: { topic: Topic }) {
           ))}
         </div>
       )}
+      {topic.comparisons?.map((c, i) => (
+        <ComparisonView key={i} comparison={c} />
+      ))}
       {topic.visuals?.map((v, i) => (
         <VisualView key={i} visual={v} />
       ))}

@@ -1,7 +1,7 @@
 /*
  * Content format shared by every subject.
  *
- * Subject > Category > Topic > (keyPoints, visuals, qa, problems, quiz)
+ * Subject > Category > Topic > (keyPoints, comparisons, visuals, qa, problems, quiz)
  * A topic with only { id, title, level, masteryMinutes } is shown on the map as "coming soon".
  * Inline text in any string field supports `code` and **bold**.
  */
@@ -146,6 +146,32 @@ export interface Problem {
   notes?: string[];
 }
 
+// ---------- Comparisons ----------
+// "X vs Y" tables shown on the Learn tab: one column per thing compared, one row per aspect.
+
+export interface ComparisonRow {
+  /** e.g. "Time complexity", "Scope", "Hoisted?". */
+  aspect: string;
+  /** One cell per item, in the order of `Comparison.items`. Supports `code` and **bold**. */
+  values: string[];
+  /** Emphasise the row that holds the real difference. */
+  key?: boolean;
+}
+
+export interface Comparison {
+  /** e.g. "Prefix sum vs carry forward". Defaults to the items joined with "vs". */
+  title?: string;
+  /** Column headers: the things being compared. */
+  items: string[];
+  rows: ComparisonRow[];
+  /** What actually differs, in one or two sentences. */
+  reveal?: string;
+  /** "When to use which": one line per item, in the order of `items`. */
+  whenToUse?: string[];
+  /** Optional side-by-side code, one snippet per item. */
+  code?: string[];
+}
+
 // ---------- Structure ----------
 
 export interface Topic {
@@ -162,6 +188,7 @@ export interface Topic {
   summary?: string;
   tags?: string[];
   keyPoints?: KeyPoint[];
+  comparisons?: Comparison[];
   visuals?: Visual[];
   qa?: QAItem[];
   problems?: Problem[];

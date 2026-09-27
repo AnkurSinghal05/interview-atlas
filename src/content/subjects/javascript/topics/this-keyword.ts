@@ -19,6 +19,25 @@ const topic: Topic = {
       text: 'Arrows have no `this` of their own. They use the `this` of the scope they were written in, and `call`/`bind` cannot change it.',
     },
   ],
+  comparisons: [
+    {
+      title: 'The four `this` rules (plus arrows)',
+      items: ['Plain call', 'Method call', '`call` / `apply` / `bind`', '`new`', 'Arrow function'],
+      rows: [
+        { aspect: 'Looks like', values: ['`fn()`', '`obj.fn()`', '`fn.call(o)`', '`new Fn()`', '`() => this`'] },
+        { aspect: '`this` is', values: ['`undefined` in strict mode, else `globalThis`', 'The object before the dot', 'The object you pass', 'The brand-new object', 'Whatever `this` was where it was written'], key: true },
+        { aspect: 'Priority', values: ['Lowest', 'Beats plain call', 'Beats method call', 'Highest (even beats `bind`)', 'Cannot be changed at all'] },
+      ],
+      reveal: '`this` is decided by the **call site**, not where the function is defined. Arrow functions are the one exception: they have no `this` of their own.',
+      whenToUse: [
+        'Helpers that do not use `this` at all.',
+        'Methods on an object; watch out when you pass `obj.fn` as a callback, it becomes a plain call.',
+        'Borrowing methods or fixing `this` for a callback.',
+        'Constructors and classes.',
+        'Callbacks inside methods that need the outer `this`.',
+      ],
+    },
+  ],
   visuals: [
     {
       type: 'stepper',

@@ -33,6 +33,20 @@ const money = {
 money * 2;   // 10`),
     },
   ],
+  comparisons: [
+    {
+      items: ['`Symbol(desc)`', '`Symbol.for(key)`'],
+      rows: [
+        { aspect: 'Each call', values: ['Makes a brand-new unique symbol', 'Returns the one symbol registered for that key'], key: true },
+        { aspect: 'Same description twice', values: ["`Symbol('a') === Symbol('a')` is `false`", "`Symbol.for('a') === Symbol.for('a')` is `true`"] },
+        { aspect: 'Across iframes and workers', values: ['Not shared', 'Shared (global registry)'] },
+        { aspect: '`Symbol.keyFor(s)`', values: ['`undefined`', 'The key'] },
+        { aspect: 'Usable as `WeakMap` key', values: ['Yes', 'No'] },
+      ],
+      reveal: 'The description is just a label. Uniqueness comes from the call: `Symbol()` always creates, `Symbol.for()` looks up first.',
+      whenToUse: ['Private-ish keys and collision-free property names inside one module.', 'A symbol that separate pieces of code (or realms) must agree on.'],
+    },
+  ],
   qa: [
     {
       q: 'What is a Symbol used for?',

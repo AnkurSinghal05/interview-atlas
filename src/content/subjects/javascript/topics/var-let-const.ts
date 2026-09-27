@@ -37,6 +37,43 @@ user = {};           // TypeError`),
       text: 'Use `const` by default, `let` when the variable must change, and avoid `var` in new code.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`var`', '`let`', '`const`'],
+      rows: [
+        { aspect: 'Scope', values: ['Function', 'Block `{ }`', 'Block `{ }`'], key: true },
+        { aspect: 'Hoisted?', values: ['Yes, and set to `undefined`', 'Yes, but in the TDZ until its line', 'Yes, but in the TDZ until its line'] },
+        { aspect: 'Read before the declaration', values: ['`undefined`', '`ReferenceError`', '`ReferenceError`'] },
+        { aspect: 'Redeclare in the same scope', values: ['Allowed', '`SyntaxError`', '`SyntaxError`'] },
+        { aspect: 'Reassign', values: ['Yes', 'Yes', 'No, `TypeError`'], key: true },
+        { aspect: 'Must be initialised', values: ['No', 'No', 'Yes'] },
+        { aspect: 'Top level adds to `window`', values: ['Yes', 'No', 'No'] },
+        { aspect: 'Closures in a `for` loop', values: ['One shared `i` for all iterations', 'A fresh `i` per iteration', 'Works in `for...of`, throws in `i++` loops'] },
+        { aspect: 'Mutate an object it holds', values: ['Yes', 'Yes', 'Yes: the binding is fixed, not the value'] },
+      ],
+      reveal:
+        'All three are hoisted. What differs is the scope (function vs block), whether the name is usable before its line (`var` gives `undefined`, the others sit in the TDZ), and whether it can be reassigned. `const` locks the **binding**, not the object.',
+      whenToUse: [
+        'Only when reading or maintaining old code. Avoid it in new code.',
+        'When the value really changes: counters, accumulators, a variable set in an `if/else`.',
+        'The default for everything else, including objects and arrays you will mutate.',
+      ],
+      code: [
+        c(`
+for (var i = 0; i < 3; i++)
+  setTimeout(() => console.log(i));
+// 3 3 3`),
+        c(`
+for (let i = 0; i < 3; i++)
+  setTimeout(() => console.log(i));
+// 0 1 2`),
+        c(`
+const user = { name: 'A' };
+user.name = 'B'; // fine
+user = {};       // TypeError`),
+      ],
+    },
+  ],
   qa: [
     {
       q: 'What are the differences between `var`, `let` and `const`?',

@@ -34,6 +34,20 @@ opts.retries ??= 3; // stays 0
 opts.timeout ??= 1000; // set to 1000`),
     },
   ],
+  comparisons: [
+    {
+      items: ['`||`', '`??`'],
+      rows: [
+        { aspect: 'Falls back when the left side is', values: ['Any falsy value: `0`, `\'\'`, `false`, `NaN`, `null`, `undefined`', 'Only `null` or `undefined`'], key: true },
+        { aspect: '`0 ... 10`', values: ['`10`', '`0`'] },
+        { aspect: "`'' ... 'N/A'`", values: ["`'N/A'`", "`''`"] },
+        { aspect: 'Mixed with `&&` without brackets', values: ['Allowed', '`SyntaxError`'] },
+        { aspect: 'Assignment form', values: ['`a ||= b`', '`a ??= b`'] },
+      ],
+      reveal: '`||` treats every falsy value as missing, `??` only treats **nothing** as missing. That is why `??` is safe for counts, prices and empty strings.',
+      whenToUse: ['When `0`, `\'\'` and `false` really should be replaced.', 'Defaults for config and API data where `0` or `\'\'` are valid values.'],
+    },
+  ],
   qa: [
     {
       q: 'What does optional chaining do?',

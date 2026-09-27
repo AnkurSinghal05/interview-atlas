@@ -29,6 +29,23 @@ total = 5; // ReferenceError: total is not defined`),
       text: 'Duplicate parameter names are banned, `with` is banned, `delete` on a plain variable is a SyntaxError, and `arguments` no longer tracks parameter changes.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Sloppy mode', 'Strict mode'],
+      rows: [
+        { aspect: '`this` in a plain function call', values: ['`globalThis` (`window`)', '`undefined`'], key: true },
+        { aspect: 'Assign to an undeclared variable', values: ['Creates a global', '`ReferenceError`'], key: true },
+        { aspect: 'Write to a read-only property', values: ['Silently ignored', '`TypeError`'] },
+        { aspect: 'Delete a non-configurable property', values: ['Returns `false`', '`TypeError`'] },
+        { aspect: 'Duplicate parameter names', values: ['Allowed', '`SyntaxError`'] },
+        { aspect: '`with`, octal `010`', values: ['Allowed', '`SyntaxError`'] },
+        { aspect: '`arguments` tracks parameters', values: ['Yes', 'No'] },
+        { aspect: 'Turned on by', values: ['Default for classic scripts', "`'use strict'`, classes, ES modules"] },
+      ],
+      reveal: 'Strict mode mostly turns silent failures into errors. Modules and classes are already strict, so most modern code runs strict without saying so.',
+      whenToUse: ['Only old scripts that rely on it.', 'Everything; you get it for free in modules and classes.'],
+    },
+  ],
   qa: [
     {
       q: 'What is strict mode and why use it?',

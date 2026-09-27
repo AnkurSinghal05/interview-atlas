@@ -32,6 +32,19 @@ var greet = function () {};`),
       text: 'Each scope is first **created** (declarations registered) and then **executed** line by line. Hoisting is just a name for the first phase.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Function declaration', 'Function expression'],
+      rows: [
+        { aspect: 'Looks like', values: ['`function add() {}`', '`const add = function () {}` or an arrow'] },
+        { aspect: 'Callable before its line', values: ['Yes, hoisted with its body', 'No: `var` gives `TypeError`, `let`/`const` give `ReferenceError`'], key: true },
+        { aspect: 'Name', values: ['Required', 'Optional; a named expression sees its name only inside itself'] },
+        { aspect: 'Can be passed inline', values: ['No', 'Yes, as a callback or IIFE'] },
+      ],
+      reveal: 'The function is the same; what is hoisted differs. A declaration hoists the whole function, an expression only hoists the variable it is assigned to.',
+      whenToUse: ['Top-level helpers you want to call from anywhere in the file.', 'Callbacks, conditional definitions, and functions you want to keep `const`.'],
+    },
+  ],
   visuals: [
     {
       type: 'stepper',

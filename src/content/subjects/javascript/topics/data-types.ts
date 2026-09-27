@@ -30,6 +30,34 @@ p.n++;                          // o.n is now 2`),
       text: 'Use `Array.isArray(x)` for arrays, `x === null` for null, and `Object.prototype.toString.call(x)` for a precise tag like `[object Date]`.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Primitive', 'Reference (object)'],
+      rows: [
+        { aspect: 'Types', values: ['`string` `number` `bigint` `boolean` `undefined` `null` `symbol`', 'Objects, arrays, functions, dates, maps...'] },
+        { aspect: 'Assign or pass to a function', values: ['The value is copied', 'The reference is copied; both point to one object'], key: true },
+        { aspect: 'Mutable', values: ['No, operations make new values', 'Yes'] },
+        { aspect: '`===` compares', values: ['Values', 'Identity (same object?)'], key: true },
+        { aspect: '`typeof`', values: ["Its own name (`null` says `'object'`)", "`'object'` or `'function'`"] },
+      ],
+      reveal: 'Everything in JS is passed by value; for objects, that value **is** a reference. So mutating inside a function is visible outside, but reassigning the parameter is not.',
+      whenToUse: ['Simple values you compare by content.', 'Grouped or shared data; copy it when you need independence.'],
+    },
+    {
+      items: ['`null`', '`undefined`'],
+      rows: [
+        { aspect: 'Meaning', values: ['Deliberately empty, set by you', 'Not set yet, usually by JS'], key: true },
+        { aspect: 'Where it appears', values: ['Only where code assigns it (and some APIs like `getElementById`)', 'Unassigned variables, missing properties and arguments, functions without `return`'] },
+        { aspect: '`typeof`', values: ["`'object'` (an old bug)", "`'undefined'`"] },
+        { aspect: '`Number(x)`', values: ['`0`', '`NaN`'] },
+        { aspect: 'In `JSON.stringify`', values: ['Kept as `null`', 'Property dropped'] },
+        { aspect: 'Triggers default parameters', values: ['No', 'Yes'] },
+        { aspect: 'Equality', values: ['`null == undefined` is `true`', '`null === undefined` is `false`'] },
+      ],
+      reveal: 'Both mean "no value"; the difference is who said so. Check both at once with `x == null` or `x ?? fallback`.',
+      whenToUse: ['Explicitly clear something or say "no result" in an API.', 'Let JS use it; avoid assigning it yourself.'],
+    },
+  ],
   qa: [
     {
       q: 'What is the difference between undeclared, `undefined` and `null`?',

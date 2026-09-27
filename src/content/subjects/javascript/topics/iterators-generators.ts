@@ -35,6 +35,21 @@ g.next(); // { value: undefined, done: true }`),
       text: 'Generators compute values only when asked, so they can describe infinite sequences safely.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`for...in`', '`for...of`'],
+      rows: [
+        { aspect: 'Gives you', values: ['Keys (property names, as strings)', 'Values'], key: true },
+        { aspect: 'Works on', values: ['Any object', 'Iterables only: arrays, strings, Maps, Sets, generators'], key: true },
+        { aspect: 'Plain object', values: ['Yes', '`TypeError: not iterable`'] },
+        { aspect: 'Array `[10, 20]`', values: ["`'0'`, `'1'`", '`10`, `20`'] },
+        { aspect: 'Inherited properties', values: ['Included if enumerable', 'Not applicable'] },
+        { aspect: 'Uses', values: ['Enumerable property keys', '`[Symbol.iterator]()`'] },
+      ],
+      reveal: '`in` asks "what keys does this object have?", `of` asks "what does this collection produce?". `for...of` is driven by the iterator protocol, so anything with `[Symbol.iterator]` works.',
+      whenToUse: ['Rarely; prefer `Object.keys` / `Object.entries` with `for...of`.', 'Arrays, strings, Maps, Sets and your own iterables.'],
+    },
+  ],
   qa: [
     {
       q: 'How is async/await related to generators?',

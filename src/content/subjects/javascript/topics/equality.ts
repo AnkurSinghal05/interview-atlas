@@ -35,6 +35,27 @@ const a = []; a === a // true`),
       text: 'It works like `===` except `Object.is(NaN, NaN)` is `true` and `Object.is(0, -0)` is `false`.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`==`', '`===`', '`Object.is`'],
+      rows: [
+        { aspect: 'Converts types first', values: ['Yes', 'No', 'No'], key: true },
+        { aspect: "`1` vs `'1'`", values: ['`true`', '`false`', '`false`'] },
+        { aspect: '`null` vs `undefined`', values: ['`true`', '`false`', '`false`'] },
+        { aspect: '`NaN` vs `NaN`', values: ['`false`', '`false`', '`true`'], key: true },
+        { aspect: '`+0` vs `-0`', values: ['`true`', '`true`', '`false`'], key: true },
+        { aspect: 'Two objects', values: ['Same reference only', 'Same reference only', 'Same reference only'] },
+        { aspect: 'Spec name', values: ['Loose equality', 'Strict equality', 'SameValue'] },
+      ],
+      reveal:
+        '`===` is `==` without the type conversion. `Object.is` is `===` with two edge cases fixed: `NaN` equals itself and `+0` is not `-0`. None of them compare objects by content.',
+      whenToUse: [
+        'Only for `x == null`, which checks `null` and `undefined` in one go.',
+        'The default for every comparison.',
+        'When `NaN` or `-0` matter. React uses it to decide whether state changed.',
+      ],
+    },
+  ],
   qa: [
     {
       q: 'What is the difference between `==` and `===`?',
