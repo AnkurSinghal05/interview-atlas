@@ -21,7 +21,7 @@ Routing is hash-based (`#javascript.closures`), so any static host works without
 ```
 src/
   content/
-    types.ts                 content format (Subject > Category > Topic > keyPoints / visuals / qa / problems / quiz)
+    types.ts                 content format (Subject > Category > Topic > keyPoints / comparisons / visuals / qa / problems / quiz)
     registry.ts              discovers subjects automatically, lazy-loads each one
     helpers.ts               code(), stub(), isReady()
     subjects/<id>/meta.ts    name, glyph, accent colour, order (loaded up front)
@@ -38,6 +38,11 @@ Create `src/content/subjects/react/` with `meta.ts` and `index.ts` (copy `dsa/`)
 automatically. Unwritten topics are `stub('id', 'Title', 'beginner', 120)`; written ones are `Topic` objects in `topics/`.
 Every topic has `masteryMinutes`, a rough time to learn it from scratch, and an optional `reviseMinutes` (defaults to about half).
 The map shows both per topic and totals them per area and subject.
+
+## Add a comparison
+Give a topic `comparisons: [{ items, rows, reveal, whenToUse, code? }]` (see `Comparison` in `src/content/types.ts`).
+It renders on the Learn tab as an "X vs Y" table with the reveal and "when to use which". Mark the row that holds the real difference with `key: true`.
+`npm run verify` checks that every row has one cell per item.
 
 ## Add a quiz type
 1. Add an interface to the `QuizQuestion` union in `src/content/types.ts`.
