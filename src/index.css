@@ -1,0 +1,148 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* shadcn/ui tokens, tuned to the Interview Atlas palette */
+:root {
+  --radius: 0.625rem;
+  --background: #f2f3f6;
+  --foreground: #161a23;
+  --card: #ffffff;
+  --card-foreground: #161a23;
+  --popover: #ffffff;
+  --popover-foreground: #161a23;
+  --primary: #161a23;
+  --primary-foreground: #f7f8fa;
+  --secondary: #e9ebf0;
+  --secondary-foreground: #161a23;
+  --muted: #e9ebf0;
+  --muted-foreground: #596070;
+  --accent: #e9ebf0;
+  --accent-foreground: #161a23;
+  --destructive: #c23c36;
+  --border: #d8dbe3;
+  --input: #d8dbe3;
+  --ring: #2f6fe4;
+  --sidebar: #ffffff;
+
+  /* Atlas-specific */
+  --subject: #f2c94c; /* set per subject at runtime */
+  --on-subject: #1a1400;
+  --accent-ink: #7a5600;
+  --good: #1c8656;
+  --good-soft: #dff3e9;
+  --bad: #c23c36;
+  --bad-soft: #fbe4e2;
+  --code-bg: #151821;
+  --code-fg: #e3e6ee;
+  --code-muted: #6e7587;
+  --code-border: #262b37;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: #0f1116;
+  --foreground: #e8eaf0;
+  --card: #171a21;
+  --card-foreground: #e8eaf0;
+  --popover: #171a21;
+  --popover-foreground: #e8eaf0;
+  --primary: #e8eaf0;
+  --primary-foreground: #0f1116;
+  --secondary: #20242d;
+  --secondary-foreground: #e8eaf0;
+  --muted: #20242d;
+  --muted-foreground: #9ca3b2;
+  --accent: #20242d;
+  --accent-foreground: #e8eaf0;
+  --destructive: #f06b62;
+  --border: #2b303b;
+  --input: #2b303b;
+  --ring: #7aa7ff;
+  --sidebar: #14171d;
+
+  --accent-ink: #f2c94c;
+  --good: #43c98d;
+  --good-soft: #15291f;
+  --bad: #f06b62;
+  --bad-soft: #2e1918;
+  --code-bg: #0b0d12;
+  --code-border: #1e222c;
+}
+
+@theme inline {
+  --font-sans: 'Figtree', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Figtree', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+
+  --color-subject: var(--subject);
+  --color-on-subject: var(--on-subject);
+  --color-accent-ink: var(--accent-ink);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --color-code: var(--code-bg);
+  --color-code-foreground: var(--code-fg);
+  --color-code-muted: var(--code-muted);
+  --color-code-border: var(--code-border);
+
+  --animate-pop: pop 0.35s ease-out;
+  @keyframes pop {
+    from { transform: scale(0.94); opacity: 0.4; }
+    to { transform: none; opacity: 1; }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  h1, h2, h3 {
+    @apply font-display;
+    text-wrap: balance;
+    line-height: 1.15;
+  }
+}
+
+/* Syntax colours (code panels are dark in both themes) */
+.tk-kw { color: #c792ea; }
+.tk-str { color: #a5d6a7; }
+.tk-num { color: #f78c6c; }
+.tk-com { color: #6e7587; font-style: italic; }
+.tk-fn { color: #82aaff; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
