@@ -32,6 +32,19 @@ new B(); // { x: 1 }`),
   ],
   qa: [
     {
+      q: 'What is the difference between `function Person(){}`, `const person = Person()` and `const person = new Person()`?',
+      tag: 'Asked often',
+      a: [
+        '`function Person(){}` just **declares** a function (by convention, a constructor).',
+        '`Person()` **calls** it as a normal function: `this` is the global object (or `undefined` in strict mode), and `person` gets its return value, usually `undefined`.',
+        '`new Person()` **constructs** a new object linked to `Person.prototype` and returns it.',
+      ],
+      code: c(`
+function Person(name) { this.name = name; }
+const a = Person('Ada');     // undefined (and sets a global in sloppy mode)
+const b = new Person('Ada'); // Person { name: 'Ada' }`),
+    },
+    {
       q: 'What happens when you call a function with `new`?',
       tag: 'Asked often',
       a: [

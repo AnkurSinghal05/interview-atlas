@@ -31,6 +31,15 @@ p.n++;                          // o.n is now 2`),
   ],
   qa: [
     {
+      q: 'What is the difference between undeclared, `undefined` and `null`?',
+      tag: 'Asked often',
+      a: [
+        '**Undeclared:** no variable with that name exists. Reading it throws a `ReferenceError`; `typeof` returns `"undefined"`.',
+        '**`undefined`:** the variable exists but has no value yet.',
+        '**`null`:** a value you assign on purpose to mean "empty".',
+      ],
+    },
+    {
       q: 'What are the primitive types in JavaScript?',
       tag: 'Asked often',
       a: ['`string`, `number`, `bigint`, `boolean`, `undefined`, `null` and `symbol`. Everything else is an object.'],

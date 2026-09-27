@@ -27,6 +27,15 @@ const topic: Topic = {
   ],
   qa: [
     {
+      q: 'How do `mouseenter` and `mouseover` differ?',
+      tag: 'Asked often',
+      a: [
+        '`mouseenter` fires once when the pointer enters the element and does **not** bubble. Moving onto child elements does not fire it again.',
+        '`mouseover` bubbles and fires again every time the pointer moves onto the element or any of its children.',
+        'The pairs are `mouseenter`/`mouseleave` and `mouseover`/`mouseout`.',
+      ],
+    },
+    {
       q: 'What is event bubbling?',
       tag: 'Asked often',
       a: ['After an event fires on the target, it travels up through each ancestor, triggering their listeners for the same event type, up to `document` and `window`.'],

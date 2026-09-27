@@ -75,6 +75,34 @@ console.log(a);`),
   ],
   qa: [
     {
+      q: 'What is the difference between a function declaration and a function expression?',
+      tag: 'Asked often',
+      a: [
+        '**Declaration:** `function add() {}` is hoisted with its body, so you can call it before the line.',
+        '**Expression:** `const add = function () {}` (or an arrow) is only a value assigned to a variable, so it is not callable before that line.',
+        'Named function expressions only expose their name inside their own body.',
+      ],
+      code: c(`
+hoisted();  // works
+notYet();   // ReferenceError (TDZ)
+function hoisted() {}
+const notYet = function () {};`),
+    },
+    {
+      q: 'Are `import` statements hoisted?',
+      a: [
+        'Yes. All static imports are resolved and loaded before any code in the module runs, wherever they appear in the file.',
+        'Convention is still to put them at the top.',
+      ],
+    },
+    {
+      q: 'What are scopes in JavaScript, and what is lexical scoping?',
+      a: [
+        'Scopes: **global**, **module**, **function** and **block** (`let`/`const` inside `{}`).',
+        '**Lexical scoping** means a function can see the variables of the places it was written inside, decided at write time, not call time.',
+      ],
+    },
+    {
       q: 'What is hoisting?',
       tag: 'Asked often',
       a: [

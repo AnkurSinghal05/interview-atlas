@@ -32,6 +32,14 @@ fs.readFile('a.txt', (err, data) => {
   ],
   qa: [
     {
+      q: 'What is the difference between synchronous and asynchronous functions?',
+      tag: 'Asked often',
+      a: [
+        '**Synchronous:** runs to completion before the next line runs. A slow one blocks everything, including the UI.',
+        '**Asynchronous:** starts work (a timer, a network request) and returns immediately. The result arrives later through a callback, a promise or `await`.',
+      ],
+    },
+    {
       q: 'What is a callback?',
       tag: 'Asked often',
       a: ['A function passed as an argument to another function, which calls it at some point, either immediately or after an async task finishes.'],

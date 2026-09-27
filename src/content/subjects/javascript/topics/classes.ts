@@ -40,6 +40,25 @@ class Counter {
   ],
   qa: [
     {
+      q: 'How do ES2015 classes differ from ES5 constructor functions?',
+      tag: 'Asked often',
+      a: [
+        'Calling a class without `new` throws; a constructor function just runs.',
+        'Class declarations are in the TDZ until defined; function declarations are hoisted.',
+        'Class bodies are always strict mode, and methods are non-enumerable.',
+        'Inheritance is `extends`/`super` instead of `Parent.call(this)` plus `Object.create(Parent.prototype)`.',
+        'Classes support `#private` fields and `static` blocks.',
+      ],
+    },
+    {
+      q: 'How does inheritance work in ES2015 classes?',
+      a: [
+        '`class Dog extends Animal` links `Dog.prototype` to `Animal.prototype` (for methods) and `Dog` to `Animal` (for static members).',
+        'The subclass constructor must call `super(...)` before using `this`; if you omit the constructor, one that forwards all arguments is added for you.',
+        '`super.method()` calls the parent\'s version of a method.',
+      ],
+    },
+    {
       q: 'Are JavaScript classes real classes?',
       tag: 'Asked often',
       a: [

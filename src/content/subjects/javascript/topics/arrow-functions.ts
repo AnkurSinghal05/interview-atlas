@@ -31,6 +31,29 @@ const broken = () => { ok: true }; // returns undefined`),
   ],
   qa: [
     {
+      q: 'Why use arrow functions inside constructors (or as class fields)?',
+      a: [
+        'An arrow created inside the constructor captures that instance as its `this` forever.',
+        'So it can be passed around as a callback (`button.onclick = this.handleClick`) without `bind`.',
+        'The cost: each instance gets its own copy of the function instead of sharing one on the prototype.',
+      ],
+      code: c(`
+function Counter() {
+  this.count = 0;
+  this.inc = () => { this.count++; }; // this is always this Counter
+}
+const counter = new Counter();
+setTimeout(counter.inc); // still works, no bind needed`),
+    },
+    {
+      q: 'What are practical use cases for arrow functions?',
+      a: [
+        'Short callbacks: `items.map((x) => x.id)`.',
+        'Callbacks inside methods that need the outer `this` (timers, promise chains, event handlers set up in a class).',
+        'Small inline helpers and function factories: `const add = (a) => (b) => a + b`.',
+      ],
+    },
+    {
       q: 'How do arrow functions differ from regular functions?',
       tag: 'Asked often',
       a: [

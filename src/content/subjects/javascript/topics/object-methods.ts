@@ -32,6 +32,28 @@ Object.fromEntries(Object.entries(p).map(([k, v]) => [k, v * 10]));
   ],
   qa: [
     {
+      q: 'What are the different ways to create objects in JavaScript?',
+      tag: 'Asked often',
+      a: [
+        'Object literal: `{ name: "Ada" }`.',
+        'Constructor function with `new`: `new Person("Ada")`.',
+        '`class` syntax: `new User("Ada")`.',
+        '`Object.create(proto)` to choose the prototype (or `null` for none).',
+        'Factory function that returns a literal: `createUser("Ada")`.',
+        '`Object.assign({}, ...)`, `Object.fromEntries(...)`, `structuredClone(...)` to build from other data.',
+      ],
+    },
+    {
+      q: 'How do you iterate over array items?',
+      a: [
+        'Classic `for (let i = 0; i < arr.length; i++)`: fastest control, can `break`.',
+        '`arr.forEach(cb)`: simple, cannot `break` or `await` properly.',
+        '`for (const item of arr)`: readable, supports `break`, `continue` and `await`.',
+        '`for (const [i, item] of arr.entries())`: when you need the index too.',
+        'Avoid `for...in` on arrays: it iterates keys as strings and includes inherited enumerable properties.',
+      ],
+    },
+    {
       q: 'What are the ways to loop over an object?',
       tag: 'Asked often',
       a: [

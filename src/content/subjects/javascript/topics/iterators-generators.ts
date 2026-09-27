@@ -36,6 +36,26 @@ g.next(); // { value: undefined, done: true }`),
   ],
   qa: [
     {
+      q: 'How is async/await related to generators?',
+      a: [
+        'A generator can pause at `yield` and be resumed with a value. If you `yield` a promise and resume the generator when it settles, you get async/await.',
+        'Libraries like `co` did exactly this before `async/await` was added to the language.',
+      ],
+      code: c(`
+function run(genFn) {
+  const gen = genFn();
+  const step = (value) => {
+    const { value: promise, done } = gen.next(value);
+    if (!done) Promise.resolve(promise).then(step);
+  };
+  step();
+}
+run(function* () {
+  const user = yield fetchUser(); // behaves like await
+  console.log(user);
+});`),
+    },
+    {
       q: 'What is the difference between an iterable and an iterator?',
       tag: 'Asked often',
       a: [
