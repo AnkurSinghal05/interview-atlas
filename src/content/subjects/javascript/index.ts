@@ -62,6 +62,11 @@ import webStorage from './topics/web-storage';
 import fetchTopic from './topics/fetch';
 import scriptLoading from './topics/script-loading';
 import webWorkers from './topics/web-workers';
+import modernJs from './topics/modern-js';
+// Coding challenges
+import codingJunior from './topics/coding-junior';
+import codingMid from './topics/coding-mid';
+import codingSenior from './topics/coding-senior';
 
 const subject: Subject = {
   ...meta,
@@ -94,7 +99,7 @@ const subject: Subject = {
       id: 'collections',
       name: 'Arrays & collections',
       blurb: 'Built-in data structures and ways to walk through them.',
-      topics: [arrayMethods, strings, destructuringSpread, json, mapSet, weakmapWeakset, iteratorsGenerators],
+      topics: [arrayMethods, strings, destructuringSpread, json, mapSet, weakmapWeakset, iteratorsGenerators, modernJs],
     },
     {
       id: 'patterns',
@@ -107,6 +112,12 @@ const subject: Subject = {
       name: 'Browser & DOM',
       blurb: 'JavaScript where it meets the page.',
       topics: [eventPropagation, eventDelegation, webStorage, fetchTopic, scriptLoading, webWorkers],
+    },
+    {
+      id: 'coding',
+      name: 'Coding challenges',
+      blurb: 'The "implement it from scratch" rounds, grouped by the level they are usually asked at.',
+      topics: [codingJunior, codingMid, codingSenior],
     },
   ],
 };

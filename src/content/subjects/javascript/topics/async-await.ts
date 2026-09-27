@@ -39,6 +39,15 @@ await Promise.all(ids.map(load));`),
   ],
   qa: [
     {
+      q: 'What is the difference between async/await and raw promises?',
+      a: [
+        'Same machinery: `async/await` is syntax on top of promises, and an async function returns a promise.',
+        '`await` makes async code read top to bottom and lets you use normal `try/catch`, loops and conditionals.',
+        'Raw `.then` chains are handy for simple one-liners and for combinators like `Promise.all`.',
+        'Easy mistake with `await`: accidentally running independent tasks one after another instead of in parallel.',
+      ],
+    },
+    {
       q: 'What does an `async` function return?',
       tag: 'Asked often',
       a: ['Always a promise. A returned value becomes the fulfilment value; a thrown error becomes the rejection reason.'],

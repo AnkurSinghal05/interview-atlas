@@ -37,6 +37,39 @@ fetch(url, { signal: AbortSignal.timeout(5000) });`),
   ],
   qa: [
     {
+      q: 'What is AJAX?',
+      tag: 'Asked often',
+      a: [
+        'Asynchronous JavaScript and XML: fetching data from the server in the background and updating part of the page without a full reload.',
+        'Despite the name, the data is usually JSON today, and the tool is usually `fetch`.',
+      ],
+    },
+    {
+      q: 'What are the pros and cons of AJAX?',
+      a: [
+        '**Pros:** faster, smoother pages; less data transferred; the page keeps its state while loading.',
+        '**Cons:** more JavaScript to write and debug; back button and deep links need extra work; content loaded later can be harder for crawlers and screen readers unless handled well.',
+      ],
+    },
+    {
+      q: 'What are the differences between `XMLHttpRequest` and `fetch()`?',
+      a: [
+        '`fetch` is promise-based and works with `async/await`; XHR uses events and callbacks.',
+        '`fetch` does not reject on HTTP errors (check `res.ok`); XHR reports status in `onload`.',
+        'XHR has built-in upload progress events; `fetch` needs streams for progress.',
+        'Cancel: `AbortController` for `fetch`, `xhr.abort()` for XHR.',
+      ],
+      code: c(`
+// XMLHttpRequest
+const xhr = new XMLHttpRequest();
+xhr.open('GET', '/api/user');
+xhr.onload = () => console.log(JSON.parse(xhr.responseText));
+xhr.send();
+
+// fetch
+const user = await (await fetch('/api/user')).json();`),
+    },
+    {
       q: 'Does `fetch` reject on a 404 or 500 response?',
       tag: 'Asked often',
       a: ['No. It only rejects on network errors, CORS failures or aborts. Check `response.ok` or `response.status` and throw yourself.'],
