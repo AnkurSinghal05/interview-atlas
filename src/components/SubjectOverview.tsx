@@ -1,11 +1,18 @@
+import { useState } from 'react';
+import { ArrowRight, Clock } from 'lucide-react';
 import type { Subject, Topic } from '@/content/types';
 import { allTopics } from '@/content/registry';
 import { formatMinutes, isReady, totalMinutes } from '@/content/helpers';
 import { topicHref } from '@/lib/useHashRoute';
 import { RichText } from '@/lib/RichText';
 import { scoreKey, useScores } from '@/lib/scores';
+import { tintStyle } from '@/lib/tint';
+import { useExpandOrigin } from '@/lib/useExpandOrigin';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { StatusDot } from './StatusDot';
 
 function topicCounts(t: Topic) {
@@ -18,6 +25,13 @@ function topicCounts(t: Topic) {
 
 export function SubjectOverview({ subject }: { subject: Subject }) {
   const { scores } = useScores();
+  const [preview, setPreview] = useState<{
+    topic: Topic;
+    area: string;
+    hue: number;
+  }>();
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const origin = useExpandOrigin();
   const topics = allTopics(subject);
   const ready = topics.filter(isReady);
   const questions = ready.reduce((n, t) => n + (t.qa?.length ?? 0) + (t.problems?.length ?? 0) + (t.quiz?.length ?? 0), 0);
@@ -64,11 +78,18 @@ export function SubjectOverview({ subject }: { subject: Subject }) {
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,290px),1fr))] gap-3.5">
         {subject.categories.map((cat, ci) => (
-          <Card key={cat.id} className="gap-1.5 px-3.5 pt-4 pb-3">
+          <Card
+            key={cat.id}
+            style={tintStyle(ci)}
+            className="tint bg-tint border-tint-border border-t-tint-strong gap-1.5 border-t-4 px-3.5 pt-4 pb-3"
+          >
             <div className="flex items-baseline gap-2.5 px-1.5">
-              <span className="text-muted-foreground font-mono text-xs font-semibold">{String(ci + 1).padStart(2, '0')}</span>
+              <span className="text-tint-ink font-mono text-xs font-semibold">{String(ci + 1).padStart(2, '0')}</span>
               <h2 className="text-[19px] font-bold">{cat.name}</h2>
-              <span className="text-muted-foreground ml-auto text-xs font-semibold whitespace-nowrap tabular-nums" title="Time to master this area">
+              <span
+                className="text-muted-foreground ml-auto text-xs font-semibold whitespace-nowrap tabular-nums"
+                title="Time to master this area"
+              >
                 {formatMinutes(totalMinutes(cat.topics))}
               </span>
             </div>
@@ -85,9 +106,17 @@ export function SubjectOverview({ subject }: { subject: Subject }) {
                   <li key={t.id}>
                     <a
                       href={topicHref(subject.id, t.id)}
+                      onClick={(e) => {
+                        // Plain clicks open a preview; modified clicks still open the topic (e.g. in a new tab).
+                        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+                        e.preventDefault();
+                        origin.from(e.currentTarget);
+                        setPreview({ topic: t, area: cat.name, hue: ci });
+                        setPreviewOpen(true);
+                      }}
                       className={cn(
-                        'flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm',
-                        r ? 'bg-subject/15 hover:bg-subject/25 font-semibold' : 'text-muted-foreground hover:bg-muted',
+                        'flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm transition-[background-color,transform] duration-150 hover:translate-x-0.5',
+                        r ? 'bg-tint-strong/15 hover:bg-tint-strong/25 font-semibold' : 'text-muted-foreground hover:bg-tint-hover',
                       )}
                     >
                       <StatusDot state={sc && sc.answered === sc.total ? 'done' : r ? 'ready' : 'stub'} />
@@ -111,6 +140,66 @@ export function SubjectOverview({ subject }: { subject: Subject }) {
           </Card>
         ))}
       </div>
+
+      <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+        {preview && (
+          <DialogContent
+            style={{ ...origin.style, ...tintStyle(preview.hue) }}
+            className="tint bg-tint border-tint-border border-t-tint-strong max-w-[600px] border-t-4"
+          >
+            <TopicPreview subjectId={subject.id} area={preview.area} topic={preview.topic} />
+          </DialogContent>
+        )}
+      </Dialog>
     </div>
+  );
+}
+
+function TopicPreview({ subjectId, area, topic }: { subjectId: string; area: string; topic: Topic }) {
+  const ready = isReady(topic);
+  return (
+    <>
+      <p className="text-tint-ink text-xs font-bold tracking-[0.1em] uppercase">{area}</p>
+      <DialogTitle className="font-display -mt-2 pr-8 text-2xl font-extrabold tracking-[-0.02em] md:text-3xl">{topic.title}</DialogTitle>
+      <div className="flex flex-wrap gap-2">
+        <Badge variant="outline" className="bg-transparent capitalize">
+          {topic.level}
+        </Badge>
+        <Badge variant="outline" className="text-muted-foreground gap-1 bg-transparent">
+          <Clock aria-hidden="true" />~{formatMinutes(topic.masteryMinutes)} to master
+        </Badge>
+        {ready && <Badge className="bg-tint-strong/20 text-tint-ink border-transparent">{topicCounts(topic)}</Badge>}
+      </div>
+      <DialogDescription asChild>
+        <p className="text-muted-foreground text-[16px]">
+          {topic.summary ? (
+            <RichText text={topic.summary} />
+          ) : ready ? (
+            'Open the topic to study it.'
+          ) : (
+            'On the map, not written yet. It gets its Q&A and quiz in the content pass.'
+          )}
+        </p>
+      </DialogDescription>
+      {!!topic.keyPoints?.length && (
+        <div className="flex flex-col gap-2">
+          <p className="text-sm font-bold">Key ideas</p>
+          <ul className="marker:text-tint-strong flex list-disc flex-col gap-1 pl-5 text-sm">
+            {topic.keyPoints.map((kp) => (
+              <li key={kp.title}>
+                <RichText text={kp.title} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <div className="mt-1 flex justify-end">
+        <Button asChild>
+          <a href={topicHref(subjectId, topic.id)}>
+            {ready ? 'Study this topic' : 'Open topic'} <ArrowRight />
+          </a>
+        </Button>
+      </div>
+    </>
   );
 }
