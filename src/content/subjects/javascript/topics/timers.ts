@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'timers',
   title: 'setTimeout, setInterval, rAF',
   level: 'intermediate',
+  masteryMinutes: 60,
   tags: ['setTimeout', 'setInterval', 'requestAnimationFrame', 'clearTimeout', 'minimum delay'],
   summary: 'Timers schedule a callback **no earlier than** the delay. The callback still waits for the call stack and microtasks to clear.',
   keyPoints: [

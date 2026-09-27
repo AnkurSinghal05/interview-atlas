@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'call-apply-bind',
   title: 'call, apply and bind',
   level: 'intermediate',
+  masteryMinutes: 90,
   tags: ['explicit binding', 'this', 'partial application', 'polyfill'],
   summary: '`call` and `apply` run a function now with a chosen `this`. `bind` returns a **new** function with `this` locked in.',
   keyPoints: [

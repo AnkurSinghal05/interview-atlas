@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'weakmap-weakset',
   title: 'WeakMap and WeakSet',
   level: 'advanced',
+  masteryMinutes: 45,
   tags: ['weak references', 'garbage collection', 'metadata', 'WeakRef'],
   summary: 'Weak collections hold object keys **without keeping them alive**. When nothing else references the key, the entry can be garbage-collected.',
   keyPoints: [

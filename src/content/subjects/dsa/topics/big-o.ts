@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'big-o',
   title: 'Big-O notation',
   level: 'beginner',
+  masteryMinutes: 90,
   tags: ['complexity', 'time', 'space'],
   summary: 'Big-O describes how the work grows as the input grows, ignoring constants and small terms.',
   keyPoints: [

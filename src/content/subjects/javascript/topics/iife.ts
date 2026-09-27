@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'iife',
   title: 'IIFE',
   level: 'beginner',
+  masteryMinutes: 30,
   tags: ['immediately invoked', 'module pattern', 'private scope'],
   summary: 'An **Immediately Invoked Function Expression** runs as soon as it is defined, giving you a private scope.',
   keyPoints: [

@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'coding-senior',
   title: 'Senior: implement it',
   level: 'advanced',
+  masteryMinutes: 480,
   tags: ['event emitter', 'Promise.all', 'Promise.allSettled', 'curry', 'getElementsByClassName'],
   summary: 'Five senior-level builds: an event emitter, `Promise.all`, `Promise.allSettled`, `curry` and `getElementsByClassName`. They test async ordering, API design and DOM traversal.',
   keyPoints: [

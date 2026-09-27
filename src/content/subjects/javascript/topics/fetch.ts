@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'fetch',
   title: 'fetch and AbortController',
   level: 'intermediate',
+  masteryMinutes: 90,
   tags: ['HTTP', 'response.ok', 'cancel requests', 'timeouts', 'CORS'],
   summary: '`fetch` returns a promise for a `Response`. It only rejects on **network** failure, so you must check `response.ok` yourself.',
   keyPoints: [

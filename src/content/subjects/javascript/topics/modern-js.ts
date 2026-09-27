@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'modern-js',
   title: 'Modern JS (ES2022+)',
   level: 'intermediate',
+  masteryMinutes: 60,
   tags: ['toSorted', 'findLast', 'groupBy', 'Set methods', 'iterator helpers', 'Array.fromAsync'],
   summary: 'The newer built-ins interviewers now expect you to know: non-mutating array copies, `findLast`, `groupBy`, Set algebra and iterator helpers.',
   keyPoints: [

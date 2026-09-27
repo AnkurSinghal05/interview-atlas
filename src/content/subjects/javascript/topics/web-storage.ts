@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'web-storage',
   title: 'localStorage, sessionStorage, cookies',
   level: 'beginner',
+  masteryMinutes: 30,
   tags: ['persistence', 'cookies', 'HttpOnly', 'IndexedDB'],
   summary: 'Three ways to keep data in the browser. They differ in **lifetime**, **size**, and whether they are **sent to the server**.',
   keyPoints: [

@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'event-emitter',
   title: 'Event emitter and pub/sub',
   level: 'intermediate',
+  masteryMinutes: 90,
   tags: ['observer pattern', 'on', 'off', 'once', 'emit', 'machine coding'],
   summary: 'An event emitter keeps a list of listeners per event name and calls them when the event is emitted. It is the **observer** pattern.',
   keyPoints: [

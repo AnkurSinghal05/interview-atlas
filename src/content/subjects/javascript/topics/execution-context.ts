@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'execution-context',
   title: 'Execution context and call stack',
   level: 'intermediate',
+  masteryMinutes: 90,
   tags: ['call stack', 'global context', 'stack overflow', 'single-threaded'],
   summary: 'Every function call gets an **execution context**, pushed on the **call stack** and popped when it returns.',
   keyPoints: [

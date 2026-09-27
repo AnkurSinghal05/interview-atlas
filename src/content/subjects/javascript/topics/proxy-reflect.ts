@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'proxy-reflect',
   title: 'Proxy and Reflect',
   level: 'advanced',
+  masteryMinutes: 90,
   tags: ['traps', 'metaprogramming', 'validation', 'reactivity'],
   summary: 'A `Proxy` wraps an object and intercepts operations like get, set and delete. `Reflect` performs the default behaviour.',
   keyPoints: [

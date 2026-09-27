@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'array-basics',
   title: 'Array basics & formulas',
   level: 'beginner',
+  masteryMinutes: 120,
   tags: ['arrays', 'formulas', 'subarrays', 'rotation', 'reverse', 'in place'],
   summary:
     'The counting formulas and index tricks that every array question leans on, plus the warm-up problems interviewers open with.',

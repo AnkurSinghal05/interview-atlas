@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'arrow-functions',
   title: 'Arrow functions',
   level: 'beginner',
+  masteryMinutes: 45,
   tags: ['lexical this', 'arguments', 'implicit return'],
   summary: 'Arrows are short functions that **borrow** `this` and `arguments` from the surrounding code and cannot be used with `new`.',
   keyPoints: [

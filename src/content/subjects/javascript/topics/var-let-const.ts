@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'var-let-const',
   title: 'var, let and const',
   level: 'beginner',
+  masteryMinutes: 45,
   tags: ['declarations', 'block scope', 'redeclaration'],
   summary: '`var` is function-scoped and hoisted as `undefined`. `let` and `const` are **block-scoped** and cannot be used before their line.',
   keyPoints: [

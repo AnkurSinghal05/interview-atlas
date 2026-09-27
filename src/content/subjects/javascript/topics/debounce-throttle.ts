@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'debounce-throttle',
   title: 'Debounce and throttle',
   level: 'intermediate',
+  masteryMinutes: 120,
   tags: ['rate limiting', 'timers', 'search input', 'scroll'],
   summary: '**Debounce** waits for a pause before running. **Throttle** runs at most once per time window.',
   keyPoints: [

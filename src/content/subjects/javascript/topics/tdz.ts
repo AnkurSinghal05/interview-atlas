@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'tdz',
   title: 'Temporal dead zone',
   level: 'intermediate',
+  masteryMinutes: 45,
   tags: ['let', 'const', 'class', 'ReferenceError'],
   summary: 'The **TDZ** is the stretch between entering a scope and reaching a `let`/`const`/`class` line. Touching the variable there throws.',
   keyPoints: [

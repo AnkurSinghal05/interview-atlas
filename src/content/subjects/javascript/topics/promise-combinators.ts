@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'promise-combinators',
   title: 'Promise.all, race, any, allSettled',
   level: 'intermediate',
+  masteryMinutes: 120,
   tags: ['parallel', 'fail-fast', 'timeouts', 'polyfill'],
   summary: 'Four ways to wait on many promises. They differ in **when** they settle and **what** they return.',
   keyPoints: [

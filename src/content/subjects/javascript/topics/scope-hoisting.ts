@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'scope-hoisting',
   title: 'Scope and hoisting',
   level: 'beginner',
+  masteryMinutes: 60,
   tags: ['lexical scope', 'scope chain', 'function declarations', 'shadowing'],
   summary: 'Before running a scope, JS registers its declarations. That is **hoisting**: functions arrive ready to call, `var` arrives as `undefined`.',
   keyPoints: [

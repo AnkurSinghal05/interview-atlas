@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'callbacks',
   title: 'Callbacks',
   level: 'beginner',
+  masteryMinutes: 45,
   tags: ['async', 'callback hell', 'error-first', 'inversion of control'],
   summary: 'A callback is a function you hand over to be called **later**. It was JS\'s first async tool and the reason promises exist.',
   keyPoints: [

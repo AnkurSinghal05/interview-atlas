@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'async-await',
   title: 'async / await',
   level: 'intermediate',
+  masteryMinutes: 90,
   tags: ['async functions', 'await', 'try/catch', 'sequential vs parallel'],
   summary: '`async` functions always return a promise. `await` pauses **that function** (not the whole program) until a promise settles.',
   keyPoints: [

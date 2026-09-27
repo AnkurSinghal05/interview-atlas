@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'array-methods',
   title: 'Array methods',
   level: 'beginner',
+  masteryMinutes: 90,
   tags: ['map', 'filter', 'reduce', 'sort', 'mutating vs non-mutating'],
   summary: 'Know which methods **return a new array** and which **change the original**. Interviewers love that distinction.',
   keyPoints: [

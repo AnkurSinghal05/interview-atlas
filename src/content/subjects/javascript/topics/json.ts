@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'json',
   title: 'JSON',
   level: 'beginner',
+  masteryMinutes: 30,
   tags: ['stringify', 'parse', 'replacer', 'reviver', 'toJSON'],
   summary: '`JSON.stringify` turns data into text, `JSON.parse` turns it back. Anything JSON cannot represent is dropped or changed.',
   keyPoints: [

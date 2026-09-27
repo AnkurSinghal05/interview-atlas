@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'optional-chaining',
   title: 'Optional chaining and ??',
   level: 'beginner',
+  masteryMinutes: 30,
   tags: ['?.', '??', '??=', '||=', '&&='],
   summary: '`?.` stops and returns `undefined` when the left side is `null`/`undefined`. `??` gives a fallback only for those two values.',
   keyPoints: [

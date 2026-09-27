@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'map-set',
   title: 'Map and Set',
   level: 'intermediate',
+  masteryMinutes: 45,
   tags: ['Map', 'Set', 'unique values', 'object keys', 'LRU cache'],
   summary: '`Map` is a key-value store that accepts **any** key type. `Set` stores **unique** values. Both remember insertion order.',
   keyPoints: [

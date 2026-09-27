@@ -35,7 +35,8 @@ src/
 
 ## Add a subject
 Create `src/content/subjects/react/` with `meta.ts` and `index.ts` (copy `dsa/`). It shows up in the subject switcher
-automatically. Unwritten topics are `stub('id', 'Title', 'beginner')`; written ones are `Topic` objects in `topics/`.
+automatically. Unwritten topics are `stub('id', 'Title', 'beginner', 120)`; written ones are `Topic` objects in `topics/`.
+Every topic has `masteryMinutes`, a rough time to master it; the map shows it per topic and totals it per area and subject.
 
 ## Add a quiz type
 1. Add an interface to the `QuizQuestion` union in `src/content/types.ts`.

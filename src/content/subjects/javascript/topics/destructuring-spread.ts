@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'destructuring-spread',
   title: 'Destructuring and spread',
   level: 'beginner',
+  masteryMinutes: 45,
   tags: ['destructuring', 'spread', 'rest', 'defaults', 'swap'],
   summary: 'Destructuring **unpacks** values into variables. Spread **expands** arrays and objects into new ones.',
   keyPoints: [

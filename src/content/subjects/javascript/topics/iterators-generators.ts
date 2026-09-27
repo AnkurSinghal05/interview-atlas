@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'iterators-generators',
   title: 'Iterators and generators',
   level: 'advanced',
+  masteryMinutes: 120,
   tags: ['Symbol.iterator', 'for...of', 'yield', 'lazy sequences', 'async iteration'],
   summary: 'An **iterator** hands out values one at a time via `next()`. A **generator** is a function that pauses at each `yield` to produce them.',
   keyPoints: [

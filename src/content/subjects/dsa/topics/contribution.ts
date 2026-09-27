@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'contribution',
   title: 'Subarrays & contribution technique',
   level: 'intermediate',
+  masteryMinutes: 150,
   tags: ['subarrays', 'contribution', 'sum of subarrays', 'xor', 'counting'],
   summary:
     'Instead of listing every subarray (or pair) and adding them up, ask how much each element contributes to the total, then add those contributions.',

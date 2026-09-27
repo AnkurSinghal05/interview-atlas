@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'memoization',
   title: 'Memoization',
   level: 'intermediate',
+  masteryMinutes: 60,
   tags: ['caching', 'pure functions', 'closures', 'dynamic programming'],
   summary: 'Memoization caches a function\'s results by its arguments, so repeated calls with the same input return instantly.',
   keyPoints: [

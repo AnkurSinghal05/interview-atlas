@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'two-pointers',
   title: 'Two pointers',
   level: 'beginner',
+  masteryMinutes: 180,
   tags: ['two pointers', 'sorted array', 'pair sum', '3sum', 'container', 'dutch national flag', 'merge'],
   summary:
     'Two indices walk through the array, and every comparison lets you throw away a whole row of pairs. On sorted data it turns O(n²) pair searches into O(n).',

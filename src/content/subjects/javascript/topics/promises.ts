@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'promises',
   title: 'Promises',
   level: 'intermediate',
+  masteryMinutes: 150,
   tags: ['then', 'catch', 'finally', 'chaining', 'microtasks'],
   summary: 'A promise is a placeholder for a future value. It is **pending**, then settles once: **fulfilled** or **rejected**.',
   keyPoints: [

@@ -4,6 +4,7 @@ const topic: Topic = {
   id: 'script-loading',
   title: 'async vs defer and page load',
   level: 'intermediate',
+  masteryMinutes: 45,
   tags: ['script tags', 'DOMContentLoaded', 'render blocking', 'critical rendering path'],
   summary: 'A plain `<script>` stops HTML parsing. `defer` runs after parsing, in order. `async` runs as soon as it downloads, in any order.',
   keyPoints: [

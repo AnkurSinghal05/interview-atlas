@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'data-types',
   title: 'Data types',
   level: 'beginner',
+  masteryMinutes: 45,
   tags: ['primitives', 'typeof', 'reference'],
   summary: 'Seven **primitive** types are copied by value; everything else is an **object** and is shared by reference.',
   keyPoints: [

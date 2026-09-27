@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'garbage-collection',
   title: 'Memory and garbage collection',
   level: 'advanced',
+  masteryMinutes: 60,
   tags: ['mark and sweep', 'reachability', 'memory leaks', 'stack vs heap'],
   summary: 'JS frees memory automatically: anything no longer **reachable** from the roots gets collected. Leaks happen when you keep references by accident.',
   keyPoints: [

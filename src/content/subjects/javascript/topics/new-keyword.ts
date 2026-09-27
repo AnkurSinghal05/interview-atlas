@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'new-keyword',
   title: 'The new keyword',
   level: 'intermediate',
+  masteryMinutes: 60,
   tags: ['constructor', 'instances', 'Object.create'],
   summary: '`new Fn()` does four things: create an object, link its prototype, run `Fn` with `this` set to it, and return it.',
   keyPoints: [

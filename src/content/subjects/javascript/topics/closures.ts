@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'closures',
   title: 'Closures',
   level: 'intermediate',
+  masteryMinutes: 120,
   tags: ['scope', 'lexical environment', 'private state'],
   summary: 'A function remembers the variables from where it was **created**, even after that outer function has returned.',
   keyPoints: [

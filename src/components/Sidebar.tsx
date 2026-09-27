@@ -1,7 +1,7 @@
 import { Search } from 'lucide-react';
 import type { Subject, Topic } from '@/content/types';
 import { subjectList } from '@/content/registry';
-import { isReady } from '@/content/helpers';
+import { formatMinutes, isReady } from '@/content/helpers';
 import { subjectHref, topicHref } from '@/lib/useHashRoute';
 import { scoreKey, useScores } from '@/lib/scores';
 import { cn } from '@/lib/utils';
@@ -100,7 +100,9 @@ export function Sidebar({ subject, topicId, query, onQueryChange, onNavigate }: 
                 >
                   <StatusDot state={sc && sc.answered === sc.total ? 'done' : ready ? 'ready' : 'stub'} />
                   <span className="min-w-0 flex-1">{t.title}</span>
-                  {!ready && <span className="text-muted-foreground text-[11px]">soon</span>}
+                  <span className="text-muted-foreground text-[11px] tabular-nums" title="Time to master">
+                    {ready ? formatMinutes(t.masteryMinutes) : `soon · ${formatMinutes(t.masteryMinutes)}`}
+                  </span>
                 </a>
               );
             })}

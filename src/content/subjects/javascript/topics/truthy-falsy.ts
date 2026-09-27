@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'truthy-falsy',
   title: 'Truthy and falsy',
   level: 'beginner',
+  masteryMinutes: 30,
   tags: ['boolean context', '&&', '||', '??'],
   summary: 'Only **eight** values are falsy. Everything else, including `[]`, `{}` and `"0"`, is truthy.',
   keyPoints: [

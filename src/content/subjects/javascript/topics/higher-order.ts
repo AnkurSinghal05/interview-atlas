@@ -5,6 +5,7 @@ const topic: Topic = {
   id: 'higher-order',
   title: 'Higher-order functions',
   level: 'beginner',
+  masteryMinutes: 60,
   tags: ['first-class functions', 'callbacks', 'pure functions', 'composition'],
   summary: 'Functions are values. A **higher-order function** takes a function as an argument, returns one, or both.',
   keyPoints: [
