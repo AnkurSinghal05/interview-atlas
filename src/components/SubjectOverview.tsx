@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ArrowRight, Clock } from 'lucide-react';
 import type { Subject, Topic } from '@/content/types';
 import { allTopics } from '@/content/registry';
-import { formatMinutes, isReady, totalMinutes } from '@/content/helpers';
+import { formatMinutes, formatTimes, isReady, reviseMinutes, totalMinutes, totalReviseMinutes } from '@/content/helpers';
 import { topicHref } from '@/lib/useHashRoute';
 import { RichText } from '@/lib/RichText';
 import { scoreKey, useScores } from '@/lib/scores';
@@ -40,7 +40,8 @@ export function SubjectOverview({ subject }: { subject: Subject }) {
     [topics.length, 'topics'],
     [ready.length, 'ready to study'],
     [questions, 'questions'],
-    [formatMinutes(totalMinutes(topics)), 'to master'],
+    [formatMinutes(totalMinutes(topics)), 'to learn'],
+    [formatMinutes(totalReviseMinutes(topics)), 'to revise'],
   ];
 
   return (
@@ -53,7 +54,7 @@ export function SubjectOverview({ subject }: { subject: Subject }) {
             <RichText text={subject.tagline} />
           </p>
         </div>
-        <dl className="m-0 grid w-full grid-cols-2 gap-2 sm:w-auto sm:grid-cols-5">
+        <dl className="m-0 grid w-full grid-cols-2 gap-2 sm:w-auto sm:grid-cols-3 lg:grid-cols-6">
           {stats.map(([n, label]) => (
             <Card key={label} className="min-w-[92px] flex-col-reverse rounded-lg px-3.5 py-2.5">
               <dt className="text-muted-foreground text-xs">{label}</dt>
@@ -73,7 +74,7 @@ export function SubjectOverview({ subject }: { subject: Subject }) {
         <span className="inline-flex items-center gap-1.5">
           <StatusDot state="done" /> Practised this visit
         </span>
-        <span>Times are a rough estimate to master each topic for interviews.</span>
+        <span>Times read learn · revise: learning a topic from scratch, then revising it before an interview.</span>
       </div>
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(min(100%,290px),1fr))] gap-3.5">
@@ -86,11 +87,8 @@ export function SubjectOverview({ subject }: { subject: Subject }) {
             <div className="flex items-baseline gap-2.5 px-1.5">
               <span className="text-tint-ink font-mono text-xs font-semibold">{String(ci + 1).padStart(2, '0')}</span>
               <h2 className="text-[19px] font-bold">{cat.name}</h2>
-              <span
-                className="text-muted-foreground ml-auto text-xs font-semibold whitespace-nowrap tabular-nums"
-                title="Time to master this area"
-              >
-                {formatMinutes(totalMinutes(cat.topics))}
+              <span className="text-muted-foreground ml-auto text-xs font-semibold whitespace-nowrap tabular-nums" title="Time to learn · time to revise this area">
+                {formatMinutes(totalMinutes(cat.topics))} · {formatMinutes(totalReviseMinutes(cat.topics))}
               </span>
             </div>
             {cat.blurb && (
@@ -127,10 +125,10 @@ export function SubjectOverview({ subject }: { subject: Subject }) {
                         </span>
                       </span>
                       <span
-                        className="text-muted-foreground w-9 text-right text-xs font-semibold whitespace-nowrap tabular-nums"
-                        title="Time to master"
+                        className="text-muted-foreground text-right text-xs font-semibold whitespace-nowrap tabular-nums"
+                        title="Time to learn · time to revise"
                       >
-                        {formatMinutes(t.masteryMinutes)}
+                        {formatTimes(t)}
                       </span>
                     </a>
                   </li>
@@ -166,7 +164,10 @@ function TopicPreview({ subjectId, area, topic }: { subjectId: string; area: str
           {topic.level}
         </Badge>
         <Badge variant="outline" className="text-muted-foreground gap-1 bg-transparent">
-          <Clock aria-hidden="true" />~{formatMinutes(topic.masteryMinutes)} to master
+          <Clock aria-hidden="true" />~{formatMinutes(topic.masteryMinutes)} to learn
+        </Badge>
+        <Badge variant="outline" className="text-muted-foreground gap-1 bg-transparent">
+          <Clock aria-hidden="true" />~{formatMinutes(reviseMinutes(topic))} to revise
         </Badge>
         {ready && <Badge className="bg-tint-strong/20 text-tint-ink border-transparent">{topicCounts(topic)}</Badge>}
       </div>

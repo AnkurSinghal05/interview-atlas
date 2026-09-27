@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Subject } from '@/content/types';
 import { allTopics, type TopicWithCategory } from '@/content/registry';
 import { Clock } from 'lucide-react';
-import { formatMinutes, isReady } from '@/content/helpers';
+import { formatMinutes, isReady, reviseMinutes } from '@/content/helpers';
 import { subjectHref, topicHref } from '@/lib/useHashRoute';
 import { RichText } from '@/lib/RichText';
 import { scoreKey } from '@/lib/scores';
@@ -52,8 +52,11 @@ export function TopicPage({ subject, topic }: { subject: Subject; topic: TopicWi
           <Badge variant="outline" className={cn('bg-transparent', LEVEL_STYLE[topic.level])}>
             {topic.level[0].toUpperCase() + topic.level.slice(1)}
           </Badge>
-          <Badge variant="outline" className="text-muted-foreground gap-1 bg-transparent" title="Rough time to master this topic">
-            <Clock className="size-3.5" aria-hidden="true" />~{formatMinutes(topic.masteryMinutes)} to master
+          <Badge variant="outline" className="text-muted-foreground gap-1 bg-transparent" title="Rough time to learn this topic from scratch">
+            <Clock className="size-3.5" aria-hidden="true" />~{formatMinutes(topic.masteryMinutes)} to learn
+          </Badge>
+          <Badge variant="outline" className="text-muted-foreground gap-1 bg-transparent" title="Rough time to revise it before an interview">
+            <Clock className="size-3.5" aria-hidden="true" />~{formatMinutes(reviseMinutes(topic))} to revise
           </Badge>
         </div>
         {topic.summary && (
