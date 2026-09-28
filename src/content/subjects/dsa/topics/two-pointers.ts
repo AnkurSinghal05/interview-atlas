@@ -153,6 +153,27 @@ function pairSum(nums, target) {
           space: 'O(1)',
         },
       ],
+      alternatives: [
+        {
+          name: 'Hash map',
+          idea: [
+            'Store each value with its index. For every value, look up `target - value` among the earlier ones.',
+          ],
+          code: c(`
+function pairSum(nums, target) {
+  const seen = new Map();
+  for (let j = 0; j < nums.length; j++) {
+    const need = target - nums[j];
+    if (seen.has(need)) return [seen.get(need), j];
+    if (!seen.has(nums[j])) seen.set(nums[j], j);
+  }
+  return [];
+}`),
+          time: 'O(n)',
+          space: 'O(n)',
+          tradeoff: 'Does not need sorted input, but uses O(n) memory. On sorted input, two pointers get the same time with O(1) space.',
+        },
+      ],
     },
     {
       id: 'three-sum',

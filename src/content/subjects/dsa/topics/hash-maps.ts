@@ -6,7 +6,7 @@ const topic: Topic = {
   title: 'Hashing on arrays',
   level: 'beginner',
   masteryMinutes: 150,
-  tags: ['hash map', 'set', 'frequency', 'two sum', 'majority element', 'consecutive sequence'],
+  tags: ['hash map', 'set', 'frequency', 'anagram', 'two sum', 'majority element', 'consecutive sequence'],
   summary:
     'A `Map` or `Set` answers "have I seen this?" in O(1). Trading O(n) memory for that lookup is the most common way to beat an O(n²) array scan.',
   keyPoints: [
@@ -81,6 +81,120 @@ for (let i = 0; i < nums.length; i++) {
     },
   ],
   problems: [
+    {
+      id: 'valid-anagram',
+      title: 'Valid anagram',
+      difficulty: 'easy',
+      statement: 'Return `true` if `t` uses exactly the same letters as `s`, the same number of times. Both are lowercase English letters.',
+      fn: 'isAnagram',
+      params: ['s', 't'],
+      examples: [
+        { args: ['anagram', 'nagaram'], output: true },
+        { args: ['rat', 'car'], output: false },
+        { args: ['aab', 'abb'], output: false, note: 'same letters, different counts' },
+        { args: ['ab', 'abc'], output: false },
+      ],
+      approaches: [
+        {
+          name: 'Brute force',
+          idea: ['For each letter of `s`, find a matching unused letter in `t` and cross it out.'],
+          code: c(`
+function isAnagram(s, t) {
+  if (s.length !== t.length) return false;
+  const rest = t.split('');
+  for (const ch of s) {
+    const i = rest.indexOf(ch);
+    if (i === -1) return false;
+    rest.splice(i, 1);
+  }
+  return true;
+}`),
+          time: 'O(n²)',
+          space: 'O(n)',
+        },
+        {
+          name: 'Sort and compare',
+          idea: ['Anagrams become the same string once their letters are sorted.'],
+          code: c(`
+function isAnagram(s, t) {
+  if (s.length !== t.length) return false;
+  const sort = (x) => x.split('').sort().join('');
+  return sort(s) === sort(t);
+}`),
+          time: 'O(n log n)',
+          space: 'O(n)',
+        },
+        {
+          name: 'Count array (26 slots)',
+          idea: [
+            'One slot per letter: `s[i]` adds 1, `t[i]` subtracts 1, in the same loop.',
+            'Anagrams leave every slot at 0. The array is always 26 long, so space is O(1).',
+          ],
+          code: c(`
+function isAnagram(s, t) {
+  if (s.length !== t.length) return false;
+  const arr = new Array(26).fill(0);
+  for (let i = 0; i < s.length; i++) {
+    arr[s.charCodeAt(i) - 97]++;
+    arr[t.charCodeAt(i) - 97]--;
+  }
+  return arr.every((x) => x === 0);
+}`),
+          time: 'O(n)',
+          space: 'O(1)',
+        },
+      ],
+      alternatives: [
+        {
+          name: 'Hash map count',
+          idea: [
+            'Same +1 / -1 idea, but the counts live in an object keyed by the character.',
+            'Then check that every count is back to 0.',
+          ],
+          code: c(`
+function isAnagram(s, t) {
+  if (s.length !== t.length) return false;
+  const map = {};
+  for (let i = 0; i < s.length; i++) {
+    map[s[i]] = (map[s[i]] ?? 0) + 1;
+    map[t[i]] = (map[t[i]] ?? 0) - 1;
+  }
+  for (const ch in map) {
+    if (map[ch] !== 0) return false;
+  }
+  return true;
+}`),
+          time: 'O(n)',
+          space: 'O(k)',
+          tradeoff:
+            'Works for any characters (Unicode, uppercase, digits), not just `a`–`z`. Space grows with the number of distinct characters k, and hashing is a bit slower than array indexing.',
+        },
+        {
+          name: 'Two Maps, then compare',
+          idea: ['Count each string into its own `Map`, then check that every key has the same count in both.'],
+          code: c(`
+function isAnagram(s, t) {
+  if (s.length !== t.length) return false;
+  const count = (str) => {
+    const m = new Map();
+    for (const ch of str) m.set(ch, (m.get(ch) ?? 0) + 1);
+    return m;
+  };
+  const a = count(s), b = count(t);
+  if (a.size !== b.size) return false;
+  for (const [ch, n] of a) if (b.get(ch) !== n) return false;
+  return true;
+}`),
+          time: 'O(n)',
+          space: 'O(k)',
+          tradeoff: 'Easiest to explain and reuse (the `count` helper also solves "group anagrams"), but it builds two maps instead of one.',
+        },
+      ],
+      notes: [
+        'Ask what the character set is. Only lowercase letters: the 26-slot array. Anything else: a hash map.',
+        'Checking the lengths first is free and lets you skip the work for obvious mismatches.',
+      ],
+    },
     {
       id: 'two-sum',
       title: 'Two sum (unsorted)',
@@ -208,6 +322,27 @@ function majorityElement(nums) {
           space: 'O(1)',
         },
       ],
+      alternatives: [
+        {
+          name: 'Bit counting',
+          idea: [
+            'For each of the 32 bits, the majority value decides it: set the bit if more than n/2 numbers have it.',
+          ],
+          code: c(`
+function majorityElement(nums) {
+  let result = 0;
+  for (let b = 0; b < 32; b++) {
+    let ones = 0;
+    for (const x of nums) if ((x >> b) & 1) ones++;
+    if (ones > nums.length / 2) result |= 1 << b;
+  }
+  return result;
+}`),
+          time: 'O(32·n)',
+          space: 'O(1)',
+          tradeoff: 'O(1) space like Boyer–Moore, but 32 passes. Mostly a bit-manipulation talking point.',
+        },
+      ],
       notes: ['If a majority is not guaranteed, do a second pass to confirm the candidate really appears more than n/2 times.'],
     },
     {
@@ -277,6 +412,32 @@ function longestConsecutive(nums) {
 }`),
           time: 'O(n)',
           space: 'O(n)',
+        },
+      ],
+      alternatives: [
+        {
+          name: 'Map of run lengths',
+          idea: [
+            'When x arrives, look up the run ending at `x - 1` and the run starting at `x + 1`, join them, and store the new length at both ends.',
+          ],
+          code: c(`
+function longestConsecutive(nums) {
+  const len = new Map();
+  let best = 0;
+  for (const x of nums) {
+    if (len.has(x)) continue;
+    const left = len.get(x - 1) ?? 0, right = len.get(x + 1) ?? 0;
+    const total = left + right + 1;
+    len.set(x, total);
+    len.set(x - left, total);
+    len.set(x + right, total);
+    best = Math.max(best, total);
+  }
+  return best;
+}`),
+          time: 'O(n)',
+          space: 'O(n)',
+          tradeoff: 'Works one element at a time (good for a stream), but the boundary updates are easy to get wrong.',
         },
       ],
     },

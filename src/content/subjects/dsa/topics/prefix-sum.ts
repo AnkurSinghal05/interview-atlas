@@ -156,6 +156,26 @@ function rangeSums(nums, queries) {
           space: 'O(n)',
         },
       ],
+      alternatives: [
+        {
+          name: 'Fenwick tree (binary indexed tree)',
+          idea: [
+            'Each node stores the sum of a power-of-two sized block.',
+            'Prefix sum and point update both walk O(log n) nodes.',
+          ],
+          code: c(`
+function rangeSums(nums, queries) {
+  const n = nums.length, bit = Array(n + 1).fill(0);
+  const add = (i, v) => { for (i++; i <= n; i += i & -i) bit[i] += v; };
+  const prefix = (i) => { let s = 0; for (i++; i > 0; i -= i & -i) s += bit[i]; return s; };
+  nums.forEach((x, i) => add(i, x));
+  return queries.map(([l, r]) => prefix(r) - (l > 0 ? prefix(l - 1) : 0));
+}`),
+          time: 'O((n + q) log n)',
+          space: 'O(n)',
+          tradeoff: 'Slower per query than a prefix array, but it also supports updating a value in O(log n). Use it when the array changes between queries.',
+        },
+      ],
     },
     {
       id: 'equilibrium-index',
@@ -410,6 +430,31 @@ function productExceptSelf(nums) {
 }`),
           time: 'O(n)',
           space: 'O(1) extra',
+        },
+      ],
+      alternatives: [
+        {
+          name: 'Total product with division',
+          idea: [
+            'Multiply everything, then divide by `nums[i]`.',
+            'Count zeros: with two or more, everything is 0; with exactly one, only that index is non-zero.',
+          ],
+          code: c(`
+function productExceptSelf(nums) {
+  let product = 1, zeros = 0;
+  for (const x of nums) {
+    if (x === 0) zeros++;
+    else product *= x;
+  }
+  return nums.map((x) => {
+    if (zeros > 1) return 0;
+    if (zeros === 1) return x === 0 ? product : 0;
+    return product / x;
+  });
+}`),
+          time: 'O(n)',
+          space: 'O(1) extra',
+          tradeoff: 'Simple, but most interviewers forbid division, and zeros need special cases.',
         },
       ],
       notes: ['Why not divide the total by `nums[i]`? Zeros break it, and interviewers usually forbid it.'],

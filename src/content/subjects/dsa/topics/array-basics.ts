@@ -185,6 +185,36 @@ function reverseArray(nums) {
           space: 'O(1)',
         },
       ],
+      alternatives: [
+        {
+          name: 'Built-in reverse',
+          idea: [
+            '`Array.prototype.reverse()` swaps in place, exactly like the two-pointer version.',
+          ],
+          code: c(`
+function reverseArray(nums) {
+  return nums.reverse();
+}`),
+          time: 'O(n)',
+          space: 'O(1)',
+          tradeoff: 'Best in real code. In an interview, write the two-pointer loop first, then mention it. Use `toReversed()` if you must not mutate.',
+        },
+        {
+          name: 'Recursive swap',
+          idea: [
+            'Swap the ends, then reverse the inside with a recursive call.',
+          ],
+          code: c(`
+function reverseArray(nums, l = 0, r = nums.length - 1) {
+  if (l >= r) return nums;
+  [nums[l], nums[r]] = [nums[r], nums[l]];
+  return reverseArray(nums, l + 1, r - 1);
+}`),
+          time: 'O(n)',
+          space: 'O(n) stack',
+          tradeoff: 'Shows recursion, but uses n/2 stack frames and can overflow the stack on huge arrays.',
+        },
+      ],
     },
     {
       id: 'rotate-array',
@@ -246,6 +276,51 @@ function rotate(nums, k) {
 }`),
           time: 'O(n)',
           space: 'O(1)',
+        },
+      ],
+      alternatives: [
+        {
+          name: 'Cyclic replacements',
+          idea: [
+            'Move each element straight to `(i + k) % n`, carrying the displaced one onward until the cycle closes.',
+            'Repeat from the next start until all n elements have moved.',
+          ],
+          code: c(`
+function rotate(nums, k) {
+  const n = nums.length;
+  k %= n;
+  let moved = 0;
+  for (let start = 0; moved < n; start++) {
+    let i = start, carry = nums[start];
+    do {
+      const next = (i + k) % n;
+      [nums[next], carry] = [carry, nums[next]];
+      i = next;
+      moved++;
+    } while (i !== start);
+  }
+  return nums;
+}`),
+          time: 'O(n)',
+          space: 'O(1)',
+          tradeoff: 'Each element moves exactly once, but the cycle logic is easy to get wrong. The three reversals are simpler to write and explain.',
+        },
+        {
+          name: 'Slice and join',
+          idea: [
+            'The last k elements go in front of the first n - k.',
+          ],
+          code: c(`
+function rotate(nums, k) {
+  const n = nums.length;
+  k %= n;
+  const rotated = nums.slice(n - k).concat(nums.slice(0, n - k));
+  for (let i = 0; i < n; i++) nums[i] = rotated[i];
+  return nums;
+}`),
+          time: 'O(n)',
+          space: 'O(n)',
+          tradeoff: 'Short and readable, but it builds a copy. Fine in real code, not what an "in place" question wants.',
         },
       ],
       notes: ['Always reduce `k %= n` first. Rotating left by k is the same as rotating right by `n - k`.'],
@@ -356,6 +431,38 @@ function missingNumber(nums) {
           space: 'O(1)',
         },
       ],
+      alternatives: [
+        {
+          name: 'XOR',
+          idea: [
+            '`x ^ x = 0` and `x ^ 0 = x`. XOR every index `0..n` with every value: the pairs cancel and the missing number is left.',
+          ],
+          code: c(`
+function missingNumber(nums) {
+  let x = nums.length;
+  for (let i = 0; i < nums.length; i++) x ^= i ^ nums[i];
+  return x;
+}`),
+          time: 'O(n)',
+          space: 'O(1)',
+          tradeoff: 'Same Big-O as the sum formula, but it can never overflow. Matters in Java/C++, not really in JS.',
+        },
+        {
+          name: 'Sort and find the gap',
+          idea: [
+            'After sorting, the first index where `nums[i] !== i` is the missing number (or n if none).',
+          ],
+          code: c(`
+function missingNumber(nums) {
+  const s = [...nums].sort((a, b) => a - b);
+  for (let i = 0; i < s.length; i++) if (s[i] !== i) return i;
+  return s.length;
+}`),
+          time: 'O(n log n)',
+          space: 'O(n)',
+          tradeoff: 'Slower, but the same scan finds several missing numbers or duplicates too.',
+        },
+      ],
       notes: ['XOR alternative: `x ^ x = 0`, so XOR-ing every index `0..n` and every value leaves only the missing number, with no overflow risk.'],
     },
     {
@@ -441,6 +548,25 @@ function moveZeroes(nums) {
 }`),
           time: 'O(n)',
           space: 'O(1)',
+        },
+      ],
+      alternatives: [
+        {
+          name: 'Overwrite, then fill zeros',
+          idea: [
+            'First pass copies every non-zero forward to `w`.',
+            'Second pass writes zeros from `w` to the end.',
+          ],
+          code: c(`
+function moveZeroes(nums) {
+  let w = 0;
+  for (const x of nums) if (x !== 0) nums[w++] = x;
+  while (w < nums.length) nums[w++] = 0;
+  return nums;
+}`),
+          time: 'O(n)',
+          space: 'O(1)',
+          tradeoff: 'No swaps, so fewer writes when there are few zeros. Two passes instead of one.',
         },
       ],
     },
