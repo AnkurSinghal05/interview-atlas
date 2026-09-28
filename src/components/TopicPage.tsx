@@ -30,7 +30,7 @@ export function TopicPage({ subject, topic }: { subject: Subject; topic: TopicWi
   const next = flat[idx + 1];
 
   const tabs = [
-    { id: 'learn' as Tab, label: 'Learn', show: !!(topic.keyPoints?.length || topic.visuals?.length) },
+    { id: 'learn' as Tab, label: 'Learn', show: !!(topic.keyPoints?.length || topic.comparisons?.length || topic.visuals?.length) },
     { id: 'qa' as Tab, label: 'Q&A', count: topic.qa?.length, show: !!topic.qa?.length },
     { id: 'problems' as Tab, label: 'Problems', count: topic.problems?.length, show: !!topic.problems?.length },
     { id: 'practice' as Tab, label: 'Practice', count: topic.quiz?.length, show: !!topic.quiz?.length },

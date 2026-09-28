@@ -26,6 +26,44 @@ const topic: Topic = {
       text: 'Debounce normally fires on the trailing edge; a "leading" option fires on the first call instead. Throttle can also fire a trailing call.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Debounce', 'Throttle'],
+      rows: [
+        { aspect: 'Runs', values: ['Once, after events stop for `wait` ms', 'At most once every `wait` ms while events keep coming'], key: true },
+        { aspect: 'During a non-stop stream', values: ['Never runs until the stream pauses', 'Runs at a steady rhythm'], key: true },
+        { aspect: 'Timer', values: ['Reset on every call', 'Not reset; calls in between are dropped'] },
+        { aspect: 'Default edge', values: ['Trailing (after the pause)', 'Leading (first call runs now), often plus trailing'] },
+        { aspect: 'Typical use', values: ['Search as you type, autosave, resize end, form validation', 'Scroll, `mousemove`, drag, infinite scroll, rate-limiting a button'] },
+      ],
+      reveal:
+        'Both cut down how often a handler runs. Debounce waits for **quiet**, so you get the final state. Throttle keeps a **rhythm**, so you get regular updates while things are still happening.',
+      whenToUse: [
+        'You only care about the final value once the user stops.',
+        'You need feedback during the action, just not 100 times a second.',
+      ],
+      code: [
+        c(`
+function debounce(fn, wait) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), wait);
+  };
+}`),
+        c(`
+function throttle(fn, wait) {
+  let last = 0;
+  return (...args) => {
+    const now = Date.now();
+    if (now - last < wait) return;
+    last = now;
+    fn(...args);
+  };
+}`),
+      ],
+    },
+  ],
   qa: [
     {
       q: 'Implement `debounce`.',

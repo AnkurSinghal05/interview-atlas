@@ -48,6 +48,21 @@ const rangeSum = (l, r) => (l === 0 ? pf[r] : pf[r] - pf[l - 1]);`),
       text: 'Build: `S[r+1][c+1] = a[r][c] + S[r][c+1] + S[r+1][c] - S[r][c]`. Rectangle `(r1,c1)..(r2,c2)`: `S[r2+1][c2+1] - S[r1][c2+1] - S[r2+1][c1] + S[r1][c1]`.',
     },
   ],
+  comparisons: [
+    {
+      title: 'Brute force vs prefix sum for Q range-sum queries',
+      items: ['Loop over the range', 'Prefix sum'],
+      rows: [
+        { aspect: 'Setup', values: ['None', 'O(n) to build `pf`'] },
+        { aspect: 'Each query', values: ['O(n)', 'O(1): `pf[r] - pf[l - 1]`'], key: true },
+        { aspect: 'Q queries in total', values: ['O(n·Q)', 'O(n + Q)'], key: true },
+        { aspect: 'Extra space', values: ['O(1)', 'O(n) (or O(1) if you overwrite the input)'] },
+        { aspect: 'Array changes between queries', values: ['Fine', 'Rebuild in O(n); use a Fenwick or segment tree instead'] },
+      ],
+      reveal: 'Prefix sum moves the work from every query to one pass up front. It only pays off when there is more than a handful of queries and the array does not change.',
+      whenToUse: ['One or two queries, or an array that keeps changing.', 'Many queries on a fixed array; also the base for "count subarrays with sum k" (with a hash map).'],
+    },
+  ],
   visuals: [
     {
       type: 'arrayTrace',
@@ -93,7 +108,7 @@ const sum = pf[r] - pf[l - 1];`),
         'Many range-sum queries on an array that does not change.',
         '"Count subarrays with sum k" or "longest subarray with sum k", especially when values can be negative (sliding window breaks there).',
         'Comparing left side vs right side of every index (equilibrium, product except self).',
-        'Not needed if you only walk subarrays in order (like summing every subarray): carry forward gives the same O(n²) with O(1) space. See the side-by-side on the Carry forward topic.',
+        'Not needed if you only walk subarrays in order (like summing every subarray): carry forward gives the same O(n²) with O(1) space. See the comparison table on the Carry forward topic.',
       ],
     },
     {

@@ -31,6 +31,38 @@ visits.get(user); // 3`),
       text: '`new Map(Object.entries(obj))`, `Object.fromEntries(map)`, `[...set]`, `Array.from(map.keys())`.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`Map`', 'Plain object'],
+      rows: [
+        { aspect: 'Key types', values: ['Any value: objects, functions, `NaN`', 'Strings and symbols (others become strings)'], key: true },
+        { aspect: 'Key order', values: ['Insertion order', 'Integer-like keys first (ascending), then insertion order'] },
+        { aspect: 'Size', values: ['`map.size`', '`Object.keys(obj).length`'] },
+        { aspect: 'Iterate', values: ['Directly: `for (const [k, v] of map)`', 'Through `Object.keys` / `Object.entries`'] },
+        { aspect: 'Inherited keys', values: ['None', "From `Object.prototype` (unless `Object.create(null)`)"] },
+        { aspect: 'Frequent add/delete', values: ['Optimised for it', 'Slower'] },
+        { aspect: 'JSON', values: ['Not directly (`Object.fromEntries` first)', 'Native'] },
+      ],
+      reveal:
+        'An object is a record with a fixed shape; a `Map` is a real dictionary. The deciding question is usually the keys: if they are not strings, or come from user input, use a `Map`.',
+      whenToUse: [
+        'Lookups with non-string or user-supplied keys, caches, counters that grow and shrink.',
+        'Fixed, known fields, and data you serialise to JSON.',
+      ],
+    },
+    {
+      items: ['`Set`', 'Array'],
+      rows: [
+        { aspect: 'Duplicates', values: ['Not allowed', 'Allowed'], key: true },
+        { aspect: 'Check membership', values: ['`set.has(x)`: O(1) average', '`arr.includes(x)`: O(n)'], key: true },
+        { aspect: 'Remove a value', values: ['`set.delete(x)`: O(1)', '`splice` or `filter`: O(n)'] },
+        { aspect: 'Index access', values: ['No', 'Yes, `arr[i]`'] },
+        { aspect: 'Order', values: ['Insertion order', 'Index order'] },
+      ],
+      reveal: 'Same data, different question: a `Set` answers "is it there?" fast, an array answers "what is at position i?" fast.',
+      whenToUse: ['Unique values and lots of "have I seen this?" checks. `[...new Set(arr)]` removes duplicates.', 'Ordered lists, duplicates, sorting and index access.'],
+    },
+  ],
   qa: [
     {
       q: 'When would you use a `Map` instead of an object?',

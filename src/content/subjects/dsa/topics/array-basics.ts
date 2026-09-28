@@ -49,6 +49,30 @@ const sumToN = (n) => (n * (n + 1)) / 2; // sumToN(5) = 15`),
       text: '`Math.ceil(a / b)` equals `Math.floor((a + b - 1) / b)` for positive integers. Handy for "how many groups of size b".',
     },
   ],
+  comparisons: [
+    {
+      title: 'Cost of array operations in JavaScript',
+      items: ['`arr[i]`', '`push` / `pop`', '`shift` / `unshift`', '`splice(i, …)`'],
+      rows: [
+        { aspect: 'Time', values: ['O(1)', 'O(1) amortised', 'O(n)', 'O(n)'], key: true },
+        { aspect: 'Why', values: ['Direct index lookup', 'Nothing else moves', 'Every element shifts one index', 'Everything after `i` shifts'] },
+        { aspect: 'Inside a loop of n', values: ['O(n)', 'O(n)', 'O(n²)', 'O(n²)'] },
+      ],
+      reveal: 'Work at the **end** of an array is cheap, work at the **front or middle** moves elements. That is why a queue built on `shift` is O(n) per dequeue.',
+      whenToUse: ['Always fine.', 'Stacks and building results.', 'Avoid in loops; for a queue, keep a head index instead.', 'One-off edits; in loops, build a new array or use two pointers.'],
+    },
+    {
+      items: ['Static array', 'Dynamic array'],
+      rows: [
+        { aspect: 'Size', values: ['Fixed when created', 'Grows as needed'], key: true },
+        { aspect: 'Append', values: ['Not possible without a new array', 'O(1) amortised; occasionally O(n) to copy into a bigger block'] },
+        { aspect: 'Memory', values: ['Exactly what you asked for', 'Some spare capacity'] },
+        { aspect: 'Examples', values: ['C arrays, Java `int[]`, JS `Int32Array`', 'JS `Array`, Java `ArrayList`, Python `list`'] },
+      ],
+      reveal: 'A dynamic array is a static array that doubles its capacity when full. Copying is rare enough that appends average out to O(1).',
+      whenToUse: ['Known size and raw speed: typed arrays, buffers, grids.', 'Almost everything in interview JS.'],
+    },
+  ],
   visuals: [
     {
       type: 'arrayTrace',

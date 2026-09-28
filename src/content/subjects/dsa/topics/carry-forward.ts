@@ -36,6 +36,46 @@ for (const ch of s) {
       text: 'Some problems need "where did I last see X?". Carry `lastIndex` and compute distances like `i - lastIndex + 1`.',
     },
   ],
+  comparisons: [
+    {
+      title: 'Prefix sum vs carry forward (sum of every subarray)',
+      items: ['Prefix sum', 'Carry forward'],
+      rows: [
+        { aspect: 'Nested loops', values: ['2', '2'] },
+        { aspect: 'Time complexity', values: ['O(n²)', 'O(n²)'] },
+        { aspect: 'Space complexity', values: ['**O(n)**: the prefix array', '**O(1)**: just `currSum`'], key: true },
+        { aspect: 'Preprocessing', values: ['O(n) to build the prefix array', 'None'] },
+        { aspect: 'How sum(i, j) is computed', values: ['`prefix[j] - prefix[i - 1]`', '`currSum += arr[j]`'], key: true },
+        { aspect: 'Random range queries', values: ['O(1) each, in any order', 'Not possible without re-scanning'] },
+      ],
+      reveal:
+        'Both solutions share the **same 2-loop skeleton**. The only thing that changes is **how the inner sum is kept**: stored values (prefix) vs an incremental update (carry forward). A prefix array is carry forward with every running value saved.',
+      whenToUse: [
+        'You need **many** sums over different, arbitrary ranges: build once, answer each in O(1).',
+        'You walk subarrays in order and never jump to a random range: it saves the O(n) array.',
+      ],
+      code: [
+        c(`
+// prefix[k] = arr[0] + ... + arr[k]
+const prefix = [arr[0]];
+for (let k = 1; k < n; k++)
+  prefix[k] = prefix[k - 1] + arr[k];
+
+for (let i = 0; i < n; i++)
+  for (let j = i; j < n; j++) {
+    const sum = prefix[j] - (i ? prefix[i - 1] : 0);
+  }`),
+        c(`
+for (let i = 0; i < n; i++) {
+  let currSum = 0;
+  for (let j = i; j < n; j++) {
+    currSum += arr[j];
+    const sum = currSum;
+  }
+}`),
+      ],
+    },
+  ],
   visuals: [
     {
       type: 'arrayTrace',
@@ -67,39 +107,11 @@ for (const ch of s) {
       ],
     },
     {
-      q: 'Prefix sum vs carry forward for "sum of every subarray": what changes?',
+      q: 'Prefix sum vs carry forward: what is the difference?',
       tag: 'Asked often',
       a: [
-        '**Loops**: both use 2 nested loops (start, end). **Time**: both O(n²).',
-        '**Space**: prefix sum needs an O(n) prefix array; carry forward needs O(1), just `currSum`.',
-        '**Preprocessing**: prefix sum builds the array first in O(n); carry forward needs none.',
-        '**How sum(i..j) is found**: prefix sum does `prefix[j] - prefix[i-1]`; carry forward does `currSum += arr[j]`.',
-        'The takeaway: same skeleton, and only the way the inner sum is kept changes, stored values vs an incremental update.',
-      ],
-      code: c(`
-// Prefix sum: O(n²) time, O(n) space
-const P = [0];
-arr.forEach((x, i) => P.push(P[i] + x));
-for (let i = 0; i < n; i++)
-  for (let j = i; j < n; j++) {
-    const sum = P[j + 1] - P[i]; // stored values
-  }
-
-// Carry forward: O(n²) time, O(1) space
-for (let i = 0; i < n; i++) {
-  let currSum = 0;
-  for (let j = i; j < n; j++) {
-    currSum += arr[j]; // incremental update
-  }
-}`),
-    },
-    {
-      q: 'When do you use prefix sum and when carry forward?',
-      tag: 'Pattern spotting',
-      a: [
-        '**Prefix sum**: when you need many queries on different, arbitrary ranges. Build once, answer each in O(1).',
-        '**Carry forward**: when you walk subarrays (or indices) in order and never jump to a random range. It saves the O(n) array.',
-        'A prefix array is just carry forward with every running value saved.',
+        'Same two-loop skeleton and the same O(n²) for "sum of every subarray". Only the space differs: O(n) prefix array vs O(1) `currSum`.',
+        'Prefix sum answers any range in O(1); carry forward only knows the running value. The full table is on the Learn tab.',
       ],
     },
     {

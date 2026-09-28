@@ -36,6 +36,23 @@ fetch(url, { signal: AbortSignal.timeout(5000) });`),
       text: 'Set `method`, `headers` and `body`. For JSON, stringify the body and set `Content-Type: application/json`.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`fetch`', '`XMLHttpRequest`', 'axios'],
+      rows: [
+        { aspect: 'Style', values: ['Promises', 'Events and callbacks', 'Promises'] },
+        { aspect: 'HTTP 404 / 500', values: ['Still resolves; check `res.ok`', '`onload` fires; check `status`', 'Rejects for non-2xx'], key: true },
+        { aspect: 'JSON', values: ['`await res.json()`', '`JSON.parse` or `responseType`', 'Parsed for you'] },
+        { aspect: 'Upload progress', values: ['No', 'Yes, `upload.onprogress`', 'Yes'] },
+        { aspect: 'Cancel', values: ['`AbortController`', '`xhr.abort()`', '`AbortController` signal'] },
+        { aspect: 'Timeout', values: ['`AbortSignal.timeout(ms)`', '`xhr.timeout`', '`timeout` option'] },
+        { aspect: 'Interceptors', values: ['No, wrap it yourself', 'No', 'Yes'] },
+        { aspect: 'Dependency', values: ['Built in', 'Built in', 'A library'] },
+      ],
+      reveal: '`fetch` only rejects on network failure, never on an HTTP error status. That one fact is the most asked difference, and the reason axios feels friendlier.',
+      whenToUse: ['The default in browsers and Node 18+.', 'Old code, or when you need upload progress without a library.', 'Apps that want interceptors (auth headers, refresh tokens) and automatic JSON.'],
+    },
+  ],
   qa: [
     {
       q: 'What is AJAX?',

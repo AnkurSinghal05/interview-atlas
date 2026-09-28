@@ -30,6 +30,31 @@ const prefs = JSON.parse(localStorage.getItem('prefs') ?? '{}');`),
       text: 'Storage is isolated by scheme + host + port. `http://site.com` and `https://site.com` do not share localStorage or IndexedDB. Cookies are the exception: they are scoped by domain and path.',
     },
   ],
+  comparisons: [
+    {
+      title: 'Cookies vs localStorage vs sessionStorage vs IndexedDB',
+      items: ['Cookies', '`localStorage`', '`sessionStorage`', 'IndexedDB'],
+      rows: [
+        { aspect: 'Size', values: ['About 4 KB per cookie', 'About 5 MB per origin', 'About 5 MB per origin', 'Large: a share of free disk, often hundreds of MB or more'] },
+        { aspect: 'Sent to the server', values: ['On every matching request', 'Never', 'Never', 'Never'], key: true },
+        { aspect: 'Lasts until', values: ['`Expires`/`Max-Age`, or the browser session', 'Cleared by code or the user', 'The tab closes', 'Cleared by code or the user'], key: true },
+        { aspect: 'Shared between', values: ['Domain and path (can include subdomains)', 'All tabs of the origin', 'One tab only (a duplicated tab gets a copy)', 'All tabs of the origin'] },
+        { aspect: 'API', values: ['`document.cookie` string, sync', 'Sync, `getItem`/`setItem`', 'Sync, `getItem`/`setItem`', 'Async, transactions and indexes'] },
+        { aspect: 'Stores', values: ['Strings', 'Strings (use `JSON.stringify`)', 'Strings (use `JSON.stringify`)', 'Objects, arrays, Blobs, Files (structured clone)'] },
+        { aspect: 'Hidden from JS', values: ['Yes, with `HttpOnly`', 'No', 'No', 'No'] },
+        { aspect: 'Set by the server', values: ['Yes, `Set-Cookie`', 'No', 'No', 'No'] },
+        { aspect: 'Usable in workers', values: ['No `document.cookie`', 'No', 'No', 'Yes'] },
+      ],
+      reveal:
+        'Only cookies travel to the server; the other three stay in the browser. Among those three the real split is lifetime and scope (`sessionStorage` dies with the tab) and size plus data shape (IndexedDB is the only async one and stores real objects).',
+      whenToUse: [
+        'Session IDs and anything the server must read, with `HttpOnly`, `Secure` and `SameSite` set.',
+        'Small preferences that should survive a restart: theme, language, a dismissed banner.',
+        'Per-tab state: a form draft, a wizard step, a filter that should not leak into other tabs.',
+        'Large or structured data: offline apps, cached API responses, files and images, anything you query by a key or index.',
+      ],
+    },
+  ],
   qa: [
     {
       q: 'Compare cookies, localStorage, sessionStorage and IndexedDB.',

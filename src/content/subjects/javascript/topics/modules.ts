@@ -32,6 +32,25 @@ import mul, { add } from './math.js';`),
       text: 'A module runs once, on first import. Every importer shares the same instance and state.',
     },
   ],
+  comparisons: [
+    {
+      items: ['CommonJS', 'ES modules'],
+      rows: [
+        { aspect: 'Syntax', values: ['`require()` / `module.exports`', '`import` / `export`'] },
+        { aspect: 'When imports are resolved', values: ['At run time, when `require` runs', 'Before any code runs (static)'], key: true },
+        { aspect: 'Imported values', values: ['A copy: later reassignments in the module are not seen', 'Live bindings: you see updates, but cannot assign'], key: true },
+        { aspect: 'Loading', values: ['Synchronous', 'Can load asynchronously'] },
+        { aspect: 'Conditional import', values: ['`require` anywhere', 'Top level only; `import()` for dynamic'] },
+        { aspect: 'Tree shaking', values: ['Hard', 'Yes'] },
+        { aspect: 'Top-level `await`', values: ['No', 'Yes'] },
+        { aspect: 'Top-level `this`', values: ['`module.exports`', '`undefined`'] },
+        { aspect: 'Where', values: ['Node by default, `.cjs`', 'Browsers, bundlers, Node with `.mjs` or `"type": "module"`'] },
+      ],
+      reveal:
+        'ESM is static: imports and exports are known before the code runs, which is what makes tree shaking, top-level `await` and live bindings possible. CommonJS is just a function call that returns an object.',
+      whenToUse: ['Older Node packages and tooling that still expect `require`.', 'All new code, in the browser and in Node.'],
+    },
+  ],
   qa: [
     {
       q: 'What are the main differences between ESM and CommonJS?',

@@ -31,6 +31,41 @@ const total = [5, 10, 15].reduce((sum, n) => sum + n, 0); // 30`),
 [10, 9, 1].sort((a, b) => a - b); // [1, 9, 10]`),
     },
   ],
+  comparisons: [
+    {
+      title: 'map vs forEach vs filter vs reduce',
+      items: ['`map`', '`forEach`', '`filter`', '`reduce`'],
+      rows: [
+        { aspect: 'Returns', values: ['New array, same length', '`undefined`', 'New array, same or shorter', 'Any single value'], key: true },
+        { aspect: 'Callback returns', values: ['The new item', 'Ignored', 'Keep it? (truthy/falsy)', 'The next accumulator'] },
+        { aspect: 'Changes the original', values: ['No', 'No (unless your callback does)', 'No', 'No'] },
+        { aspect: 'Chainable', values: ['Yes', 'No', 'Yes', 'Only if it returns an array'] },
+        { aspect: 'Stop early', values: ['No', 'No (only by throwing)', 'No', 'No'] },
+        { aspect: 'Empty array', values: ['`[]`', 'Nothing runs', '`[]`', '`TypeError` without an initial value'] },
+      ],
+      reveal:
+        'They all loop once over the array. The difference is what comes out: a transformed copy, nothing, a subset, or one combined value. Need to stop early? Use `for...of`, `some`, `every` or `find` instead.',
+      whenToUse: [
+        'Turn each item into something else: prices to strings, users to ids.',
+        'Side effects only: logging, pushing to the DOM. Do not use it to build a new array.',
+        'Keep only the items that pass a test.',
+        'Fold everything into one value: a total, a lookup object, grouped data.',
+      ],
+    },
+    {
+      items: ['`slice`', '`splice`'],
+      rows: [
+        { aspect: 'Changes the original', values: ['No', 'Yes'], key: true },
+        { aspect: 'Arguments', values: ['`(start, end)`, end excluded', '`(start, deleteCount, ...itemsToInsert)`'] },
+        { aspect: 'Returns', values: ['A copy of that part', 'The removed items'] },
+        { aspect: 'Negative index', values: ['Counts from the end', 'Counts from the end'] },
+        { aspect: 'Also on strings', values: ['Yes', 'No'] },
+      ],
+      reveal:
+        '`slice` reads, `splice` edits in place. ES2023 added `toSpliced()`, which does what `splice` does but returns a new array.',
+      whenToUse: ['Copy all or part of an array, e.g. `arr.slice()` for a shallow copy.', 'Insert, remove or replace items in place.'],
+    },
+  ],
   qa: [
     {
       q: 'What is the difference between `map`, `filter`, `forEach` and `reduce`?',

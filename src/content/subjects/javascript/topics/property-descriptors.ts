@@ -31,6 +31,35 @@ Object.keys(o);    // []`),
       text: '`preventExtensions`: no new props. `seal`: also no delete. `freeze`: also no changes. All are **shallow**.',
     },
   ],
+  comparisons: [
+    {
+      title: 'freeze vs seal vs preventExtensions',
+      items: ['`Object.freeze`', '`Object.seal`', '`Object.preventExtensions`'],
+      rows: [
+        { aspect: 'Add properties', values: ['No', 'No', 'No'] },
+        { aspect: 'Delete properties', values: ['No', 'No', 'Yes'], key: true },
+        { aspect: 'Change values', values: ['No', 'Yes', 'Yes'], key: true },
+        { aspect: 'Reconfigure (e.g. to a getter)', values: ['No', 'No', 'Yes'] },
+        { aspect: 'Check with', values: ['`Object.isFrozen`', '`Object.isSealed`', '`Object.isExtensible`'] },
+        { aspect: 'Nested objects', values: ['Not affected (shallow)', 'Not affected (shallow)', 'Not affected (shallow)'] },
+        { aspect: 'A blocked change', values: ['Ignored; `TypeError` in strict mode', 'Ignored; `TypeError` in strict mode', 'Ignored; `TypeError` in strict mode'] },
+      ],
+      reveal:
+        'Each step is stricter than the last: `preventExtensions` blocks new keys, `seal` also sets every property `configurable: false`, `freeze` also sets `writable: false`. All three are shallow.',
+      whenToUse: ['Constants and config objects that must never change (deep-freeze recursively for nested data).', 'Fixed shape, changeable values: a record whose fields can update but not appear or vanish.', 'Rare: stop new keys being added but allow everything else.'],
+    },
+    {
+      items: ['Data descriptor', 'Accessor descriptor'],
+      rows: [
+        { aspect: 'Own keys', values: ['`value`, `writable`', '`get`, `set`'], key: true },
+        { aspect: 'Shared keys', values: ['`enumerable`, `configurable`', '`enumerable`, `configurable`'] },
+        { aspect: 'Defaults with `defineProperty`', values: ['All `false`', 'All `false`'] },
+        { aspect: 'Defaults when created normally', values: ['All `true`', '`configurable: true`; enumerable in object literals, not in classes'] },
+      ],
+      reveal: 'A property holds either a value or a getter/setter pair, never both. Mixing `value` and `get` in one descriptor throws a `TypeError`.',
+      whenToUse: ['Normal stored values, or read-only constants with `writable: false`.', 'Computed or validated values, lazy loading, logging reads and writes.'],
+    },
+  ],
   qa: [
     {
       q: 'What is a property descriptor?',

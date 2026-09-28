@@ -26,6 +26,19 @@ const topic: Topic = {
       text: 'Engines like V8 split the heap into young and old generations. Most objects die young, so the young space is collected often and cheaply.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Reference counting', 'Mark and sweep'],
+      rows: [
+        { aspect: 'How it decides', values: ['Frees an object when nothing refers to it (count hits 0)', 'Marks everything reachable from the roots, frees the rest'], key: true },
+        { aspect: 'Cycles (`a.b = b; b.a = a`)', values: ['Leak forever', 'Collected once unreachable'], key: true },
+        { aspect: 'Used by', values: ['Old IE for DOM/COM objects', 'Every modern JS engine (generational, incremental)'] },
+        { aspect: 'Pauses', values: ['Small and spread out', 'Periodic, kept short by incremental and concurrent marking'] },
+      ],
+      reveal: '"Unreachable" is a stronger test than "no references". Two objects pointing at each other still have references, but nothing can reach them.',
+      whenToUse: ['Only in history questions and old IE leak stories.', 'How to reason about leaks today: find what is still reachable (globals, timers, listeners, closures, detached DOM).'],
+    },
+  ],
   qa: [
     {
       q: 'How does garbage collection work in JavaScript?',

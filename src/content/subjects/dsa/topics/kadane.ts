@@ -37,6 +37,21 @@ for (let i = 1; i < nums.length; i++) {
       text: 'Max product: carry both max and min (a negative flips them). Circular: answer is `max(kadaneMax, total - kadaneMin)`, unless everything is negative.',
     },
   ],
+  comparisons: [
+    {
+      title: 'Maximum subarray sum: brute force vs prefix min vs Kadane',
+      items: ['Brute force + carry forward', 'Prefix sum − min prefix', "Kadane's algorithm"],
+      rows: [
+        { aspect: 'Idea', values: ['Try every start, extend the end, track the best sum', 'For each end j, best = `prefix[j]` − smallest prefix before j', '`cur = max(x, cur + x)`: extend the run or restart here'], key: true },
+        { aspect: 'Time', values: ['O(n²)', 'O(n)', 'O(n)'] },
+        { aspect: 'Space', values: ['O(1)', 'O(1) (carry the prefix and its min)', 'O(1)'] },
+        { aspect: 'All-negative array', values: ['Works', 'Works (start the min prefix at 0)', 'Works if you start from `arr[0]`, not 0'] },
+        { aspect: 'Get the indexes', values: ['Easy', 'Track where the min prefix was', 'Record the start when you restart'] },
+      ],
+      reveal: 'Kadane is the prefix-min idea in disguise: dropping a negative running sum is the same as subtracting the smallest prefix so far. Both just carry one value forward.',
+      whenToUse: ['Only to explain the idea, or when n is tiny.', 'When you already have prefix sums, or the problem is phrased as "best difference" (like stock buy/sell).', 'The standard answer for maximum subarray sum.'],
+    },
+  ],
   visuals: [
     {
       type: 'arrayTrace',

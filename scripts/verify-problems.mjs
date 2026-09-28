@@ -1,6 +1,7 @@
 /*
  * Runs every approach of every problem against its examples. In topics that have
  * problems, it also runs each synchronous "predict the output" quiz against its marked answer.
+ * It also checks that every comparison table has one cell per compared item.
  * Usage: npm run verify [subjectId]   (default: all subjects)
  */
 import { readdirSync } from 'node:fs';
@@ -29,6 +30,18 @@ for (const id of subjects) {
   const subject = await jiti.import(path.join(root, `src/content/subjects/${id}/index.ts`), { default: true });
   for (const cat of subject.categories) {
     for (const topic of cat.topics) {
+      for (const cmp of topic.comparisons ?? []) {
+        const n = cmp.items.length;
+        const where = `${topic.id} / comparison "${cmp.title ?? cmp.items.join(' vs ')}"`;
+        for (const row of cmp.rows) {
+          checked++;
+          if (row.values.length !== n) failures.push(`${where} / row "${row.aspect}": ${row.values.length} cells for ${n} items`);
+        }
+        for (const [name, list] of [['whenToUse', cmp.whenToUse], ['code', cmp.code]]) {
+          checked++;
+          if (list && list.length !== n) failures.push(`${where}: ${name} has ${list.length} entries for ${n} items`);
+        }
+      }
       for (const p of topic.problems ?? []) {
         for (const a of [...p.approaches, ...(p.alternatives ?? [])]) {
           p.examples.forEach((ex, k) => {

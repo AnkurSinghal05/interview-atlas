@@ -46,6 +46,31 @@ for (let r = 0; r < a.length; r++) {
       text: 'Shrinking must make the window "more valid". With negative numbers a sum can grow when you drop an element, so use prefix sums + a hash map instead.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Fixed-size window', 'Variable-size window'],
+      rows: [
+        { aspect: 'Window size', values: ['Given (`k`)', 'Found by a condition'], key: true },
+        { aspect: 'Each step', values: ['Add the new right element, remove the one that fell off the left', 'Always grow right; shrink left while the window breaks the rule'], key: true },
+        { aspect: 'Loop shape', values: ['One loop', 'A `for` with an inner `while`, still O(n): each index enters and leaves once'] },
+        { aspect: 'Classic problems', values: ['Max sum of k in a row, averages of size k, count anagrams', 'Longest substring without repeats, minimum window substring, longest subarray with sum ≤ k'] },
+      ],
+      reveal: 'Both avoid recomputing the window from scratch. The only question is who decides the size: the problem (fixed) or the data (variable).',
+      whenToUse: ['The problem says "of size k" or "k consecutive".', 'It asks for the longest or shortest window that satisfies a rule.'],
+    },
+    {
+      title: 'Subarray sum: sliding window vs prefix sum + hash map',
+      items: ['Sliding window', 'Prefix sum + hash map'],
+      rows: [
+        { aspect: 'Negative numbers', values: ['Break it: shrinking may not reduce the sum', 'Work'], key: true },
+        { aspect: 'Time', values: ['O(n)', 'O(n)'] },
+        { aspect: 'Space', values: ['O(1)', 'O(n) for the map'] },
+        { aspect: 'Best for', values: ['Longest/shortest window with a sum limit, non-negative values', 'Count subarrays with sum exactly k, or longest with sum k'] },
+      ],
+      reveal: 'A window needs the sum to grow when it grows and shrink when it shrinks. Negatives break that promise; the prefix + map approach does not need it.',
+      whenToUse: ['All values are non-negative and the rule is monotonic.', 'Values can be negative, or you need an exact sum or a count.'],
+    },
+  ],
   visuals: [
     {
       type: 'arrayTrace',

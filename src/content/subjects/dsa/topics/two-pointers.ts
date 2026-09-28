@@ -42,6 +42,32 @@ while (l < r) {
       text: 'Sorting costs O(n log n) and loses original indices. Fine for "does a pair exist" or "return values"; use a hash map when you need original indices.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Opposite ends', 'Same direction (slow/fast)'],
+      rows: [
+        { aspect: 'Start', values: ['`i = 0`, `j = n − 1`', 'Both at the start (fast leads)'] },
+        { aspect: 'Move', values: ['Towards each other until they meet', 'Both forward; slow only moves when something is kept'], key: true },
+        { aspect: 'Needs sorted input', values: ['Usually (pair sums)', 'No'] },
+        { aspect: 'Time / space', values: ['O(n) / O(1)', 'O(n) / O(1)'] },
+        { aspect: 'Classic problems', values: ['Pair with sum k, reverse, palindrome check, container with most water', 'Remove duplicates in place, move zeros, partition, merge two sorted arrays'] },
+      ],
+      reveal: 'Opposite ends works because each step can safely discard one end (sortedness tells you which). Same direction is a read pointer and a write pointer. A sliding window is the same-direction kind with a range between them.',
+      whenToUse: ['The answer is a pair or depends on both ends of a sorted array.', 'You filter or rearrange an array in place.'],
+    },
+    {
+      title: 'Two Sum: hash map vs sort + two pointers',
+      items: ['Hash map', 'Sort + two pointers'],
+      rows: [
+        { aspect: 'Time', values: ['O(n)', 'O(n log n), or O(n) if already sorted'], key: true },
+        { aspect: 'Space', values: ['O(n)', 'O(1) extra (plus the sort)'], key: true },
+        { aspect: 'Returns original indexes', values: ['Yes', 'No, sorting moves them (sort `[value, index]` pairs to keep them)'] },
+        { aspect: 'Extends to 3Sum / all pairs', values: ['Awkward with duplicates', 'Natural: fix one, two-pointer the rest'] },
+      ],
+      reveal: 'A hash map trades memory for time; two pointers trades time (the sort) for memory. If the input is already sorted, two pointers wins on both.',
+      whenToUse: ['Unsorted input and you need indexes (the classic LeetCode Two Sum).', 'Sorted input, tight memory, or 3Sum/4Sum style problems.'],
+    },
+  ],
   visuals: [
     {
       type: 'arrayTrace',

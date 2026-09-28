@@ -25,6 +25,27 @@ const topic: Topic = {
       text: '`DOMContentLoaded`: HTML parsed and deferred scripts run. `load`: images, styles and iframes also finished. Module scripts (`type="module"`) are deferred by default.',
     },
   ],
+  comparisons: [
+    {
+      title: 'script vs async vs defer vs type="module"',
+      items: ['`<script>`', '`async`', '`defer`', '`type="module"`'],
+      rows: [
+        { aspect: 'Blocks parsing while downloading', values: ['Yes', 'No', 'No', 'No'] },
+        { aspect: 'Runs', values: ['Immediately, parsing waits', 'As soon as it downloads (parsing pauses then)', 'After parsing, before `DOMContentLoaded`', 'Like `defer` (or `async` if marked)'], key: true },
+        { aspect: 'Order between scripts', values: ['Document order', 'Whichever loads first', 'Document order', 'Document order'], key: true },
+        { aspect: 'Full DOM available', values: ['Only what is above it', 'Not guaranteed', 'Yes', 'Yes'] },
+        { aspect: 'Strict mode / own scope', values: ['No', 'No', 'No', 'Yes, both'] },
+      ],
+      reveal:
+        'All the attributes are about two things: does downloading block the parser, and when does the script run. `defer` and modules keep order and wait for the DOM; `async` runs whenever it arrives.',
+      whenToUse: [
+        'Rarely: tiny scripts that must run before the page renders (e.g. setting the theme class).',
+        'Independent scripts that nothing depends on: analytics, ads.',
+        'Your app scripts that need the DOM or each other, in `<head>`.',
+        'Modern bundles and anything using `import`.',
+      ],
+    },
+  ],
   qa: [
     {
       q: 'What is the difference between `async` and `defer`?',

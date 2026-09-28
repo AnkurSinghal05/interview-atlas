@@ -26,6 +26,20 @@ const topic: Topic = {
       text: '`map`, `filter`, `reduce`, `forEach`, `flat`, `bind`, `call`, `apply`, `Promise.all`, `Promise.allSettled`, `Promise.race`, `Object.assign`, `debounce`/`throttle`.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Polyfill', 'Transpiler'],
+      rows: [
+        { aspect: 'Adds', values: ['Missing built-ins at run time: `Promise`, `Array.prototype.includes`', 'Rewrites new syntax into old: arrows, classes, `?.`'], key: true },
+        { aspect: 'Runs', values: ['In the browser', 'At build time'] },
+        { aspect: 'Can handle new syntax', values: ['No, old parsers fail before it runs', 'Yes'] },
+        { aspect: 'Can add new functions', values: ['Yes', 'No, it needs a polyfill'] },
+        { aspect: 'Tools', values: ['core-js, hand-written ones', 'Babel, TypeScript, SWC, esbuild'] },
+      ],
+      reveal: 'Syntax needs a transpiler, APIs need a polyfill. Supporting an old browser usually takes both.',
+      whenToUse: ['A browser lacks a function or object you call.', 'A browser cannot parse the syntax you write.'],
+    },
+  ],
   qa: [
     {
       q: 'Polyfill `Array.prototype.filter`.',

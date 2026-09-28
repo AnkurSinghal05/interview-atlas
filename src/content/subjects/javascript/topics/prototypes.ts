@@ -30,6 +30,19 @@ rabbit.eats; // true, found on animal`),
       text: 'Putting methods on `Constructor.prototype` means every instance shares one copy instead of each carrying its own.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`F.prototype`', '`obj.__proto__`'],
+      rows: [
+        { aspect: 'Found on', values: ['Functions and classes', 'Every object (an accessor from `Object.prototype`)'], key: true },
+        { aspect: 'It is', values: ['The object that instances made with `new F()` will inherit from', 'The object this object inherits from right now (its `[[Prototype]]`)'], key: true },
+        { aspect: 'Link between them', values: ['`new F().__proto__ === F.prototype`', '`new F().__proto__ === F.prototype`'] },
+        { aspect: 'Modern API', values: ['Same', '`Object.getPrototypeOf` / `Object.setPrototypeOf`'] },
+      ],
+      reveal: '`prototype` is a blueprint a constructor hands out; `__proto__` is the link each object actually follows when a property lookup misses.',
+      whenToUse: ['Adding shared methods to all instances of a constructor.', 'Inspecting the chain while debugging; use `Object.getPrototypeOf` in real code.'],
+    },
+  ],
   visuals: [
     {
       type: 'stepper',

@@ -32,6 +32,20 @@ list.addEventListener('click', (e) => {
       text: 'Only works for events that bubble, and a child calling `stopPropagation` blocks it.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Event delegation', 'A listener per element'],
+      rows: [
+        { aspect: 'Listeners', values: ['One, on a parent', 'One per child'] },
+        { aspect: 'Items added later', values: ['Handled automatically', 'Need new listeners'], key: true },
+        { aspect: 'Memory', values: ['Constant', 'Grows with the list'] },
+        { aspect: 'Finding the item', values: ["`e.target.closest('li')`", '`e.currentTarget`'] },
+        { aspect: 'Non-bubbling events', values: ['Needs `focusin` etc. or capture', 'Work normally'] },
+      ],
+      reveal: 'Delegation works because events bubble: the parent hears every child click, so one listener plus a `closest()` check replaces hundreds.',
+      whenToUse: ['Long or dynamic lists, tables, menus.', 'A few static elements, or events that do not bubble.'],
+    },
+  ],
   qa: [
     {
       q: 'What is event delegation and why use it?',

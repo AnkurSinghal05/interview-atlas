@@ -29,6 +29,21 @@ const name = 'Ada';
       text: 'Emoji and some characters take two units, so `"😀".length` is 2. `[...str]` splits by code point.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`slice`', '`substring`', '`substr`'],
+      rows: [
+        { aspect: 'Arguments', values: ['`(start, end)`', '`(start, end)`', '`(start, length)`'], key: true },
+        { aspect: 'Negative numbers', values: ['Count from the end', 'Treated as `0`', 'Start counts from the end'], key: true },
+        { aspect: 'start > end', values: ["Returns `''`", 'Swaps them', 'n/a (the second argument is a length)'] },
+        { aspect: "`'JavaScript'` with `(-6)`", values: ["`'Script'`", "`'JavaScript'`", "`'Script'`"] },
+        { aspect: "`'JavaScript'` with `(1, 4)`", values: ["`'ava'`", "`'ava'`", "`'avaS'`"] },
+        { aspect: 'Status', values: ['Standard', 'Standard', 'Deprecated'] },
+      ],
+      reveal: '`slice` and `substring` take the same arguments and only disagree on negative and reversed ones. `substr` takes a length, and is deprecated.',
+      whenToUse: ['The default, and it works the same on arrays.', 'Legacy code; it is fine when indexes are known to be valid.', 'Do not use in new code.'],
+    },
+  ],
   qa: [
     {
       q: 'How do you reverse a string?',

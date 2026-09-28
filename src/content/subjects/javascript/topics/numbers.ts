@@ -30,6 +30,22 @@ const topic: Topic = {
       text: 'Beyond `Number.MAX_SAFE_INTEGER` (9007199254740991) integers lose precision. Use `BigInt` for larger values.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`Number(x)`', '`+x`', '`parseInt(x, 10)`', '`parseFloat(x)`'],
+      rows: [
+        { aspect: 'How it reads the string', values: ['Whole string must be a number', 'Same as `Number`', 'Reads digits until the first bad character', 'Same, but keeps decimals'], key: true },
+        { aspect: "`'42px'`", values: ['`NaN`', '`NaN`', '`42`', '`42`'] },
+        { aspect: "`'3.14'`", values: ['`3.14`', '`3.14`', '`3`', '`3.14`'] },
+        { aspect: "`''`", values: ['`0`', '`0`', '`NaN`', '`NaN`'] },
+        { aspect: '`null`', values: ['`0`', '`0`', '`NaN`', '`NaN`'] },
+        { aspect: "`'1e3'`", values: ['`1000`', '`1000`', '`1`', '`1000`'] },
+        { aspect: '`10n` (BigInt)', values: ['`10`', '`TypeError`', '`10`', '`10`'] },
+      ],
+      reveal: '`Number` and `+` convert the **whole** value strictly; `parseInt` and `parseFloat` **parse** from the left and stop at the first character they do not understand.',
+      whenToUse: ['Validating input that must be a number.', 'Short conversion when you know the type.', 'Reading a number out of text like `"42px"`; always pass the radix.', 'Same, when decimals matter.'],
+    },
+  ],
   qa: [
     {
       q: 'Why does `0.1 + 0.2` not equal `0.3`?',

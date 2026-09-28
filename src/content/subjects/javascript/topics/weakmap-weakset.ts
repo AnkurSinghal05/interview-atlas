@@ -32,6 +32,23 @@ function area(shape) {
       text: 'Mark objects as "seen" or "processed" (for example, to detect cycles) without holding them.',
     },
   ],
+  comparisons: [
+    {
+      items: ['`Map`', '`WeakMap`'],
+      rows: [
+        { aspect: 'Keys', values: ['Any value', 'Objects only (and non-registered symbols)'] },
+        { aspect: 'Keeps the key alive', values: ['Yes, blocks garbage collection', 'No: when the key is unreachable, the entry goes'], key: true },
+        { aspect: 'Iterate / `size` / `clear`', values: ['Yes', 'No'] },
+        { aspect: 'Methods', values: ['`get` `set` `has` `delete` and iteration', '`get` `set` `has` `delete` only'] },
+      ],
+      reveal:
+        'A `WeakMap` cannot be iterated precisely because entries can vanish at any time. That is the trade: you lose listing, you gain no memory leaks. `Set` vs `WeakSet` differ the same way.',
+      whenToUse: [
+        'General lookups where you own the lifetime of the keys.',
+        'Extra data attached to objects you do not own: DOM nodes, per-object caches, private data for class instances.',
+      ],
+    },
+  ],
   qa: [
     {
       q: 'What is the difference between `Map` and `WeakMap`?',

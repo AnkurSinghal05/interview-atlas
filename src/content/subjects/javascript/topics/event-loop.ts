@@ -24,6 +24,23 @@ const topic: Topic = {
       text: '`setTimeout`, `setInterval`, I/O, UI events. After each one, microtasks drain again and the browser may repaint.',
     },
   ],
+  comparisons: [
+    {
+      items: ['Microtasks', 'Macrotasks (tasks)'],
+      rows: [
+        { aspect: 'Examples', values: ['`.then` callbacks, code after `await`, `queueMicrotask`, `MutationObserver`', '`setTimeout`, `setInterval`, I/O, UI events, `MessageChannel`'] },
+        { aspect: 'How many per loop turn', values: ['All of them, including ones added meanwhile', 'One'], key: true },
+        { aspect: 'Runs', values: ['As soon as the call stack is empty', 'On the next loop turn, after microtasks and maybe a render'], key: true },
+        { aspect: 'Can block rendering', values: ['Yes, if they keep queueing more', 'No, the browser can paint between tasks'] },
+      ],
+      reveal:
+        'After each task the engine empties the whole microtask queue before it takes the next task or paints. That is why `Promise.resolve().then(...)` always beats `setTimeout(..., 0)`.',
+      whenToUse: [
+        'Work that must happen right after the current code, before anything else sees the state.',
+        'Yielding to the browser so it can render or handle input: split long work with `setTimeout`.',
+      ],
+    },
+  ],
   visuals: [
     {
       type: 'stepper',

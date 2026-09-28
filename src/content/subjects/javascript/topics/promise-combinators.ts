@@ -29,6 +29,28 @@ await Promise.race([fetch(url), timeout(5000)]);`),
       text: 'Fulfils with the first fulfilled value. Rejects with an `AggregateError` only if **all** reject.',
     },
   ],
+  comparisons: [
+    {
+      title: 'Promise.all vs allSettled vs race vs any',
+      items: ['`all`', '`allSettled`', '`race`', '`any`'],
+      rows: [
+        { aspect: 'Fulfils when', values: ['Every promise fulfils', 'Every promise settles', 'The first one settles (if it fulfilled)', 'The first one fulfils'], key: true },
+        { aspect: 'Rejects when', values: ['The first rejection (fail fast)', 'Never', 'The first one settles (if it rejected)', 'All of them reject'], key: true },
+        { aspect: 'Result', values: ['Values, in input order', '`{ status, value }` or `{ status, reason }` per promise', 'That first value or reason', 'The first value'] },
+        { aspect: 'Error type', values: ['The first reason', 'None', 'The first reason', '`AggregateError` with all reasons'] },
+        { aspect: 'Empty array', values: ['Fulfils with `[]`', 'Fulfils with `[]`', 'Stays pending forever', 'Rejects with `AggregateError`'] },
+        { aspect: 'Added in', values: ['ES2015', 'ES2020', 'ES2015', 'ES2021'] },
+      ],
+      reveal:
+        'All four start everything in parallel. They only answer two questions differently: wait for **everyone** or the **first** one, and does a rejection count as an answer?',
+      whenToUse: [
+        'Parallel requests that all have to succeed, like the data a page needs to render.',
+        'Batch work where partial failure is fine and you want a report: bulk uploads, dashboards.',
+        'Timeouts: race the real request against a promise that rejects after N ms.',
+        'Redundant sources: take the fastest mirror or CDN that actually responds.',
+      ],
+    },
+  ],
   qa: [
     {
       q: 'Compare `Promise.all`, `allSettled`, `race` and `any`.',
