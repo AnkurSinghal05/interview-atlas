@@ -121,6 +121,8 @@ export interface Approach {
   /** Big-O strings, e.g. "O(n²)". */
   time: string;
   space: string;
+  /** One line on when to prefer it. Used by alternative solutions. */
+  tradeoff?: string;
 }
 
 export interface ProblemExample {
@@ -142,6 +144,11 @@ export interface Problem {
   /** Compare array outputs ignoring order (e.g. "return all pairs"). */
   anyOrder?: boolean;
   approaches: Approach[];
+  /**
+   * Other ways to solve the same problem that are not a step on the brute-force → optimal ladder,
+   * often with the same Big-O but a different trade-off. Give each one a `tradeoff`.
+   */
+  alternatives?: Approach[];
   /** Extra interview talking points. */
   notes?: string[];
 }

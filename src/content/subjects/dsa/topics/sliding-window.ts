@@ -217,6 +217,29 @@ function lengthOfLongestSubstring(s) {
           space: 'O(k)',
         },
       ],
+      alternatives: [
+        {
+          name: 'Fixed-size last-index array',
+          idea: [
+            'Same as the last-index map, but an array of 128 slots indexed by char code.',
+          ],
+          code: c(`
+function lengthOfLongestSubstring(s) {
+  const last = new Array(128).fill(-1);
+  let l = 0, best = 0;
+  for (let r = 0; r < s.length; r++) {
+    const c = s.charCodeAt(r);
+    if (last[c] >= l) l = last[c] + 1;
+    last[c] = r;
+    best = Math.max(best, r - l + 1);
+  }
+  return best;
+}`),
+          time: 'O(n)',
+          space: 'O(1)',
+          tradeoff: 'Faster than a Map and O(1) space, but only for ASCII input.',
+        },
+      ],
       notes: ['The `>= l` check matters: a character seen before the window started must not move `l` backwards.'],
     },
     {
@@ -338,6 +361,30 @@ function longestOnes(nums, k) {
 }`),
           time: 'O(n)',
           space: 'O(1)',
+        },
+      ],
+      alternatives: [
+        {
+          name: 'Window that never shrinks',
+          idea: [
+            'Use `if` instead of `while`: once the window reaches a size, it slides at that size instead of shrinking.',
+            'The final window length is the answer.',
+          ],
+          code: c(`
+function longestOnes(nums, k) {
+  let l = 0, zeros = 0;
+  for (let r = 0; r < nums.length; r++) {
+    if (nums[r] === 0) zeros++;
+    if (zeros > k) {
+      if (nums[l] === 0) zeros--;
+      l++;
+    }
+  }
+  return nums.length - l;
+}`),
+          time: 'O(n)',
+          space: 'O(1)',
+          tradeoff: 'Slightly less work and a neat trick, but harder to explain than "shrink while invalid".',
         },
       ],
       notes: ['Reframing "flip k zeros" as "window with at most k zeros" is the whole trick. Say it out loud.'],

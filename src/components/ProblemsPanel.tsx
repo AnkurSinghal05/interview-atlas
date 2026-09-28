@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ArrowRight, Check, Play, X } from 'lucide-react';
-import type { Problem } from '@/content/types';
+import type { Approach, Problem } from '@/content/types';
 import { RichText } from '@/lib/RichText';
 import { runExample, show, type RunResult } from '@/lib/runProblem';
 import { cn } from '@/lib/utils';
@@ -24,6 +24,7 @@ export function growthRank(bigO: string): number {
   if (/n·k|n\*k|k·n/.test(s)) return 3.5;
   if (/nlogn|n·logn/.test(s)) return 3;
   if (/\(n\)|\(n\+|\(m\+n\)|\(n\+m\)/.test(s)) return 2;
+  if (/\(k\)|\(m\)/.test(s)) return 1.5;
   if (/log/.test(s)) return 1;
   return 0;
 }
@@ -43,10 +44,34 @@ function ComplexityBar({ label, value }: { label: string; value: string }) {
   );
 }
 
+function ApproachCard({ approach, label, selected, onSelect }: { approach: Approach; label: string; selected: boolean; onSelect: () => void }) {
+  return (
+    <button
+      type="button"
+      role="tab"
+      aria-selected={selected}
+      onClick={onSelect}
+      className={cn(
+        'flex w-full cursor-pointer flex-col gap-1.5 rounded-lg border-[1.5px] px-3 py-2.5 text-left transition-colors',
+        selected ? 'border-subject bg-subject/10' : 'hover:bg-muted/60',
+      )}
+    >
+      <span className="flex items-center justify-between gap-2">
+        <span className="text-sm font-bold">{approach.name}</span>
+        <span className="text-muted-foreground font-mono text-[11px]">{label}</span>
+      </span>
+      <ComplexityBar label="Time" value={approach.time} />
+      <ComplexityBar label="Space" value={approach.space} />
+    </button>
+  );
+}
+
 function ProblemBody({ problem }: { problem: Problem }) {
+  const alternatives = problem.alternatives ?? [];
+  const all = [...problem.approaches, ...alternatives];
   const [sel, setSel] = useState(problem.approaches.length - 1);
   const [runs, setRuns] = useState<Record<number, RunResult[]>>({});
-  const approach = problem.approaches[sel];
+  const approach = all[sel];
   const results = runs[sel];
 
   const run = () =>
@@ -85,30 +110,32 @@ function ProblemBody({ problem }: { problem: Problem }) {
         {problem.approaches.map((a, k) => (
           <div key={a.name} className="flex flex-1 items-center gap-2 sm:min-w-0">
             {k > 0 && <ArrowRight className="text-muted-foreground hidden size-4 flex-none sm:block" aria-hidden="true" />}
-            <button
-              type="button"
-              role="tab"
-              aria-selected={k === sel}
-              onClick={() => setSel(k)}
-              className={cn(
-                'flex w-full cursor-pointer flex-col gap-1.5 rounded-lg border-[1.5px] px-3 py-2.5 text-left transition-colors',
-                k === sel ? 'border-subject bg-subject/10' : 'hover:bg-muted/60',
-              )}
-            >
-              <span className="flex items-center justify-between gap-2">
-                <span className="text-sm font-bold">{a.name}</span>
-                <span className="text-muted-foreground font-mono text-[11px]">{k + 1}/{problem.approaches.length}</span>
-              </span>
-              <ComplexityBar label="Time" value={a.time} />
-              <ComplexityBar label="Space" value={a.space} />
-            </button>
+            <ApproachCard approach={a} label={`${k + 1}/${problem.approaches.length}`} selected={k === sel} onSelect={() => setSel(k)} />
           </div>
         ))}
       </div>
 
+      {alternatives.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <p className="text-muted-foreground text-xs font-bold tracking-[0.07em] uppercase">Alternative solutions</p>
+          <div role="tablist" aria-label="Alternative solutions" className="grid grid-cols-1 gap-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
+            {alternatives.map((a, k) => {
+              const idx = problem.approaches.length + k;
+              return <ApproachCard key={a.name} approach={a} label="alt" selected={idx === sel} onSelect={() => setSel(idx)} />;
+            })}
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
         <div className="flex flex-col gap-3">
           <h4 className="text-base font-bold">{approach.name}</h4>
+          {approach.tradeoff && (
+            <p className="bg-subject/10 rounded-md px-3 py-2 text-sm">
+              <span className="font-semibold">Trade-off: </span>
+              <RichText text={approach.tradeoff} />
+            </p>
+          )}
           <ul className="marker:text-subject flex list-disc flex-col gap-1.5 pl-[18px] text-sm">
             {approach.idea.map((p, k) => (
               <li key={k}>
@@ -158,7 +185,7 @@ export function ProblemsPanel({ problems }: { problems: Problem[] }) {
   return (
     <div className="flex flex-col gap-3.5">
       <p className="text-muted-foreground text-sm">
-        Each problem climbs from brute force to optimal. Try the next step yourself before you open it, then run it on the examples.
+        Each problem climbs from brute force to optimal, and some also list alternative solutions with their own trade-offs. Try the next step yourself before you open it, then run it on the examples.
       </p>
       <Accordion type="multiple" value={open} onValueChange={setOpen} className="flex flex-col gap-2">
         {problems.map((p, i) => {
@@ -170,7 +197,8 @@ export function ProblemsPanel({ problems }: { problems: Problem[] }) {
                 <span className="min-w-0 flex-1">
                   <RichText text={p.title} />
                   <span className="text-muted-foreground block font-mono text-xs font-normal sm:ml-2 sm:inline sm:whitespace-nowrap">
-                    {p.approaches.length} approaches · best {best.time}
+                    {p.approaches.length} approaches
+                    {p.alternatives?.length ? ` · ${p.alternatives.length} alternative${p.alternatives.length > 1 ? 's' : ''}` : ''} · best {best.time}
                   </span>
                 </span>
                 <Badge variant="outline" className={cn('mt-0.5 bg-transparent capitalize', DIFFICULTY[p.difficulty])}>

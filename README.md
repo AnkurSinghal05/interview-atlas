@@ -48,6 +48,8 @@ TypeScript fails the build until step 2 is done, so a type can't be half-added.
 Add a `Problem` to a topic's `problems` list. Each approach (brute force first, optimal last) has an idea, code,
 and time/space complexity, and its code must define the function named in `fn`. The Problems tab shows the
 approaches side by side and can run each one on the examples; `npm run verify` does the same in Node.
+Other ways to solve the same problem that are not a step on that ladder (often the same Big-O with a
+different trade-off) go in `alternatives`, each with a one-line `tradeoff`.
 
 ## Add a visual
 Same pattern: extend the `Visual` union, then register a component in `src/visuals/registry.tsx`.

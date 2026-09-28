@@ -155,6 +155,26 @@ function countPairs(s) {
           space: 'O(1)',
         },
       ],
+      alternatives: [
+        {
+          name: 'Carry the count of \'g\' from the right',
+          idea: [
+            'Scan right to left counting `\'g\'`s. Each `\'a\'` pairs with every `\'g\'` after it.',
+          ],
+          code: c(`
+function countPairs(s) {
+  let countG = 0, pairs = 0;
+  for (let i = s.length - 1; i >= 0; i--) {
+    if (s[i] === 'a') pairs += countG;
+    if (s[i] === 'g') countG++;
+  }
+  return pairs;
+}`),
+          time: 'O(n)',
+          space: 'O(1)',
+          tradeoff: 'Same cost. Handy to show you can carry from either side.',
+        },
+      ],
       notes: ["Scanning from the right works too: carry the count of `'g'` and add it at each `'a'`."],
     },
     {
@@ -206,6 +226,24 @@ function leaders(nums) {
           space: 'O(1) extra',
         },
       ],
+      alternatives: [
+        {
+          name: 'Suffix max array',
+          idea: [
+            'Store the max to the right of every index, then keep elements greater than it.',
+          ],
+          code: c(`
+function leaders(nums) {
+  const n = nums.length;
+  const maxRight = Array(n).fill(-Infinity);
+  for (let i = n - 2; i >= 0; i--) maxRight[i] = Math.max(maxRight[i + 1], nums[i + 1]);
+  return nums.filter((x, i) => x > maxRight[i]);
+}`),
+          time: 'O(n)',
+          space: 'O(n)',
+          tradeoff: 'Keeps the original order without reversing, at the cost of an extra array.',
+        },
+      ],
     },
     {
       id: 'best-time-stock',
@@ -248,6 +286,27 @@ function maxProfit(prices) {
 }`),
           time: 'O(n)',
           space: 'O(1)',
+        },
+      ],
+      alternatives: [
+        {
+          name: 'Kadane on daily changes',
+          idea: [
+            'Profit from buy day to sell day = sum of the daily price changes in between.',
+            'So it is the maximum subarray sum of `prices[i] - prices[i-1]`, floored at 0.',
+          ],
+          code: c(`
+function maxProfit(prices) {
+  let cur = 0, best = 0;
+  for (let i = 1; i < prices.length; i++) {
+    cur = Math.max(0, cur + prices[i] - prices[i - 1]);
+    best = Math.max(best, cur);
+  }
+  return best;
+}`),
+          time: 'O(n)',
+          space: 'O(1)',
+          tradeoff: 'Same cost. Worth saying because it links two famous problems.',
         },
       ],
     },
@@ -376,6 +435,34 @@ function trap(height) {
 }`),
           time: 'O(n)',
           space: 'O(1)',
+        },
+      ],
+      alternatives: [
+        {
+          name: 'Monotonic stack',
+          idea: [
+            'Keep indices of decreasing heights. A taller bar closes a "basin" with the bar under it.',
+            'Water added = `(min(left, right) - bottom) × width`.',
+          ],
+          code: c(`
+function trap(height) {
+  const stack = [];
+  let water = 0;
+  for (let i = 0; i < height.length; i++) {
+    while (stack.length && height[i] > height[stack[stack.length - 1]]) {
+      const bottom = stack.pop();
+      if (!stack.length) break;
+      const left = stack[stack.length - 1];
+      const h = Math.min(height[left], height[i]) - height[bottom];
+      water += h * (i - left - 1);
+    }
+    stack.push(i);
+  }
+  return water;
+}`),
+          time: 'O(n)',
+          space: 'O(n)',
+          tradeoff: 'Fills water layer by layer instead of column by column. More code than two pointers, but the same stack idea solves "largest rectangle in histogram".',
         },
       ],
     },

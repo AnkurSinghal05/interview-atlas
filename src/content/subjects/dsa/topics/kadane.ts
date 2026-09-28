@@ -147,6 +147,46 @@ function maxSubArray(nums) {
           space: 'O(1)',
         },
       ],
+      alternatives: [
+        {
+          name: 'Prefix sum minus the smallest earlier prefix',
+          idea: [
+            'A subarray sum is `P[j] - P[i]`. For each j, subtract the smallest prefix seen before it.',
+          ],
+          code: c(`
+function maxSubArray(nums) {
+  let prefix = 0, minPrefix = 0, best = -Infinity;
+  for (const x of nums) {
+    prefix += x;
+    best = Math.max(best, prefix - minPrefix);
+    minPrefix = Math.min(minPrefix, prefix);
+  }
+  return best;
+}`),
+          time: 'O(n)',
+          space: 'O(1)',
+          tradeoff: 'Same cost as Kadane. It is really "best time to buy and sell" on prefix sums, which some find easier to prove.',
+        },
+        {
+          name: 'Divide and conquer',
+          idea: [
+            'Best of: the left half, the right half, or the best subarray crossing the middle.',
+          ],
+          code: c(`
+function maxSubArray(nums, lo = 0, hi = nums.length - 1) {
+  if (lo === hi) return nums[lo];
+  const mid = (lo + hi) >> 1;
+  let sum = 0, left = -Infinity, right = -Infinity;
+  for (let i = mid; i >= lo; i--) { sum += nums[i]; left = Math.max(left, sum); }
+  sum = 0;
+  for (let i = mid + 1; i <= hi; i++) { sum += nums[i]; right = Math.max(right, sum); }
+  return Math.max(maxSubArray(nums, lo, mid), maxSubArray(nums, mid + 1, hi), left + right);
+}`),
+          time: 'O(n log n)',
+          space: 'O(log n)',
+          tradeoff: 'Slower, but it is the usual follow-up ask and the idea extends to segment trees.',
+        },
+      ],
       notes: ['A divide-and-conquer solution in O(n log n) exists; mention it only if asked for a follow-up.'],
     },
     {
@@ -200,6 +240,29 @@ function maxProduct(nums) {
 }`),
           time: 'O(n)',
           space: 'O(1)',
+        },
+      ],
+      alternatives: [
+        {
+          name: 'Prefix and suffix products',
+          idea: [
+            'Scan from both ends at once, multiplying as you go. Reset a running product to 1 after a zero.',
+            'The best product always starts at an end or right after a zero, so one of the two scans sees it.',
+          ],
+          code: c(`
+function maxProduct(nums) {
+  const n = nums.length;
+  let left = 1, right = 1, best = -Infinity;
+  for (let i = 0; i < n; i++) {
+    left = (left === 0 ? 1 : left) * nums[i];
+    right = (right === 0 ? 1 : right) * nums[n - 1 - i];
+    best = Math.max(best, left, right);
+  }
+  return best;
+}`),
+          time: 'O(n)',
+          space: 'O(1)',
+          tradeoff: 'No min/max swap to reason about, but the "why it works" argument (an odd count of negatives drops one end) is harder to explain.',
         },
       ],
     },

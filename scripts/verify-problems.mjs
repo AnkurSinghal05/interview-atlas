@@ -30,7 +30,7 @@ for (const id of subjects) {
   for (const cat of subject.categories) {
     for (const topic of cat.topics) {
       for (const p of topic.problems ?? []) {
-        for (const a of p.approaches) {
+        for (const a of [...p.approaches, ...(p.alternatives ?? [])]) {
           p.examples.forEach((ex, k) => {
             checked++;
             const r = runExample(a.code, p.fn, ex.args, ex.output, p.anyOrder);
